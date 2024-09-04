@@ -95,13 +95,13 @@ namespace BasicLibrary
 
                         if (BorrowNow != "no") 
                         {
-                            //BorrowBook();
+                            BorrowBook();
                         }
 
                         break;
 
                     case 2:
-                        //BorrowBook();
+                        BorrowBook();
                         break;
 
                     case 3:
@@ -260,7 +260,7 @@ namespace BasicLibrary
 
             for (int i = 0; i < Books.Count; i++)
             {
-                if (i == BorrowID)
+                if (Books[i].BookID == BorrowID)
                 {
                     Location = i;
                     break;
@@ -273,26 +273,27 @@ namespace BasicLibrary
                 if (Books[Location].BookQuantity > 0)
                 {
                     Console.WriteLine("We've got this in stock!");
-                    Console.Write("Would you like to proceed? Yes or No.");
+                    Console.Write("Would you like to proceed? Yes or No: ");
                     string Checkout = Console.ReadLine().ToLower();
 
                     if (Checkout != "no")
                     {
                         //Decreasing book quantity 
-                        int NewQuantity = Books[Location].BookQuantity - 1;
+                        int NewQuantity = (Books[Location].BookQuantity - 1);
                         Books[Location] = ((Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookID, Quantity: NewQuantity));
+                        SaveBooksToFile();
 
                         //Printing recipt 
                         DateTime Now = DateTime.Now;
                         Console.Clear();
                         Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
                         Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
-                        Console.WriteLine("\t\t\t\t" + Now);
+                        Console.WriteLine("\t\t" + Now);
                         Console.WriteLine("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
-                        Console.WriteLine($"BOOK: ID - {Books[Location].BookID} NAME - {Books[Location].BookName} AUTHOR - {Books[Location].BookAuthor}");
+                        Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor}");
                         Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
                         Console.WriteLine("Thank you for visiting the library come again soon!");
-                        Console.WriteLine("\t\t\t\tHappy Reading :)");
+                        Console.WriteLine("\t\tHappy Reading :)");
                         Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
 
                     }
