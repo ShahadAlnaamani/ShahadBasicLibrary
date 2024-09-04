@@ -7,9 +7,10 @@ namespace BasicLibrary
     internal class Program
     {
         static List<(string BookName, string BookAuthor, int BookID, int BookQuantity)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity)>();
+
+        //Info saved -> BookTitle|Author|ID|Quantity
         static string filePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords";
 
-        //Test checkout 
         static void Main(string[] args)
         { 
             Books.Clear(); // empties list so that there are no repititions
@@ -19,12 +20,12 @@ namespace BasicLibrary
             do
             {
                 Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                Console.WriteLine("OPTIONS ");
+                Console.WriteLine("OPTIONS: ");
                 Console.WriteLine(" 1. Reader");
                 Console.WriteLine(" 2. Librarian");
                 Console.WriteLine(" 3. Exit\n");
                 int UserIdentity = 0;
-                Console.WriteLine("Enter: ");
+                Console.Write("Enter: ");
                 UserIdentity = int.Parse(Console.ReadLine());
 
                 switch (UserIdentity)
@@ -45,7 +46,7 @@ namespace BasicLibrary
             }while (!ExitFlag);
         }
 
-
+        //METHOD TO EXIT THE LIBRARY ---> need to add saving the changes before exiting 
         static void LeaveLibrary(bool ExitFlag)
         {
             Console.WriteLine("Are you sure you want to leave? Yes or No.");
@@ -70,28 +71,28 @@ namespace BasicLibrary
                 Console.Clear();
                 Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
                 Console.WriteLine("OPTIONS:");
-                Console.WriteLine("\n A- Add New Book");
-                Console.WriteLine("\n B- Display All Books");
-                Console.WriteLine("\n C- Search for Book by Name");
-                Console.WriteLine("\n D- Save and Exit\n");
-
-                string choice = Console.ReadLine();
+                Console.WriteLine(" 1. Add New Book");
+                Console.WriteLine(" 2. Display All Books");
+                Console.WriteLine(" 3. Search for Book by Name");
+                Console.WriteLine(" 4. Save and Exit\n");
+                Console.Write("Enter: ");
+                int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
                 {
-                    case "A":
-                        AddnNewBook();
+                    case 1:
+                        AddNewBook();
                         break;
 
-                    case "B":
+                    case 2:
                         ViewAllBooks();
                         break;
 
-                    case "C":
+                    case 3:
                         SearchForBook();
                         break;
 
-                    case "D":
+                    case 4:
                         SaveBooksToFile();
                         ExitFlag = true;
                         break;
@@ -100,14 +101,10 @@ namespace BasicLibrary
                         Console.WriteLine("Sorry your choice was wrong");
                         break;
 
-
-                        Console.WriteLine("press any key to continue");
-                        string cont = Console.ReadLine();
-
-                        Console.Clear();
-
-                } 
-
+                }
+                Console.WriteLine("Press any key to continue.");
+                string cont = Console.ReadLine();
+                Console.Clear();
 
             } while (ExitFlag != true);
 
@@ -119,23 +116,22 @@ namespace BasicLibrary
         { }
 
 
-        static void AddnNewBook() 
+        static void AddNewBook() 
         { 
-                 Console.WriteLine("Enter Book Name");
-                 string Name = Console.ReadLine();   
+            Console.Write("Enter Book Name: ");
+            string Name = Console.ReadLine();   
 
-                 Console.WriteLine("Enter Book Author");
-                 string Author= Console.ReadLine();  
+            Console.Write("Enter Book Author: ");
+            string Author= Console.ReadLine();  
 
-                 Console.WriteLine("Enter Book ID");
-                 int ID = int.Parse(Console.ReadLine());
+            Console.Write("Enter Book ID: ");
+            int ID = int.Parse(Console.ReadLine());
 
-                 Console.WriteLine("Enter Book ID");
-                 int Qty = int.Parse(Console.ReadLine());
+            Console.Write("Enter Book Quantity: ");
+            int Qty = int.Parse(Console.ReadLine());
 
-                 Books.Add(  (Name, Author, ID, Qty )  );
-                 Console.WriteLine("Book Added Succefully");
-
+            Books.Add(  (Name, Author, ID, Qty )  );
+            SaveBooksToFile();
         }
 
         //DISPLAYS ALL BOOKS
@@ -221,7 +217,7 @@ namespace BasicLibrary
                         writer.WriteLine($"{book.BookName}|{book.BookAuthor}|{book.BookID}|{book.BookQuantity}");
                     }
                 }
-                Console.WriteLine("Books saved to file successfully.");
+                Console.WriteLine("Books saved to file successfully! :)");
             }
             catch (Exception ex)
             {
