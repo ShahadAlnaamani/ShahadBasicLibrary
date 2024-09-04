@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 
 namespace BasicLibrary
 {
     internal class Program
     {
-        static List<(string BName, string BAuthor, int ID)> Books = new List<(string BName, string BAuthor, int ID)>();
-        static string filePath = "C:\\Users\\Karim\\Downloads\\OutSystem_Course\\GitHubRepos\\Data\\lib.txt";
+        static List<(string BookName, string BookAuthor, int BookID, int BookQuantity)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity)>();
+        static string filePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords";
 
         //Test checkout 
         static void Main(string[] args)
@@ -40,7 +41,7 @@ namespace BasicLibrary
         }
 
 
-        //Admin 
+        //ADMIN PAGE  
         static void AdminPage()
         {
             bool ExitFlag = false;
@@ -94,7 +95,7 @@ namespace BasicLibrary
 
 
 
-        //User 
+        //USER PAGE  
         static void UserPage()
         { }
 
@@ -102,19 +103,23 @@ namespace BasicLibrary
         static void AddnNewBook() 
         { 
                  Console.WriteLine("Enter Book Name");
-                 string name = Console.ReadLine();   
+                 string Name = Console.ReadLine();   
 
                  Console.WriteLine("Enter Book Author");
-                 string author= Console.ReadLine();  
+                 string Author= Console.ReadLine();  
 
                  Console.WriteLine("Enter Book ID");
                  int ID = int.Parse(Console.ReadLine());
 
-                  Books.Add(  ( name, author, ID )  );
-                  Console.WriteLine("Book Added Succefully");
+                 Console.WriteLine("Enter Book ID");
+                 int Qty = int.Parse(Console.ReadLine());
+
+                 Books.Add(  (Name, Author, ID, Qty )  );
+                 Console.WriteLine("Book Added Succefully");
 
         }
 
+        //DISPLAYS ALL BOOKS
         static void ViewAllBooks()
         {
             StringBuilder sb = new StringBuilder();
@@ -124,11 +129,11 @@ namespace BasicLibrary
             for (int i = 0; i < Books.Count; i++)
             {             
                 BookNumber = i + 1;
-                sb.Append("Book ").Append(BookNumber).Append(" name : ").Append(Books[i].BName);
+                sb.Append("Book ").Append(BookNumber).Append(" name : ").Append(Books[i].BookName);
                 sb.AppendLine();
-                sb.Append("Book ").Append(BookNumber).Append(" Author : ").Append(Books[i].BAuthor);
+                sb.Append("Book ").Append(BookNumber).Append(" Author : ").Append(Books[i].BookAuthor);
                 sb.AppendLine();
-                sb.Append("Book ").Append(BookNumber).Append(" ID : ").Append(Books[i].ID);
+                sb.Append("Book ").Append(BookNumber).Append(" ID : ").Append(Books[i].BookID);
                 sb.AppendLine().AppendLine();
                 Console.WriteLine(sb.ToString());
                 sb.Clear();
@@ -136,6 +141,7 @@ namespace BasicLibrary
             }
         }
 
+        //ALLOWS USER TO SEARCH FOR BOOK
         static void SearchForBook()
         {
             Console.WriteLine("Enter the book name you want");
@@ -144,9 +150,9 @@ namespace BasicLibrary
 
             for(int i = 0; i< Books.Count;i++)
             {
-                if (Books[i].BName == name)
+                if (Books[i].BookName == name)
                 {
-                    Console.WriteLine("Book Author is : " + Books[i].BAuthor);
+                    Console.WriteLine("Book Author is : " + Books[i].BookAuthor);
                     flag = true;
                     break;
                 }
@@ -156,6 +162,7 @@ namespace BasicLibrary
             { Console.WriteLine("book not found"); }
         }
 
+        //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
         {
             try
@@ -170,7 +177,7 @@ namespace BasicLibrary
                             var parts = line.Split('|');
                             if (parts.Length == 3)
                             {
-                                Books.Add((parts[0], parts[1], int.Parse(parts[2])));
+                                Books.Add((parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3])));
                             }
                         }
                     }
@@ -183,6 +190,7 @@ namespace BasicLibrary
             }
         }
 
+        //UPDATES DATA ON FILE 
         static void SaveBooksToFile()
         {
             try
@@ -191,7 +199,7 @@ namespace BasicLibrary
                 {
                     foreach (var book in Books)
                     {
-                        writer.WriteLine($"{book.BName}|{book.BAuthor}|{book.ID}");
+                        writer.WriteLine($"{book.BookName}|{book.BookAuthor}|{book.BookID}|{book.BookQuantity}");
                     }
                 }
                 Console.WriteLine("Books saved to file successfully.");
