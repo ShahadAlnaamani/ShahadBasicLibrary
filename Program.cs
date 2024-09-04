@@ -141,19 +141,26 @@ namespace BasicLibrary
 
             int BookNumber = 0;
 
-            for (int i = 0; i < Books.Count; i++)
-            {             
-                BookNumber = i + 1;
-                sb.Append("Book ").Append(BookNumber).Append(" name : ").Append(Books[i].BookName);
-                sb.AppendLine();
-                sb.Append("Book ").Append(BookNumber).Append(" Author : ").Append(Books[i].BookAuthor);
-                sb.AppendLine();
-                sb.Append("Book ").Append(BookNumber).Append(" ID : ").Append(Books[i].BookID);
-                sb.AppendLine().AppendLine();
-                Console.WriteLine(sb.ToString());
-                sb.Clear();
+            if (Books != null)
+            {
+                for (int i = 0; i < Books.Count; i++)
+                {
+                    BookNumber = i + 1;
+                    sb.Append("BOOK ").Append(BookNumber).Append(" ID: ").Append(Books[i].BookID);
+                    sb.AppendLine();
+                    sb.Append("BOOK ").Append(BookNumber).Append(" NAME: ").Append(Books[i].BookName);
+                    sb.AppendLine();
+                    sb.Append("BOOK ").Append(BookNumber).Append(" AUTHOR: ").Append(Books[i].BookAuthor);
+                    sb.AppendLine();
+                    sb.Append("BOOK ").Append(BookNumber).Append(" AVIALABLE QTY: ").Append(Books[i].BookQuantity);
+                    sb.AppendLine().AppendLine();
+                    Console.WriteLine(sb.ToString());
+                    sb.Clear();
 
+                }
             }
+
+
         }
 
         //ALLOWS USER TO SEARCH FOR BOOK
@@ -190,7 +197,7 @@ namespace BasicLibrary
                         while ((line = reader.ReadLine()) != null)
                         {
                             var parts = line.Split('|');
-                            if (parts.Length == 3)
+                            if (parts.Length == 4)
                             {
                                 Books.Add((parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3])));
                             }
