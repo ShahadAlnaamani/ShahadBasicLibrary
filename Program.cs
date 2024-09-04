@@ -1,4 +1,5 @@
-﻿using System.Formats.Asn1;
+﻿using System.Data.Common;
+using System.Formats.Asn1;
 using System.Net;
 using System.Text;
 
@@ -57,7 +58,11 @@ namespace BasicLibrary
             {
                 SaveBooksToFile();
                 ExitFlag = true;
-                Console.WriteLine("Thank you for visiting the library :)\n Come again soon!");
+                Console.Clear();
+                Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n\n");
+                Console.WriteLine("Thank you for visiting the library :) \nCome again soon!");
+                Console.WriteLine("Press any key to leave.");
+                Console.ReadKey();
             }
 
             //save to file 
@@ -244,6 +249,79 @@ namespace BasicLibrary
             { Console.WriteLine("Book not found :("); }
         }
 
+
+        //BORROW BOOK
+        static void BorrowBook()
+        {
+            ViewAllBooks();
+            Console.Write("Enter ID: ");
+            int BorrowID = int.Parse(Console.ReadLine());
+            int Location = -1;
+
+            for (int i = 0; i < Books.Count; i++)
+            {
+                if (i == BorrowID)
+                {
+                    Location = i;
+                    break;
+                }
+            }
+
+            if (Location != -1) //Book found
+            {
+                Console.WriteLine($"Request to borrow: {Books[Location].BookName}");
+                if (Books[Location].BookQuantity > 0)
+                {
+                    Console.WriteLine("We've got this in stock!");
+                    Console.Write("Would you like to proceed? Yes or No.");
+                    string Checkout = Console.ReadLine().ToLower();
+
+                    if (Checkout != "no")
+                    {
+                        //Decreasing book quantity 
+                        int NewQuantity = Books[Location].BookQuantity - 1;
+                        Books[Location] = ((Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookID, Quantity: NewQuantity));
+
+                        //Printing recipt 
+                        DateTime Now = DateTime.Now;
+                        Console.Clear();
+                        Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
+                        Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
+                        Console.WriteLine("\t\t\t\t" + Now);
+                        Console.WriteLine("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+                        Console.WriteLine($"BOOK: ID - {Books[Location].BookID} NAME - {Books[Location].BookName} AUTHOR - {Books[Location].BookAuthor}");
+                        Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+                        Console.WriteLine("Thank you for visiting the library come again soon!");
+                        Console.WriteLine("\t\t\t\tHappy Reading :)");
+                        Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
+
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Sorry this book is out of stock :(");
+                    Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
+                    string ViewOtherBooks = Console.ReadLine().ToLower();
+
+                    if (ViewOtherBooks != "no")
+                    {
+                        ViewAllBooks();
+                    }
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("Sorry we do not have this book :(");
+                Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
+                string ViewOtherBooks = Console.ReadLine().ToLower();
+
+                if (ViewOtherBooks != "no") 
+                {
+                    ViewAllBooks();
+                }
+            }
+        }
 
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
