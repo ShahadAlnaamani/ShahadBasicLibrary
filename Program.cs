@@ -9,13 +9,46 @@ namespace BasicLibrary
 
         //Test checkout 
         static void Main(string[] args)
-        {// downloaded form ahmed device 
-            bool ExitFlag = false;
+        { 
             LoadBooksFromFile();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.WriteLine("OPTIONS \n");
+            Console.WriteLine(" 1. Reader");
+            Console.WriteLine(" 2. Librarian");
+            Console.WriteLine(" 3. Exit");
+            int UserIdentity = 0;
+            Console.WriteLine("Enter: "); 
+            UserIdentity = int.Parse(Console.ReadLine());
+
+            switch (UserIdentity)
+            {
+                case 1:
+                    UserPage();
+                    break;
+                case 2:
+                    AdminPage(); 
+                    break;
+                case 3:
+                    Console.WriteLine("Are you sure you want to leave? Yes or No.");
+                    //add functionality
+                    //save everything
+                    break;
+                default:
+                    Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
+                    break;
+            }
+        }
+
+
+        //Admin 
+        static void AdminPage()
+        {
+            bool ExitFlag = false;
             do
             {
-                Console.WriteLine("Welcome to Lirary");
-                Console.WriteLine("\n Enter the char of operation you need :");
+                Console.Clear();
+                Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                Console.WriteLine("OPTIONS \n");
                 Console.WriteLine("\n A- Add New Book");
                 Console.WriteLine("\n B- Display All Books");
                 Console.WriteLine("\n C- Search for Book by Name");
@@ -47,16 +80,25 @@ namespace BasicLibrary
                         break;
 
 
+                        Console.WriteLine("press any key to continue");
+                        string cont = Console.ReadLine();
 
-                }
+                        Console.Clear();
 
-                Console.WriteLine("press any key to continue");
-                string cont = Console.ReadLine();
+                } 
 
-                Console.Clear();
 
             } while (ExitFlag != true);
+
         }
+
+
+
+        //User 
+        static void UserPage()
+        { }
+
+
         static void AddnNewBook() 
         { 
                  Console.WriteLine("Enter Book Name");
