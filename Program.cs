@@ -119,10 +119,10 @@ namespace BasicLibrary
         static void AddNewBook() 
         { 
             Console.Write("Enter Book Name: ");
-            string Name = Console.ReadLine().Trim(); //trim added for more accurate search  
+            string Name = (Console.ReadLine().Trim()).ToLower(); //trim added for more accurate search  
 
             Console.Write("Enter Book Author: ");
-            string Author= Console.ReadLine().Trim();  
+            string Author= (Console.ReadLine().Trim()).ToLower();  
 
             Console.Write("Enter Book ID: ");
             int ID = int.Parse(Console.ReadLine());
@@ -168,7 +168,7 @@ namespace BasicLibrary
         static void SearchForBook()
         {
             Console.Write("Book name: ");
-            string name = Console.ReadLine();  
+            string name = (Console.ReadLine().Trim()).ToLower();  
             bool flag=false;
 
             for(int i = 0; i< Books.Count;i++)
