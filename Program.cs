@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Formats.Asn1;
+using System.Net;
 using System.Text;
 
 namespace BasicLibrary
@@ -11,35 +12,54 @@ namespace BasicLibrary
         //Test checkout 
         static void Main(string[] args)
         { 
+            Books.Clear(); // empties list so that there are no repititions
             LoadBooksFromFile();
-            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-            Console.WriteLine("OPTIONS \n");
-            Console.WriteLine(" 1. Reader");
-            Console.WriteLine(" 2. Librarian");
-            Console.WriteLine(" 3. Exit");
-            int UserIdentity = 0;
-            Console.WriteLine("Enter: "); 
-            UserIdentity = int.Parse(Console.ReadLine());
 
-            switch (UserIdentity)
+            bool ExitFlag = false;
+            do
             {
-                case 1:
-                    UserPage();
-                    break;
-                case 2:
-                    AdminPage(); 
-                    break;
-                case 3:
-                    Console.WriteLine("Are you sure you want to leave? Yes or No.");
-                    //add functionality
-                    //save everything
-                    break;
-                default:
-                    Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
-                    break;
-            }
+                Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                Console.WriteLine("OPTIONS ");
+                Console.WriteLine(" 1. Reader");
+                Console.WriteLine(" 2. Librarian");
+                Console.WriteLine(" 3. Exit\n");
+                int UserIdentity = 0;
+                Console.WriteLine("Enter: ");
+                UserIdentity = int.Parse(Console.ReadLine());
+
+                switch (UserIdentity)
+                {
+                    case 1:
+                        UserPage();
+                        break;
+                    case 2:
+                        AdminPage();
+                        break;
+                    case 3:
+                        LeaveLibrary(ExitFlag);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
+                        break;
+                }
+            }while (!ExitFlag);
         }
 
+
+        static void LeaveLibrary(bool ExitFlag)
+        {
+            Console.WriteLine("Are you sure you want to leave? Yes or No.");
+
+            string Leave = (Console.ReadLine()).ToLower();
+
+            if (Leave != "no")
+            {
+                ExitFlag = true;
+                Console.WriteLine("Thank you for visiting the library :)\n Come again soon!");
+            }
+
+            //save to file 
+        }
 
         //ADMIN PAGE  
         static void AdminPage()
@@ -49,11 +69,11 @@ namespace BasicLibrary
             {
                 Console.Clear();
                 Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                Console.WriteLine("OPTIONS \n");
+                Console.WriteLine("OPTIONS:");
                 Console.WriteLine("\n A- Add New Book");
                 Console.WriteLine("\n B- Display All Books");
                 Console.WriteLine("\n C- Search for Book by Name");
-                Console.WriteLine("\n D- Save and Exit");
+                Console.WriteLine("\n D- Save and Exit\n");
 
                 string choice = Console.ReadLine();
 
@@ -92,7 +112,6 @@ namespace BasicLibrary
             } while (ExitFlag != true);
 
         }
-
 
 
         //USER PAGE  
