@@ -38,6 +38,7 @@ namespace BasicLibrary
                         break;
                     case 3:
                         LeaveLibrary(ExitFlag);
+                        ExitFlag = true;
                         break;
                     default:
                         Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
@@ -50,16 +51,74 @@ namespace BasicLibrary
         static void LeaveLibrary(bool ExitFlag)
         {
             Console.WriteLine("Are you sure you want to leave? Yes or No.");
-
             string Leave = (Console.ReadLine()).ToLower();
 
             if (Leave != "no")
             {
+                SaveBooksToFile();
                 ExitFlag = true;
                 Console.WriteLine("Thank you for visiting the library :)\n Come again soon!");
             }
 
             //save to file 
+        }
+
+
+        //USER PAGE  
+        static void UserPage()
+        {
+            bool ExitFlag = false;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                Console.WriteLine("READER OPTIONS:");
+                Console.WriteLine(" 1. View All Books");
+                Console.WriteLine(" 2. Borrow A Book");
+                Console.WriteLine(" 3. Return A Book");
+                Console.WriteLine(" 4. Exit\n");
+                Console.Write("Enter: ");
+                int choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+                    case 1:;
+                        ViewAllBooks();
+                        Console.WriteLine("Would you like to borrow a book? Yes or No.");
+                        Console.Write("Enter: ");
+                        string BorrowNow = Console.ReadLine().ToLower();
+
+                        if (BorrowNow != "no") 
+                        {
+                            //BorrowBook();
+                        }
+
+                        break;
+
+                    case 2:
+                        //BorrowBook();
+                        break;
+
+                    case 3:
+                        //ReturnBook();
+                        break;
+
+                    case 4:
+                        SaveBooksToFile();
+                        Console.WriteLine("Exiting...");
+                        ExitFlag = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Sorry your choice was wrong");
+                        break;
+
+                }
+                Console.WriteLine("Press any key to continue.");
+                string cont = Console.ReadLine();
+                Console.Clear();
+
+            } while (ExitFlag != true);
         }
 
         //ADMIN PAGE  
@@ -70,7 +129,7 @@ namespace BasicLibrary
             {
                 Console.Clear();
                 Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                Console.WriteLine("OPTIONS:");
+                Console.WriteLine("LIBRARIAN OPTIONS:");
                 Console.WriteLine(" 1. Add New Book");
                 Console.WriteLine(" 2. Display All Books");
                 Console.WriteLine(" 3. Search for Book by Name");
@@ -111,18 +170,14 @@ namespace BasicLibrary
         }
 
 
-        //USER PAGE  
-        static void UserPage()
-        { }
-
-
+        //GETS BOOK INFORMATION FROM THE USER 
         static void AddNewBook() 
         { 
             Console.Write("Enter Book Name: ");
-            string Name = (Console.ReadLine().Trim()).ToLower(); //trim added for more accurate search  
+            string Name = Console.ReadLine().Trim(); //trim added for more accurate search  
 
             Console.Write("Enter Book Author: ");
-            string Author= (Console.ReadLine().Trim()).ToLower();  
+            string Author= Console.ReadLine().Trim();  
 
             Console.Write("Enter Book ID: ");
             int ID = int.Parse(Console.ReadLine());
@@ -135,9 +190,12 @@ namespace BasicLibrary
             SaveBooksToFile();
         }
 
+
         //DISPLAYS ALL BOOKS
         static void ViewAllBooks()
         {
+            Console.Clear();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
             StringBuilder sb = new StringBuilder();
 
             int BookNumber = 0;
@@ -164,6 +222,7 @@ namespace BasicLibrary
 
         }
 
+
         //ALLOWS USER TO SEARCH FOR BOOK
         static void SearchForBook()
         {
@@ -173,7 +232,7 @@ namespace BasicLibrary
 
             for(int i = 0; i< Books.Count;i++)
             {
-                if (Books[i].BookName == name)
+                if ((Books[i].BookName).ToLower() == name)
                 {
                     Console.WriteLine($"Book Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nAvailable Stock: {Books[i].BookQuantity}\n");
                     flag = true;
@@ -184,6 +243,7 @@ namespace BasicLibrary
             if (flag != true)
             { Console.WriteLine("Book not found :("); }
         }
+
 
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
@@ -211,6 +271,7 @@ namespace BasicLibrary
                 Console.WriteLine($"Error loading from file: {ex.Message}");
             }
         }
+
 
         //UPDATES DATA ON FILE 
         static void SaveBooksToFile()
