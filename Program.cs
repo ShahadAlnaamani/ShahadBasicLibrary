@@ -119,10 +119,10 @@ namespace BasicLibrary
         static void AddNewBook() 
         { 
             Console.Write("Enter Book Name: ");
-            string Name = Console.ReadLine();   
+            string Name = Console.ReadLine().Trim(); //trim added for more accurate search  
 
             Console.Write("Enter Book Author: ");
-            string Author= Console.ReadLine();  
+            string Author= Console.ReadLine().Trim();  
 
             Console.Write("Enter Book ID: ");
             int ID = int.Parse(Console.ReadLine());
@@ -130,6 +130,7 @@ namespace BasicLibrary
             Console.Write("Enter Book Quantity: ");
             int Qty = int.Parse(Console.ReadLine());
 
+            Console.WriteLine("\n");
             Books.Add(  (Name, Author, ID, Qty )  );
             SaveBooksToFile();
         }
@@ -166,7 +167,7 @@ namespace BasicLibrary
         //ALLOWS USER TO SEARCH FOR BOOK
         static void SearchForBook()
         {
-            Console.WriteLine("Enter the book name you want");
+            Console.Write("Book name: ");
             string name = Console.ReadLine();  
             bool flag=false;
 
@@ -174,14 +175,14 @@ namespace BasicLibrary
             {
                 if (Books[i].BookName == name)
                 {
-                    Console.WriteLine("Book Author is : " + Books[i].BookAuthor);
+                    Console.WriteLine($"Book Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nAvailable Stock: {Books[i].BookQuantity}\n");
                     flag = true;
                     break;
                 }
             }
 
             if (flag != true)
-            { Console.WriteLine("book not found"); }
+            { Console.WriteLine("Book not found :("); }
         }
 
         //RETRIEVES BOOK DATA FROM FILE 
@@ -203,7 +204,6 @@ namespace BasicLibrary
                             }
                         }
                     }
-                    Console.WriteLine("Books loaded from file successfully.");
                 }
             }
             catch (Exception ex)
