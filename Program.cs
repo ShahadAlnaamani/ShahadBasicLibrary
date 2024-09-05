@@ -458,7 +458,8 @@ namespace BasicLibrary
             Console.WriteLine(" 1. Edit Book Title");
             Console.WriteLine(" 2. Edit Author Name");
             Console.WriteLine(" 3. Add More Copies of Available Books");
-            Console.WriteLine(" 4. Save and exit");
+            Console.WriteLine(" 4. Save and exit\n");
+            Console.Write("Enter Option:");
             int Choice = int.Parse(Console.ReadLine());
 
             Console.Clear();
@@ -479,6 +480,13 @@ namespace BasicLibrary
 
 
                 case 2:
+                    int Position = GetInformation();
+                    Console.WriteLine("\n\n\t\tEDIT AUTHOR NAME:\n");
+                    Console.Write("\nNew author name: ");
+                    string NewAuthName = Console.ReadLine();
+                    Books[Position] = (Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookID, Books[Position].BookQuantity, Books[Position].Borrowed);
+                    Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Position].BookName}  Author: {Books[Position].BookAuthor}  ID: {Books[Position].BookID}  x{Books[Position].BookQuantity}  Issues Borrowed: {Books[Position].Borrowed}\n ");
+                    SaveBooksToFile();
                     break;
 
 
