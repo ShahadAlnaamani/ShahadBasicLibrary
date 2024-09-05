@@ -467,6 +467,7 @@ namespace BasicLibrary
 
             switch (Choice)
             {
+                //Editing book title
                 case 1:
                     int Location = GetInformation();
 
@@ -478,7 +479,8 @@ namespace BasicLibrary
                     SaveBooksToFile();
                     break;
 
-
+                
+                //Editing author name 
                 case 2:
                     int Position = GetInformation();
                     Console.WriteLine("\n\n\t\tEDIT AUTHOR NAME:\n");
@@ -490,7 +492,22 @@ namespace BasicLibrary
                     break;
 
 
+                //Adding book copies 
                 case 3:
+                    int Index = GetInformation();
+                    Console.WriteLine("\n\n\t\tEDIT BOOK QUANTITY:\n");
+                    Console.Write("\nHow many would you like to add: ");
+                    int Add = int.Parse(Console.ReadLine());
+
+                    //Checking the positive number inputted so that books aren't minused 
+                    if (Add > 0)
+                    {
+                        Add = Books[Index].BookQuantity + Add;
+                        Books[Index] = (Books[Index].BookName, Books[Index].BookAuthor, Books[Index].BookID, BookQuantity: Add, Books[Index].Borrowed);
+                        Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Index].BookName}  Author: {Books[Index].BookAuthor}  ID: {Books[Index].BookID}  x{Books[Index].BookQuantity}  Issues Borrowed: {Books[Index].Borrowed}\n ");
+                        SaveBooksToFile();
+                    }
+                    else { Console.WriteLine("Improper input please input a number greater than 0 :("); }
                     break;
 
 
