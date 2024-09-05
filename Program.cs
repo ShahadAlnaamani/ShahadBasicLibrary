@@ -91,6 +91,17 @@ namespace BasicLibrary
                 {
                     case 1:;
                         ViewAllBooks();
+                        if (Books.Count != 0)
+                        {
+                            Console.WriteLine("Would you like to borrow a book? Yes or No.");
+                            Console.Write("Enter: ");
+                            string BorrowNow = Console.ReadLine().ToLower();
+
+                            if (BorrowNow != "no")
+                            {
+                                BorrowBook();
+                            }
+                        }
                         break;
 
                     case 2:
@@ -147,17 +158,6 @@ namespace BasicLibrary
 
                     case 2:
                         ViewAllBooks();
-                        if (Books.Count != 0)
-                        {
-                            Console.WriteLine("Would you like to borrow a book? Yes or No.");
-                            Console.Write("Enter: ");
-                            string BorrowNow = Console.ReadLine().ToLower();
-
-                            if (BorrowNow != "no")
-                            {
-                                BorrowBook();
-                            }
-                        }
                         break;
 
                     case 3:
@@ -169,7 +169,7 @@ namespace BasicLibrary
                         break;
 
                     case 5:
-                        //DeleteBook();
+                        DeleteBook();
                         break;
 
                     case 6:
@@ -432,6 +432,7 @@ namespace BasicLibrary
             }
         }
 
+
         //PRINT RETRUN RECIPT
         static void ReturnRecipt(int i)
         {
@@ -512,10 +513,38 @@ namespace BasicLibrary
 
 
                 case 4:
+                    SaveBooksToFile();
                     break;
             }
 
 
+        }
+
+
+        //DELETE BOOKS 
+        static void DeleteBook()
+        {
+            Console.Clear();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.WriteLine("\n\n\t\tDELETE A BOOK:\n");
+            ViewAllBooks();
+
+            int DeleteIndex = GetInformation(); 
+            
+            if (DeleteIndex !=-1) 
+            {
+                Console.WriteLine($"DELETING: Name: {Books[DeleteIndex].BookName}  Author: {Books[DeleteIndex].BookAuthor}  ID: {Books[DeleteIndex].BookID}  x{Books[DeleteIndex].BookQuantity}  Issues Borrowed: {Books[DeleteIndex].Borrowed} ");
+                Console.WriteLine("To delete press X:");
+                string Delete =  Console.ReadLine().ToLower();
+
+                if (Delete != "x")
+                { Console.WriteLine("The book was not deleted :)"); }
+                else
+                {
+                    Books.Remove((Books[DeleteIndex].BookName, Books[DeleteIndex].BookAuthor, Books[DeleteIndex].BookID, Books[DeleteIndex].BookQuantity, Books[DeleteIndex].Borrowed));
+                    Console.WriteLine("The book was deleted sucessfully :)");
+                }
+            }
         }
 
         static public int GetInformation()
@@ -534,8 +563,13 @@ namespace BasicLibrary
                 LocationList.Add(BookID);
             }
 
-            int Location = LocationList.IndexOf(ChangeID);
-            return (Location);
+            if (LocationList.Contains(ChangeID))
+            {
+                int Location = LocationList.IndexOf(ChangeID);
+                return (Location);
+            }
+            else { return -1;  }
         }
+
     }
 }
