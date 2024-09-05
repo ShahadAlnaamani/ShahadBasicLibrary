@@ -1,5 +1,6 @@
 ﻿using System.Data.Common;
 using System.Formats.Asn1;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
@@ -49,7 +50,7 @@ namespace BasicLibrary
             }while (!ExitFlag);
         }
 
-        //METHOD TO EXIT THE LIBRARY ---> need to add saving the changes before exiting 
+        //METHOD TO EXIT THE LIBRARY  
         static void LeaveLibrary(bool ExitFlag)
         {
             Console.WriteLine("Are you sure you want to leave? Yes or No.");
@@ -118,6 +119,7 @@ namespace BasicLibrary
             } while (ExitFlag != true);
         }
 
+
         //ADMIN PAGE  
         static void AdminPage()
         {
@@ -130,12 +132,15 @@ namespace BasicLibrary
                 Console.WriteLine(" 1. Add New Book");
                 Console.WriteLine(" 2. Display All Books");
                 Console.WriteLine(" 3. Search for Book by Name");
-                Console.WriteLine(" 4. Save and Exit\n");
+                Console.WriteLine(" 4. Edit Book");
+                Console.WriteLine(" 5. Delete Book");
+                Console.WriteLine(" 6. Save and Exit\n");
                 Console.Write("Enter: ");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
                 {
+
                     case 1:
                         AddNewBook();
                         break;
@@ -160,6 +165,14 @@ namespace BasicLibrary
                         break;
 
                     case 4:
+                        EditBooks();
+                        break;
+
+                    case 5:
+                        //DeleteBook();
+                        break;
+
+                    case 6:
                         SaveBooksToFile();
                         ExitFlag = true;
                         break;
@@ -435,5 +448,69 @@ namespace BasicLibrary
 
         }
 
+
+        //ALLOWS LIBRARIAN TO EDIT BOOK INFO
+        static void EditBooks()
+        {
+            Console.Clear();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.WriteLine("\n\t\tEDIT BOOKS:\n\n");
+            Console.WriteLine(" 1. Edit Book Title");
+            Console.WriteLine(" 2. Edit Author Name");
+            Console.WriteLine(" 3. Add More Copies of Available Books");
+            Console.WriteLine(" 4. Save and exit");
+            int Choice = int.Parse(Console.ReadLine());
+
+            Console.Clear();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+
+            switch (Choice)
+            {
+                case 1:
+                    int Location = GetInformation();
+
+                    Console.WriteLine("\n\n\t\tEDIT BOOK TITLE:\n");
+                    Console.Write("\nNew book name: ");
+                    string NewBookName = Console.ReadLine();
+                    Books[Location] = (BookName: NewBookName, Books[Location].BookAuthor, Books[Location].BookID, Books[Location].BookQuantity, Books[Location].Borrowed);
+                    Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Location].BookName}  Author: {Books[Location].BookAuthor}  ID: {Books[Location].BookID}  x{Books[Location].BookQuantity}  Issues Borrowed: {Books[Location].Borrowed}\n ");
+                    SaveBooksToFile();
+                    break;
+
+
+                case 2:
+                    break;
+
+
+                case 3:
+                    break;
+
+
+                case 4:
+                    break;
+            }
+
+
+        }
+
+        static public int GetInformation()
+        {
+            ViewAllBooks();
+            Console.Write("Enter ID: ");
+            int ChangeID = int.Parse(Console.ReadLine());
+
+
+            //Finding the index of given ID
+            List<int> LocationList = new List<int>();
+
+            for (int i = 0; i < Books.Count; i++)
+            {
+                var (BookNames, BookAuthors, BookID, BookQuantity, Borrowed) = Books[i];
+                LocationList.Add(BookID);
+            }
+
+            int Location = LocationList.IndexOf(ChangeID);
+            return (Location);
+        }
     }
 }
