@@ -2,12 +2,13 @@
 using System.Formats.Asn1;
 using System.Net;
 using System.Text;
+using System.Xml.Linq;
 
 namespace BasicLibrary
 {
     internal class Program
     {
-        static List<(string BookName, string BookAuthor, int BookID, int BookQuantity)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity)>();
+        static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed) >();
 
         //Info saved -> BookTitle|Author|ID|Quantity
         static string filePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords";
@@ -89,15 +90,6 @@ namespace BasicLibrary
                 {
                     case 1:;
                         ViewAllBooks();
-                        Console.WriteLine("Would you like to borrow a book? Yes or No.");
-                        Console.Write("Enter: ");
-                        string BorrowNow = Console.ReadLine().ToLower();
-
-                        if (BorrowNow != "no") 
-                        {
-                            BorrowBook();
-                        }
-
                         break;
 
                     case 2:
@@ -105,7 +97,7 @@ namespace BasicLibrary
                         break;
 
                     case 3:
-                        //ReturnBook();
+                        ReturnBook();
                         break;
 
                     case 4:
@@ -150,6 +142,17 @@ namespace BasicLibrary
 
                     case 2:
                         ViewAllBooks();
+                        if (Books.Count != 0)
+                        {
+                            Console.WriteLine("Would you like to borrow a book? Yes or No.");
+                            Console.Write("Enter: ");
+                            string BorrowNow = Console.ReadLine().ToLower();
+
+                            if (BorrowNow != "no")
+                            {
+                                BorrowBook();
+                            }
+                        }
                         break;
 
                     case 3:
@@ -191,7 +194,7 @@ namespace BasicLibrary
             int Qty = int.Parse(Console.ReadLine());
 
             Console.WriteLine("\n");
-            Books.Add(  (Name, Author, ID, Qty )  );
+            Books.Add(  (Name, Author, ID, Qty, 0 )  );
             SaveBooksToFile();
         }
 
@@ -223,6 +226,7 @@ namespace BasicLibrary
 
                 }
             }
+            else { Console.WriteLine("Sorry it looks like we don't have any books available :( \nPlease come again another time.\n"); }
 
 
         }
@@ -253,54 +257,71 @@ namespace BasicLibrary
         //BORROW BOOK
         static void BorrowBook()
         {
-            ViewAllBooks();
-            Console.Write("Enter ID: ");
-            int BorrowID = int.Parse(Console.ReadLine());
-            int Location = -1;
-
-            for (int i = 0; i < Books.Count; i++)
+            if (Books.Count != 0)
             {
-                if (Books[i].BookID == BorrowID)
-                {
-                    Location = i;
-                    break;
-                }
-            }
+                ViewAllBooks();
 
-            if (Location != -1) //Book found
-            {
-                Console.WriteLine($"Request to borrow: {Books[Location].BookName}");
-                if (Books[Location].BookQuantity > 0)
-                {
-                    Console.WriteLine("We've got this in stock!");
-                    Console.Write("Would you like to proceed? Yes or No: ");
-                    string Checkout = Console.ReadLine().ToLower();
+                Console.Write("Enter ID: ");
+                int BorrowID = int.Parse(Console.ReadLine());
+                int Location = -1;
 
-                    if (Checkout != "no")
+                for (int i = 0; i < Books.Count; i++)
+                {
+                    if (Books[i].BookID == BorrowID)
                     {
-                        //Decreasing book quantity 
-                        int NewQuantity = (Books[Location].BookQuantity - 1);
-                        Books[Location] = ((Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookID, Quantity: NewQuantity));
-                        SaveBooksToFile();
-
-                        //Printing recipt 
-                        DateTime Now = DateTime.Now;
-                        Console.Clear();
-                        Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
-                        Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
-                        Console.WriteLine("\t\t" + Now);
-                        Console.WriteLine("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
-                        Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor}");
-                        Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
-                        Console.WriteLine("Thank you for visiting the library come again soon!");
-                        Console.WriteLine("\t\tHappy Reading :)");
-                        Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
-
+                        Location = i;
+                        break;
                     }
                 }
+
+                if (Location != -1) //Book found
+                {
+                    Console.WriteLine($"Request to borrow: {Books[Location].BookName}");
+                    if (Books[Location].BookQuantity > 0)
+                    {
+                        Console.WriteLine("We've got this in stock!");
+                        Console.Write("Would you like to proceed? Yes or No: ");
+                        string Checkout = Console.ReadLine().ToLower();
+
+                        if (Checkout != "no")
+                        {
+                            //Decreasing book quantity 
+                            int NewQuantity = (Books[Location].BookQuantity - 1);
+                            int NewBorrowed = (Books[Location].Borrowed + 1);
+                            Books[Location] = ((Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookID, Quantity: NewQuantity, Borrowed: NewBorrowed));
+                            SaveBooksToFile();
+
+                            //Printing recipt 
+                            DateTime Now = DateTime.Now;
+                            Console.Clear();
+                            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
+                            Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
+                            Console.WriteLine("\t\t" + Now);
+                            Console.WriteLine("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+                            Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor}");
+                            Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+                            Console.WriteLine("Thank you for visiting the library come again soon!");
+                            Console.WriteLine("\t\tHappy Reading :)");
+                            Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
+
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sorry this book is out of stock :(");
+                        Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
+                        string ViewOtherBooks = Console.ReadLine().ToLower();
+
+                        if (ViewOtherBooks != "no")
+                        {
+                            ViewAllBooks();
+                        }
+                    }
+                }
+
                 else
                 {
-                    Console.WriteLine("Sorry this book is out of stock :(");
+                    Console.WriteLine("Sorry we do not have this book :(");
                     Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
                     string ViewOtherBooks = Console.ReadLine().ToLower();
 
@@ -310,19 +331,40 @@ namespace BasicLibrary
                     }
                 }
             }
+            else { Console.WriteLine("Sorry it looks like we don't have any books available right now :( \n"); }
+        }
 
-            else
+
+        //RETURN BOOK
+        static void ReturnBook()
+        {
+            Console.Write("Enter Book ID: ");
+            int ReturnBook = int.Parse(Console.ReadLine());
+
+
+            for (int i = 0; i < Books.Count; i++)
             {
-                Console.WriteLine("Sorry we do not have this book :(");
-                Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
-                string ViewOtherBooks = Console.ReadLine().ToLower();
-
-                if (ViewOtherBooks != "no") 
+                if (Books[i].BookID == ReturnBook)
                 {
-                    ViewAllBooks();
+                    //Checking if this book has been borrowed -> handels case of books being returned without being borrowed (ie new books added)
+                    if (Books[i].Borrowed > 0)
+                    { 
+                        int NewBorrowCount = (Books[i].Borrowed - 1);
+                        int NewBookQuantity = (Books[i].BookQuantity + 1);
+                        Books[i] = ((Books[i].BookName, Books[i].BookAuthor, Books[i].BookID, BookQuantity: NewBookQuantity, Borrowed: NewBorrowCount));
+                        Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress any key to print your recipt");
+                        Console.ReadKey();
+                        SaveBooksToFile();
+                        Console.Clear();
+                        ReturnRecipt(i);
+                    }
+                    break;
                 }
             }
+
+
         }
+
 
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
@@ -337,9 +379,9 @@ namespace BasicLibrary
                         while ((line = reader.ReadLine()) != null)
                         {
                             var parts = line.Split('|');
-                            if (parts.Length == 4)
+                            if (parts.Length == 5)
                             {
-                                Books.Add((parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3])));
+                                Books.Add((parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4])));
                             }
                         }
                     }
@@ -361,7 +403,7 @@ namespace BasicLibrary
                 {
                     foreach (var book in Books)
                     {
-                        writer.WriteLine($"{book.BookName}|{book.BookAuthor}|{book.BookID}|{book.BookQuantity}");
+                        writer.WriteLine($"{book.BookName}|{book.BookAuthor}|{book.BookID}|{book.BookQuantity}|{book.Borrowed}");
                     }
                 }
                 Console.WriteLine("Books saved to file successfully! :)");
@@ -370,6 +412,22 @@ namespace BasicLibrary
             {
                 Console.WriteLine($"Error saving to file: {ex.Message}");
             }
+        }
+
+        //PRINT RETRUN RECIPT
+        static void ReturnRecipt(int i)
+        {
+            DateTime Now = DateTime.Now;
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
+            Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
+            Console.WriteLine("\t\t Returned: " + Now);
+            Console.WriteLine("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+            Console.WriteLine($"BOOK: ID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
+            Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+            Console.WriteLine($"Thank you for returning {Books[i].BookName} :)\n\n");
+            Console.WriteLine("\t\tCome again soon!");
+            Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
+
         }
 
     }
