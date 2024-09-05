@@ -180,7 +180,8 @@ namespace BasicLibrary
 
         //GETS BOOK INFORMATION FROM THE USER 
         static void AddNewBook() 
-        { 
+        {
+            Console.Write("\n\t\tADDING NEW BOOK:\n\n ");
             Console.Write("Enter Book Name: ");
             string Name = Console.ReadLine().Trim(); //trim added for more accurate search  
 
@@ -204,6 +205,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.Write("\n\t\tAVAILABLE BOOKS:\n\n ");
             StringBuilder sb = new StringBuilder();
 
             int BookNumber = 0;
@@ -235,6 +237,7 @@ namespace BasicLibrary
         //ALLOWS USER TO SEARCH FOR BOOK
         static void SearchForBook()
         {
+            Console.Write("\n\t\tSEARCH LIBRARY:\n\n ");
             Console.Write("Book name: ");
             string name = (Console.ReadLine().Trim()).ToLower();  
             bool flag=false;
@@ -261,6 +264,7 @@ namespace BasicLibrary
             {
                 ViewAllBooks();
 
+                Console.Write("\n\t\tBORROWING A BOOK:\n\n ");
                 Console.Write("Enter ID: ");
                 int BorrowID = int.Parse(Console.ReadLine());
                 int Location = -1;
@@ -338,6 +342,7 @@ namespace BasicLibrary
         //RETURN BOOK
         static void ReturnBook()
         {
+            Console.Write("\n\t\tRETURN A BOOK:\n\n ");
             Console.Write("Enter Book ID: ");
             int ReturnBook = int.Parse(Console.ReadLine());
 
