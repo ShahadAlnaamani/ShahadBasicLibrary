@@ -602,7 +602,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-            Console.WriteLine("\n\n\t\tREPORTS:\n");
+            Console.WriteLine("\t\tREPORTS:\n");
 
 
 
@@ -627,8 +627,9 @@ namespace BasicLibrary
             int SumOfBorrowed = BorrowedBooks.Sum();
             Console.WriteLine("Number of Borrowed Books: " + SumOfBorrowed);
 
-
             //Total available books
+            int SumOfAvailable = BookQuantities.Sum();
+            Console.WriteLine("Number of Available Books: " + SumOfAvailable);
 
             //Most borrowed book
             Console.WriteLine("\n\n\tMOST BORROWED BOOK:\n");
