@@ -14,6 +14,7 @@ namespace BasicLibrary
         static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)>();
         static List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)> Admins = new List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)>();
         static List<(int UserID, string UserUserName, string UserPswd, string UserEmail)> Users = new List<(int UserID, string UserUserName, string UserPswd, string UserEmail)>();
+        static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
 
         //MasterAdmin
         static string MasterPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Master.txt";
@@ -30,8 +31,10 @@ namespace BasicLibrary
 
         static void Main(string[] args)
         {
-            // empties list so that there are no repititions
+            //Creates a master admin account 
             MasterAdmin();
+
+            // empties list so that there are no repititions
             Admins.Clear();
             Users.Clear();
             LoadUsers();
@@ -140,7 +143,53 @@ namespace BasicLibrary
 
                 case 2:
                     //admin registration
-                    SaveAdmins();
+                    Console.Clear();
+                    Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                    Console.Write("\n\t\t ADMIN REGISTRATION:\n\n ");
+
+
+                    //AUTHENTICATE MASTER ADMIN 
+                    Console.Write("Master Username: ");
+                    string Usr = Console.ReadLine();
+                    Console.Write("Master Password: ");
+                    string Pswd = Console.ReadLine();
+
+                    bool Auth =  CheckMaster(Usr, Pswd);
+
+                    if (Auth != false)
+                    {
+                        Console.WriteLine("Welcome new librarian!");
+                        string AdminPassword1 = " ";
+                        string AdminPassword2 = "  ";// first one has one space second has two spaces to ensure they don't match so they don't affect conditions below
+                        string AdminEmail1 = " ";
+                        string AdminEmail2 = "  ";
+
+                        do
+                        {
+                            Console.Write("Email: ");
+                            AdminEmail1 = Console.ReadLine();
+                            Console.Write("Re-enter Email: ");
+                            AdminEmail2 = Console.ReadLine();
+                        } while (AdminEmail1 != AdminEmail2);
+
+                        Console.Write("User Name: ");
+                        string AdminUserName = Console.ReadLine();
+
+                        do
+                        {
+                            Console.Write("Password: ");
+                            AdminPassword1 = Console.ReadLine();
+                            Console.Write("Re-enter Password: ");
+                            AdminPassword2 = Console.ReadLine();
+                        } while (AdminPassword1 != AdminPassword2);
+
+                        //geneate id
+                        int AdminID = Users.Count + 10;
+
+                        Admins.Add((AdminID, AdminUserName, AdminPassword1, AdminEmail1));
+                        SaveAdmins();
+                    }
+                    else { Console.WriteLine("The inputted credentials are incorrect, please try again :("); }
                     break;
 
                 case 3:
@@ -598,7 +647,44 @@ namespace BasicLibrary
 
         }
 
-        
+
+        //CHECKS MASTER CREDENTIALS 
+        static bool CheckMaster(string Usr, string Pswd)
+        {
+            bool i = false;
+            try
+            {
+                if (File.Exists(MasterPath))
+                {
+                    using (StreamReader reader = new StreamReader(MasterPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 2)
+                            {
+                                if (Usr == parts[0] && parts[1] == Pswd)
+                                {
+                                    i = true;
+                                }
+                                else { }//return false; }
+                            }
+                            else { }
+                            //return false; }
+                        }
+                    }
+                }
+                else { }// return false; }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading admins from file: {ex.Message}");
+                //return false;
+            }
+            return i;
+        }
+
         static void AdminPage()
         {
             bool ExitFlag = false;
@@ -961,6 +1047,32 @@ namespace BasicLibrary
                             if (parts.Length == 4)
                             {
                                 Admins.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading admins from file: {ex.Message}");
+            }
+        }
+
+        static void LoadMaster()
+        {
+            try
+            {
+                if (File.Exists(AdminPath))
+                {
+                    using (StreamReader reader = new StreamReader(AdminPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 2)
+                            {
+                                //Master.Add((parts[0]), parts[1]);
                             }
                         }
                     }
