@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.Common;
 using System.Formats.Asn1;
 using System.Globalization;
@@ -32,10 +33,6 @@ namespace BasicLibrary
             LoadUsers();
             LoadAdmins();
 
-            //Testing file creation 
-            SaveAdmins();
-            SaveUsers();
-
             bool Authentication = false;
             do
             {
@@ -52,15 +49,16 @@ namespace BasicLibrary
                 switch (Option)
                 {
                     case 1:
-                        //ReaderLogin();
+                        //ReaderLogin(); -> system()
                         break;
 
                     case 2:
-                        //LibrarianLogin();
+                        //LibrarianLogin(); -> system()
                         break;
 
                     case 3:
-                        //Register();
+                        Register();
+                        Console.Clear();
                         break;
 
                     case 4:
@@ -71,10 +69,7 @@ namespace BasicLibrary
                         Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
                         break;
                 }
-
-
-                //if properly authenticated call system()
-            } while (!true);
+            } while (Authentication != true);
         }
 
 
@@ -84,7 +79,74 @@ namespace BasicLibrary
 
 
         //- - - - - - - - - - - - - FUNCTIONS SHARED BETWEEN ADMIN AND USER - - - - - - - - - - - - - - - //
-        
+
+        //REGISTERS NEW USERS
+        static void Register()
+        { 
+            Console.Clear();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.Write("\n\t\t REGISTER:\n\n ");
+            Console.WriteLine("OPTIONS: ");
+            Console.WriteLine(" 1. Reader");
+            Console.WriteLine(" 2. Librarian");
+            Console.WriteLine(" 3. Exit\n");
+            int Identity = 0;
+            Console.Write("Enter: ");
+            Identity = int.Parse(Console.ReadLine());
+
+            switch (Identity)
+            {
+                case 1:
+                    //user registration
+                    Console.Clear();
+                    Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                    Console.Write("\n\t\t USER REGISTRATION:\n\n ");
+                    Console.WriteLine("Welcome new reader!");
+                    string UserPassword1 = " ";
+                    string UserPassword2 = "  ";// first one has one space second has two spaces to ensure they don't match so they don't affect conditions below
+                    string Email1 = " ";
+                    string Email2 = "  ";
+
+                    do
+                    {
+                        Console.Write("Email: ");
+                        Email1 = Console.ReadLine();
+                        Console.Write("Re-enter Email: ");
+                        Email2 = Console.ReadLine();
+                    } while (Email1 != Email2);
+
+                    Console.Write("User Name: ");
+                    string UserName = Console.ReadLine();
+
+                    do
+                    {
+                        Console.Write("Password: ");
+                        UserPassword1 = Console.ReadLine();
+                        Console.Write("Re-enter Password: ");
+                        UserPassword2 = Console.ReadLine();
+                    } while (UserPassword1 != UserPassword2);
+
+                    //geneate id
+                    int UserID = Users.Count + 10;
+
+                    Users.Add((UserID, UserName , UserPassword1, Email1));
+                    SaveUsers();
+                    break;
+
+                case 2:
+                    //admin registration
+                    SaveAdmins();
+                    break;
+
+                case 3:
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
+                    break;
+            }
+        }
+
         //MAIN LIBRARY SYSTEM
         static void System()
         {
@@ -108,13 +170,16 @@ namespace BasicLibrary
                     case 1:
                         UserPage();
                         break;
+
                     case 2:
                         AdminPage();
                         break;
+
                     case 3:
                         LeaveLibrary(ExitFlag);
                         ExitFlag = true;
                         break;
+
                     default:
                         Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
                         break;
