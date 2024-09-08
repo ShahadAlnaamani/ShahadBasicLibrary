@@ -624,6 +624,9 @@ namespace BasicLibrary
             }
 
             //Total books borrowed
+            int SumOfBorrowed = BorrowedBooks.Sum();
+            Console.WriteLine("Number of Borrowed Books: " + SumOfBorrowed);
+
 
             //Total available books
 
