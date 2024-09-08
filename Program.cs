@@ -627,9 +627,11 @@ namespace BasicLibrary
             int SumOfBorrowed = BorrowedBooks.Sum();
             Console.WriteLine("Number of Borrowed Books: " + SumOfBorrowed);
 
+
             //Total available books
             int SumOfAvailable = BookQuantities.Sum();
             Console.WriteLine("Number of Available Books: " + SumOfAvailable);
+
 
             //Most borrowed book
             Console.WriteLine("\n\n\tMOST BORROWED BOOK:\n");
@@ -648,6 +650,18 @@ namespace BasicLibrary
 
 
             //Least borrowed book
+            Console.WriteLine("\n\n\tLEAST BORROWED BOOK:\n");
+            int LeastBorrowedBook;
+
+            LeastBorrowedBook = BorrowedBooks.IndexOf(BorrowedBooks.Min());
+            //To ensure that if more than one book have the minimum borrowed index they are included 
+            for (int i = 0; i < Books.Count; i++)
+            {
+                if (Books[i].Borrowed == BorrowedBooks[LeastBorrowedBook])
+                {
+                    Console.WriteLine($"BOOK TITLE: {BookNames[i]} \nBOOK AUTHOR: {BookAuthors[i]} \nNUMBER OF COPIES BORROWED: {BorrowedBooks[i]}\n");
+                }
+            }
 
             //Most borrowed author
 
