@@ -26,16 +26,70 @@ namespace BasicLibrary
 
         static void Main(string[] args)
         { 
-            Books.Clear(); // empties list so that there are no repititions
+             // empties list so that there are no repititions
             Admins.Clear();
             Users.Clear();
-            LoadBooksFromFile();
             LoadUsers();
             LoadAdmins();
 
             //Testing file creation 
             SaveAdmins();
             SaveUsers();
+
+            bool Authentication = false;
+            do
+            {
+                Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                Console.WriteLine("OPTION: ");
+                Console.WriteLine(" 1. Reader Login");
+                Console.WriteLine(" 2. Librarian Login");
+                Console.WriteLine(" 3. Register");
+                Console.WriteLine(" 4. Exit\n");
+                int Option = 0;
+                Console.Write("Enter: ");
+                Option = int.Parse(Console.ReadLine());
+
+                switch (Option)
+                {
+                    case 1:
+                        //ReaderLogin();
+                        break;
+
+                    case 2:
+                        //LibrarianLogin();
+                        break;
+
+                    case 3:
+                        //Register();
+                        break;
+
+                    case 4:
+                        Authentication = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
+                        break;
+                }
+
+
+                //if properly authenticated call system()
+            } while (!true);
+        }
+
+
+
+
+
+
+
+        //- - - - - - - - - - - - - FUNCTIONS SHARED BETWEEN ADMIN AND USER - - - - - - - - - - - - - - - //
+        
+        //MAIN LIBRARY SYSTEM
+        static void System()
+        {
+            Books.Clear();
+            LoadBooksFromFile();
 
             bool ExitFlag = false;
             do
@@ -65,16 +119,9 @@ namespace BasicLibrary
                         Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
                         break;
                 }
-            }while (!ExitFlag);
+            } while (!ExitFlag);
         }
-
-
-
-
-
-
-
-        //- - - - - - - - - - - - - FUNCTIONS SHARED BETWEEN ADMIN AND USER - - - - - - - - - - - - - - - //
+        
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
         {
