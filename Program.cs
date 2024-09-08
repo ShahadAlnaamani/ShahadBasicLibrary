@@ -11,14 +11,31 @@ namespace BasicLibrary
     internal class Program
     {
         static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed) >();
+        static List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)> Admins = new List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)>();
+        static List<(int UserID,string UserUserName, string UserPswd, string UserEmail)> Users = new List<(int UserID, string UserUserName, string UserPswd, string UserEmail)>();
 
         //Info saved -> BookTitle|Author|ID|Quantity|Borrowed
-        static string filePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords";
+        static string BooksPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords";
+
+        //Info saved -> ID|UserName|Password|Email
+        static string AdminPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\AdminAccounts";
+
+        //Info saved -> ID|UserName|Password|Email
+        static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts";
+
 
         static void Main(string[] args)
         { 
             Books.Clear(); // empties list so that there are no repititions
+            Admins.Clear();
+            Users.Clear();
             LoadBooksFromFile();
+            LoadUsers();
+            LoadAdmins();
+
+            //Testing file creation 
+            SaveAdmins();
+            SaveUsers();
 
             bool ExitFlag = false;
             do
@@ -56,15 +73,16 @@ namespace BasicLibrary
 
 
 
+
         //- - - - - - - - - - - - - FUNCTIONS SHARED BETWEEN ADMIN AND USER - - - - - - - - - - - - - - - //
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
         {
             try
             {
-                if (File.Exists(filePath))
+                if (File.Exists(BooksPath))
                 {
-                    using (StreamReader reader = new StreamReader(filePath))
+                    using (StreamReader reader = new StreamReader(BooksPath))
                     {
                         string line;
                         while ((line = reader.ReadLine()) != null)
@@ -145,7 +163,7 @@ namespace BasicLibrary
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(filePath))
+                using (StreamWriter writer = new StreamWriter(BooksPath))
                 {
                     foreach (var book in Books)
                     {
@@ -357,6 +375,54 @@ namespace BasicLibrary
 
         }
 
+
+        //SAVES USER INFO TO FILE
+        static void SaveUsers()
+        {
+            try
+            {//Info saved -> ID|UserName|Password|Email
+                using (StreamWriter writer = new StreamWriter(UserPath))
+                {
+                    foreach (var user in Users)
+                    {
+                        writer.WriteLine($"{user.UserID}|{user.UserUserName}|{user.UserPswd}|{user.UserEmail}");
+                    }
+                }
+                Console.WriteLine("User details saved to file successfully! :)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+        }
+
+
+       //READS USER INFO FROM FILE
+        static void LoadUsers()
+        {
+            try
+            {
+                if (File.Exists(UserPath))
+                {
+                    using (StreamReader reader = new StreamReader(UserPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 4)
+                            {
+                                Users.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading users from file: {ex.Message}");
+            }
+        }
 
 
 
@@ -688,5 +754,53 @@ namespace BasicLibrary
             Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
         }
 
+
+        //SAVES ADMIN INFO TO FILE
+        static public void SaveAdmins()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(AdminPath))
+                {
+                    foreach (var admin in Admins)
+                    {
+                        writer.WriteLine($"{admin.AdminID}|{admin.AdminUserName}|{admin.AdminPswd}|{admin.AdminEmail}");
+                    }
+                }
+                Console.WriteLine("Admin details saved to file successfully! :)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+        }
+
+
+        //READS ADMIN INFO FROM FILE
+        static void LoadAdmins()
+        {
+            try
+            {
+                if (File.Exists(AdminPath))
+                {
+                    using (StreamReader reader = new StreamReader(AdminPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 4)
+                            {
+                                Admins.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading admins from file: {ex.Message}");
+            }
+        }
     }
 }
