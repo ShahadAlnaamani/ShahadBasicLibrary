@@ -376,7 +376,8 @@ namespace BasicLibrary
                 Console.WriteLine(" 3. Search for Book by Name");
                 Console.WriteLine(" 4. Edit Book");
                 Console.WriteLine(" 5. Delete Book");
-                Console.WriteLine(" 6. Save and Exit\n");
+                Console.WriteLine(" 6. Show Reports");
+                Console.WriteLine(" 7. Save and Exit\n");
                 Console.Write("Enter: ");
                 int choice = int.Parse(Console.ReadLine());
 
@@ -404,6 +405,10 @@ namespace BasicLibrary
                         break;
 
                     case 6:
+                        Reports();
+                        break;
+
+                    case 7:
                         SaveBooksToFile();
                         ExitFlag = true;
                         break;
@@ -588,6 +593,44 @@ namespace BasicLibrary
                 return (Location);
             }
             else { return -1;  }
+        }
+
+
+        //SHOWS STATISTICS ON BORROWED AND AVAILABLE BOOKS 
+        static public void Reports()
+        {
+            Console.Clear();
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.WriteLine("\n\n\t\tREPORTS:\n");
+
+
+
+            //Breaking down tuple list so we can carry out calculations on info
+            List<string> BookNames = new List<string>();
+            List<string> BookAuthors = new List<string>();
+            List<int> BookIDs = new List<int>();
+            List<int> BookQuantities = new List<int>();
+            List<int> BorrowedBooks = new List<int>();
+
+            for (int i = 0; i < Books.Count; i++)
+            {
+                var (BookName, BookAuthor, BookID, BookQuantity, Borrowed) = Books[i];
+                BookNames.Add(BookName);
+                BookAuthors.Add(BookAuthor);
+                BookIDs.Add(BookID);
+                BookQuantities.Add(BookQuantity);
+                BorrowedBooks.Add(Borrowed);
+            }
+
+
+            //Most borrowed book
+            Console.WriteLine("\n\n\tMOST BORROWED BOOK:\n");
+            int MostBorrowedBook;
+
+            MostBorrowedBook = BorrowedBooks.IndexOf(BorrowedBooks.Max());
+
+            Console.WriteLine($"BOOK TITLE: {BookNames[MostBorrowedBook]} \nBOOK AUTHOR: {BookAuthors[MostBorrowedBook]} \nNUMBER OF COPIES BORROWED: {BorrowedBooks[MostBorrowedBook]}\n");
+
         }
 
     }
