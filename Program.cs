@@ -612,6 +612,8 @@ namespace BasicLibrary
             List<int> BookIDs = new List<int>();
             List<int> BookQuantities = new List<int>();
             List<int> BorrowedBooks = new List<int>();
+            List<string> MostBorrowedAuth = new List<string>();
+            List<string> LeastBorrowedAuth = new List<string>();
 
             for (int i = 0; i < Books.Count; i++)
             {
@@ -645,6 +647,7 @@ namespace BasicLibrary
                 if (Books[i].Borrowed == BorrowedBooks[MostBorrowedBook])
                 {
                     Console.WriteLine($"BOOK TITLE: {BookNames[i]} \nBOOK AUTHOR: {BookAuthors[i]} \nNUMBER OF COPIES BORROWED: {BorrowedBooks[i]}\n");
+                    MostBorrowedAuth.Add(BookAuthors[i]);
                 }
             }
 
@@ -660,12 +663,26 @@ namespace BasicLibrary
                 if (Books[i].Borrowed == BorrowedBooks[LeastBorrowedBook])
                 {
                     Console.WriteLine($"BOOK TITLE: {BookNames[i]} \nBOOK AUTHOR: {BookAuthors[i]} \nNUMBER OF COPIES BORROWED: {BorrowedBooks[i]}\n");
+                    LeastBorrowedAuth.Add(BookAuthors[i]);
                 }
             }
 
             //Most borrowed author
+            Console.WriteLine("\n\n\tMOST POPULAR AUTHOR:\n");
+            for (int i = 0;i < MostBorrowedAuth.Count;i++) 
+            {
+                Console.WriteLine(MostBorrowedAuth[i]);
+            }
 
             //Least borrowed author
+            Console.WriteLine("\n\n\tLEAST POPULAR AUTHOR:\n");
+            for (int i = 0; i < LeastBorrowedAuth.Count; i++)
+            {
+                Console.WriteLine(LeastBorrowedAuth[i]);
+            }
+
+
+            //List available books 
 
         }
 
