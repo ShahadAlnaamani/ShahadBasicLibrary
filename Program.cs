@@ -28,6 +28,8 @@ namespace BasicLibrary
         //Info saved -> ID|UserName|Password|Email
         static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts.txt";
 
+        static int CurrentUser = -1; //This is the users ID -1 means null
+
 
         static void Main(string[] args)
         {
@@ -57,7 +59,21 @@ namespace BasicLibrary
                 switch (Option)
                 {
                     case 1:
-                        //ReaderLogin(); -> system()
+                        Console.Clear();
+                        Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                        Console.Write("Username: ");
+                        string Usr = Console.ReadLine();
+                        Console.Write("Password: ");
+                        string Pswd = Console.ReadLine();
+                        bool UsrAuth = ReaderLogin(Usr, Pswd);
+
+                        if (UsrAuth)
+                        {
+                            UserPage();
+                        }
+
+                        else 
+                        { Console.WriteLine("Incorrect login details please try again :("); }
                         break;
 
                     case 2:
@@ -351,6 +367,40 @@ namespace BasicLibrary
 
         //- - - - - - - - - - - - - - - - - - - - - USER FUNCTIONS  - - - - - - - - - - - - - - - - - - -//
 
+        //READER LOGIN
+        static bool ReaderLogin(string Usr, string Pswd)
+        {
+            bool i = false;
+            try
+            {
+                if (File.Exists(UserPath))
+                {
+                    using (StreamReader reader = new StreamReader(UserPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 4)
+                            {
+                                if (Usr == parts[1] && parts[2] == Pswd)
+                                {
+                                    i = true;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading admins from file: {ex.Message}");
+            }
+            return i;
+        }
+
+
         //USER PAGE  
         static void UserPage()
         {
@@ -363,7 +413,7 @@ namespace BasicLibrary
                 Console.WriteLine(" 1. View All Books");
                 Console.WriteLine(" 2. Borrow A Book");
                 Console.WriteLine(" 3. Return A Book");
-                Console.WriteLine(" 4. Exit\n");
+                Console.WriteLine(" 4. Log out\n");
                 Console.Write("Enter: ");
                 int choice = int.Parse(Console.ReadLine());
 
@@ -395,6 +445,7 @@ namespace BasicLibrary
                     case 4:
                         SaveBooksToFile();
                         Console.WriteLine("Exiting...");
+                        CurrentUser = -1;
                         ExitFlag = true;
                         break;
 
@@ -610,6 +661,7 @@ namespace BasicLibrary
 
         //GETS MASTER LOGIN DETAILS - will only happen once because this function is only called if the file does not exist
         static void MasterSetUp() //Next modification make sure passwords aren't saved in plaintext file -- will be done when functionality finalized
+
         {
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
             Console.WriteLine("S E T T I N G    U P    M A S T E R    A D M I N\n");
@@ -668,19 +720,15 @@ namespace BasicLibrary
                                 {
                                     i = true;
                                 }
-                                else { }//return false; }
                             }
-                            else { }
-                            //return false; }
+                          
                         }
                     }
                 }
-                else { }// return false; }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading admins from file: {ex.Message}");
-                //return false;
             }
             return i;
         }
@@ -1047,32 +1095,6 @@ namespace BasicLibrary
                             if (parts.Length == 4)
                             {
                                 Admins.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading admins from file: {ex.Message}");
-            }
-        }
-
-        static void LoadMaster()
-        {
-            try
-            {
-                if (File.Exists(AdminPath))
-                {
-                    using (StreamReader reader = new StreamReader(AdminPath))
-                    {
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            var parts = line.Split('|');
-                            if (parts.Length == 2)
-                            {
-                                //Master.Add((parts[0]), parts[1]);
                             }
                         }
                     }
