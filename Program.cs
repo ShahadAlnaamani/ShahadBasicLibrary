@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System;
+using System.Data.Common;
 using System.Formats.Asn1;
 using System.Globalization;
 using System.Net;
@@ -348,7 +349,7 @@ namespace BasicLibrary
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
             Console.WriteLine("\t\t Returned: " + Now);
             Console.WriteLine("\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
-            Console.WriteLine($"BOOK: ID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
+            Console.WriteLine($"BOOK: \nID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
             Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
             Console.WriteLine($"Thank you for returning {Books[i].BookName} :)\n\n");
             Console.WriteLine("\t\tCome again soon!");
@@ -622,6 +623,9 @@ namespace BasicLibrary
                 BorrowedBooks.Add(Borrowed);
             }
 
+            //Total books borrowed
+
+            //Total available books
 
             //Most borrowed book
             Console.WriteLine("\n\n\tMOST BORROWED BOOK:\n");
@@ -629,7 +633,21 @@ namespace BasicLibrary
 
             MostBorrowedBook = BorrowedBooks.IndexOf(BorrowedBooks.Max());
 
-            Console.WriteLine($"BOOK TITLE: {BookNames[MostBorrowedBook]} \nBOOK AUTHOR: {BookAuthors[MostBorrowedBook]} \nNUMBER OF COPIES BORROWED: {BorrowedBooks[MostBorrowedBook]}\n");
+            //To ensure that if more than one book have the maximum borrowed index they are included 
+            for (int i = 0; i < Books.Count; i++)
+            {
+                if (Books[i].Borrowed == BorrowedBooks[MostBorrowedBook])
+                {
+                    Console.WriteLine($"BOOK TITLE: {BookNames[i]} \nBOOK AUTHOR: {BookAuthors[i]} \nNUMBER OF COPIES BORROWED: {BorrowedBooks[i]}\n");
+                }
+            }
+
+
+            //Least borrowed book
+
+            //Most borrowed author
+
+            //Least borrowed author
 
         }
 
