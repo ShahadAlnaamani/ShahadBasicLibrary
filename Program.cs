@@ -11,23 +11,27 @@ namespace BasicLibrary
 {
     internal class Program
     {
-        static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed) >();
+        static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)>();
         static List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)> Admins = new List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)>();
-        static List<(int UserID,string UserUserName, string UserPswd, string UserEmail)> Users = new List<(int UserID, string UserUserName, string UserPswd, string UserEmail)>();
+        static List<(int UserID, string UserUserName, string UserPswd, string UserEmail)> Users = new List<(int UserID, string UserUserName, string UserPswd, string UserEmail)>();
+
+        //MasterAdmin
+        static string MasterPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Master.txt";
 
         //Info saved -> BookTitle|Author|ID|Quantity|Borrowed
-        static string BooksPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords";
+        static string BooksPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords.txt";
 
         //Info saved -> ID|UserName|Password|Email
-        static string AdminPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\AdminAccounts";
+        static string AdminPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\AdminAccounts.txt";
 
         //Info saved -> ID|UserName|Password|Email
-        static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts";
+        static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts.txt";
 
 
         static void Main(string[] args)
-        { 
-             // empties list so that there are no repititions
+        {
+            // empties list so that there are no repititions
+            MasterAdmin();
             Admins.Clear();
             Users.Clear();
             LoadUsers();
@@ -36,6 +40,7 @@ namespace BasicLibrary
             bool Authentication = false;
             do
             {
+                Console.Clear();
                 Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
                 Console.WriteLine("OPTION: ");
                 Console.WriteLine(" 1. Reader Login");
@@ -82,7 +87,7 @@ namespace BasicLibrary
 
         //REGISTERS NEW USERS
         static void Register()
-        { 
+        {
             Console.Clear();
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
             Console.Write("\n\t\t REGISTER:\n\n ");
@@ -129,7 +134,7 @@ namespace BasicLibrary
                     //geneate id
                     int UserID = Users.Count + 10;
 
-                    Users.Add((UserID, UserName , UserPassword1, Email1));
+                    Users.Add((UserID, UserName, UserPassword1, Email1));
                     SaveUsers();
                     break;
 
@@ -186,7 +191,7 @@ namespace BasicLibrary
                 }
             } while (!ExitFlag);
         }
-        
+
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
         {
@@ -509,7 +514,7 @@ namespace BasicLibrary
         }
 
 
-       //READS USER INFO FROM FILE
+        //READS USER INFO FROM FILE
         static void LoadUsers()
         {
             try
@@ -542,6 +547,58 @@ namespace BasicLibrary
 
         //- - - - - - - - - - - - - - - - - - - - ADMIN FUNCTIONS  - - - - - - - - - - - - - - - - - - //
         //ADMIN PAGE  
+
+        //CREATES MASTER FILE
+        static void MasterAdmin()
+        {
+            if (!File.Exists(MasterPath))
+            {
+                File.Create(MasterPath).Close();
+                MasterSetUp();
+            }
+        }
+
+
+        //GETS MASTER LOGIN DETAILS - will only happen once because this function is only called if the file does not exist
+        static void MasterSetUp() //Next modification make sure passwords aren't saved in plaintext file -- will be done when functionality finalized
+        {
+            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.WriteLine("S E T T I N G    U P    M A S T E R    A D M I N\n");
+            Console.WriteLine("WARNING: Please note that these details cannot be changed later make sure to remember them :)\n");
+            Console.Write("Enter master username: ");
+            string MasterUserName = Console.ReadLine();
+            
+            Console.Write("Enter master password: ");
+            string MasterPassword;
+            string Password1;
+            string Password2;
+
+            do
+            {
+                Console.Write("Password: ");
+                Password1 = Console.ReadLine();
+                Console.Write("Re-enter Password: ");
+                Password2 = Console.ReadLine();
+            } while (Password1 != Password2);
+
+            MasterPassword = Password1;
+
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(MasterPath))
+                {
+                    writer.WriteLine($"{MasterUserName}|{MasterPassword}");
+                }
+                Console.WriteLine("Admin details saved to file successfully! :)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+
+        }
+
+        
         static void AdminPage()
         {
             bool ExitFlag = false;
