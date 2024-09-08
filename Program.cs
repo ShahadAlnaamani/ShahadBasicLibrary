@@ -600,9 +600,12 @@ namespace BasicLibrary
         //SHOWS STATISTICS ON BORROWED AND AVAILABLE BOOKS 
         static public void Reports()
         {
-            Console.Clear();
-            Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            //List available books 
+            ViewAllBooks();
+
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
             Console.WriteLine("\t\tREPORTS:\n");
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
 
 
@@ -636,6 +639,7 @@ namespace BasicLibrary
 
 
             //Most borrowed book
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
             Console.WriteLine("\n\n\tMOST BORROWED BOOK:\n");
             int MostBorrowedBook;
 
@@ -668,6 +672,7 @@ namespace BasicLibrary
             }
 
             //Most borrowed author
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
             Console.WriteLine("\n\n\tMOST POPULAR AUTHOR:\n");
             for (int i = 0;i < MostBorrowedAuth.Count;i++) 
             {
@@ -680,10 +685,7 @@ namespace BasicLibrary
             {
                 Console.WriteLine(LeastBorrowedAuth[i]);
             }
-
-
-            //List available books 
-
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
         }
 
     }
