@@ -103,7 +103,7 @@ namespace BasicLibrary
 
                     case 2:
                         Console.Clear();
-                        Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                        Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
                         Console.Write("\n\t\tLIBRARIAN LOGIN:\n\n");
                         Console.Write("Username: ");
                         string AdminUsr = Console.ReadLine();
@@ -114,7 +114,7 @@ namespace BasicLibrary
                         if (AdminAuth)
                         {
 
-                            for (int i = 0; i < Users.Count; i++)
+                            for (int i = 0; i < Admins.Count; i++)
                             {
                                 if (Admins[i].AdminUserName == AdminUsr)
                                 {
@@ -520,6 +520,8 @@ namespace BasicLibrary
                             Invoices.Add((CurrentUser, DateTime.Now, Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, 1));
                             SaveInvoice();
 
+                            Reccomend(Books[Location].BookAuthor);
+
                             //Printing recipt 
                             DateTime Now = DateTime.Now;
                             Console.Clear();
@@ -532,6 +534,15 @@ namespace BasicLibrary
                             Console.WriteLine("Thank you for visiting the library come again soon!");
                             Console.WriteLine("\t\tHappy Reading :)");
                             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ");
+
+                            Console.WriteLine("\n\nWould you like to borrow another book? Yes or No.");
+                            Console.Write("Enter: ");
+                            string Response = Console.ReadLine().ToLower();
+
+                            if (Response != "no") //Will repeat borrowing process
+                            {
+                                BorrowBook();
+                            }
 
                         }
                     }
@@ -666,6 +677,8 @@ namespace BasicLibrary
             }
         }
 
+
+        //RECORDS INVOICES ON FILE
         static void SaveInvoice()
         {
             try
@@ -683,6 +696,25 @@ namespace BasicLibrary
             {
                 Console.WriteLine($"Error saving to file: {ex.Message}");
             }
+        }
+
+
+        //BOOK RECCOMENDATION GENERATOR
+        static void Reccomend(string Author)
+        { 
+            //Book author find other books with book author and suggest 
+            Console.Clear();
+            Console.WriteLine("You might also like: ");
+            for (int i = 0; i < Books.Count; i++) 
+            { 
+                if (Books[i].BookAuthor == Author) 
+                {
+                    Console.WriteLine($"Book name: {Books[i].BookName}");
+                }
+            }
+
+            //Most popular book -> suggest 
+        
         }
 
 
@@ -810,6 +842,7 @@ namespace BasicLibrary
             }
             return i;
         }
+
 
         static void AdminPage()
         {
@@ -1092,6 +1125,8 @@ namespace BasicLibrary
             List<int> BorrowedBooks = new List<int>();
             List<string> MostBorrowedAuth = new List<string>();
             List<string> LeastBorrowedAuth = new List<string>();
+            List<int> ReaderIDs = new List<int>();
+            List<int> TransactionType = new List<int>();
 
             for (int i = 0; i < Books.Count; i++)
             {
@@ -1159,8 +1194,33 @@ namespace BasicLibrary
             for (int i = 0; i < LeastBorrowedAuth.Count; i++)
             {
                 Console.WriteLine(LeastBorrowedAuth[i]);
-            }
+            };
+
+            /*
+            //Most active reader
             Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+            Console.WriteLine("\n\n\tMOST ACTIVE READER:\n");
+            LoadInvoices();
+            //CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow
+            for (int i = 0; i < Invoices.Count; i++)
+            {
+                var(CustomerID, BorrowedOn, BookID, BookName,BookAuthor, Borrow) = Invoices[i];
+                // BookNames.Add(BookName);
+                ReaderIDs.Add(CustomerID);
+                TransactionType.Add(Borrow); //Will be 1 if Borrow transaction 0 if return transaction
+                
+            }
+
+            //Finding recurrences of each ID and choosing maximum
+            int Occurances;
+            for (int i = 0; i < ReaderIDs.Count; i++)
+            {
+                if (ReaderIDs.Contains())
+                Occurances = ReaderIDs.Count(ReaderIDs[i]);
+            }
+
+            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+            */
         }
 
 
@@ -1201,6 +1261,35 @@ namespace BasicLibrary
                             if (parts.Length == 4)
                             {
                                 Admins.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading admins from file: {ex.Message}");
+            }
+        }
+
+
+        //LOADS INVOICE RECORDS 
+        static void LoadInvoices()
+        {
+            Invoices.Clear();
+            try
+            {
+                if (File.Exists(InvoicePath))
+                {
+                    using (StreamReader reader = new StreamReader(InvoicePath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 6)
+                            {
+                                Invoices.Add((int.Parse(parts[0]), DateTime.Parse(parts[1]), int.Parse(parts[2]), parts[3], parts[4], int.Parse(parts[5])));
                             }
                         }
                     }
