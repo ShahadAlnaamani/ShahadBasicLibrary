@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Formats.Asn1;
@@ -61,9 +62,14 @@ namespace BasicLibrary
                 Console.WriteLine(" 2. Librarian Login");
                 Console.WriteLine(" 3. Register");
                 Console.WriteLine(" 4. Exit\n");
-                int Option = 0;
+                int Option;
                 Console.Write("Enter: ");
-                Option = int.Parse(Console.ReadLine());
+
+                while (!int.TryParse(Console.ReadLine(), out Option))
+                { 
+                    Console.WriteLine("Invalid option please enter a number greater than 0.");
+                }
+                
 
                 switch (Option)
                 {
@@ -154,7 +160,11 @@ namespace BasicLibrary
             Console.WriteLine(" 3. Exit\n");
             int Identity = 0;
             Console.Write("Enter: ");
-            Identity = int.Parse(Console.ReadLine());
+
+            while (!int.TryParse(Console.ReadLine(), out Identity))
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
 
             switch (Identity)
             {
@@ -412,7 +422,12 @@ namespace BasicLibrary
                 Console.WriteLine(" 3. Return A Book");
                 Console.WriteLine(" 4. Log out\n");
                 Console.Write("Enter: ");
-                int choice = int.Parse(Console.ReadLine());
+                int choice;
+
+                while (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Invalid option please enter a number greater than 0.");
+                }
 
                 switch (choice)
                 {
@@ -467,7 +482,13 @@ namespace BasicLibrary
 
                 Console.Write("\n\t\tBORROWING A BOOK:\n\n");
                 Console.Write("Enter ID: ");
-                int BorrowID = int.Parse(Console.ReadLine());
+                int BorrowID;
+
+                while (!int.TryParse(Console.ReadLine(), out BorrowID))
+                {
+                    Console.WriteLine("Invalid option please enter a number greater than 0.");
+                }
+
                 int Location = -1;
 
                 for (int i = 0; i < Books.Count; i++)
@@ -548,7 +569,12 @@ namespace BasicLibrary
         {
             Console.Write("\n\t\tRETURN A BOOK:\n\n");
             Console.Write("Enter Book ID: ");
-            int ReturnBook = int.Parse(Console.ReadLine());
+            int ReturnBook;
+
+            while (!int.TryParse(Console.ReadLine(), out ReturnBook) || ReturnBook < 0)
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
 
 
             for (int i = 0; i < Books.Count; i++)
@@ -801,7 +827,12 @@ namespace BasicLibrary
                 Console.WriteLine(" 6. Show Reports");
                 Console.WriteLine(" 7. Save and Exit\n");
                 Console.Write("Enter: ");
-                int choice = int.Parse(Console.ReadLine());
+                int choice;
+
+                while (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Invalid option please enter a number greater than 0.");
+                }
 
                 switch (choice)
                 {
@@ -861,10 +892,18 @@ namespace BasicLibrary
             string Author= Console.ReadLine().Trim();  
 
             Console.Write("Enter Book ID: ");
-            int ID = int.Parse(Console.ReadLine());
+            int ID;
+            while (!int.TryParse(Console.ReadLine(), out ID) || ID < 0)
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
 
             Console.Write("Enter Book Quantity: ");
-            int Qty = int.Parse(Console.ReadLine());
+            int Qty;
+            while (!int.TryParse(Console.ReadLine(), out Qty) || Qty < 0)
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
 
             Console.WriteLine("\n");
             Books.Add(  (Name, Author, ID, Qty, 0 )  );
@@ -906,7 +945,12 @@ namespace BasicLibrary
             Console.WriteLine(" 3. Add More Copies of Available Books");
             Console.WriteLine(" 4. Save and exit\n");
             Console.Write("Enter Option:");
-            int Choice = int.Parse(Console.ReadLine());
+            int Choice;
+
+            while (!int.TryParse(Console.ReadLine(), out Choice))
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
 
             Console.Clear();
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
@@ -943,7 +987,12 @@ namespace BasicLibrary
                     int Index = GetInformation();
                     Console.WriteLine("\n\n\t\tEDIT BOOK QUANTITY:\n");
                     Console.Write("\nHow many would you like to add: ");
-                    int Add = int.Parse(Console.ReadLine());
+                    int Add;
+
+                    while (!int.TryParse(Console.ReadLine(), out Add))
+                    {
+                        Console.WriteLine("Invalid option please enter a number greater than 0.");
+                    }
 
                     //Checking the positive number inputted so that books aren't minused 
                     if (Add > 0)
@@ -998,8 +1047,12 @@ namespace BasicLibrary
         {
             ViewAllBooks();
             Console.Write("Enter ID: ");
-            int ChangeID = int.Parse(Console.ReadLine());
+            int ChangeID;
 
+            while (!int.TryParse(Console.ReadLine(), out ChangeID))
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
 
             //Finding the index of given ID
             List<int> LocationList = new List<int>();
