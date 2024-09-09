@@ -32,7 +32,7 @@ namespace BasicLibrary
         //Info saved -> ID|UserName|Password|Email
         static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts.txt";
 
-        //Borrowed (1) means book was taken out, 0 means it was returned
+        //Borrowed 1 means book was taken out, 0 means it was returned
         static string InvoicePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Invoices.txt";
 
         static int CurrentUser = -1; //This is the users ID -1 means null
@@ -46,6 +46,8 @@ namespace BasicLibrary
             // empties list so that there are no repititions
             Admins.Clear();
             Users.Clear();
+            Books.Clear();
+            LoadBooksFromFile();
             LoadUsers();
             LoadAdmins();
 
@@ -116,7 +118,7 @@ namespace BasicLibrary
 
                             AdminPage();
                         }
-                        LibrarianLogin(AdminUsr, AdminPswd); //-> system()
+                        LibrarianLogin(AdminUsr, AdminPswd); 
                         break;
 
                     case 3:
@@ -138,9 +140,6 @@ namespace BasicLibrary
 
 
 
-
-
-
         //- - - - - - - - - - - - - FUNCTIONS SHARED BETWEEN ADMIN AND USER - - - - - - - - - - - - - - - //
 
         //REGISTERS NEW USERS
@@ -148,7 +147,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-            Console.Write("\n\t\t REGISTER:\n\n ");
+            Console.Write("\n\t\t REGISTER:\n\n");
             Console.WriteLine("OPTIONS: ");
             Console.WriteLine(" 1. Reader");
             Console.WriteLine(" 2. Librarian");
@@ -160,13 +159,13 @@ namespace BasicLibrary
             switch (Identity)
             {
                 case 1:
-                    //user registration
+                    //User registration
                     Console.Clear();
                     Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                    Console.Write("\n\t\t USER REGISTRATION:\n\n ");
+                    Console.Write("\n\t\t USER REGISTRATION:\n\n");
                     Console.WriteLine("Welcome new reader!");
-                    string UserPassword1 = " ";
-                    string UserPassword2 = "  ";// first one has one space second has two spaces to ensure they don't match so they don't affect conditions below
+                    string UserPassword1 = " "; //This has one space
+                    string UserPassword2 = "  "; //This has two spaces so that it doesn't affect do while loop condition below
                     string Email1 = " ";
                     string Email2 = "  ";
 
@@ -189,7 +188,7 @@ namespace BasicLibrary
                         UserPassword2 = Console.ReadLine();
                     } while (UserPassword1 != UserPassword2);
 
-                    //geneate id
+                    //Geneate ID
                     int UserID = Users.Count + 10;
 
                     Users.Add((UserID, UserName, UserPassword1, Email1));
@@ -197,10 +196,10 @@ namespace BasicLibrary
                     break;
 
                 case 2:
-                    //admin registration
+                    //Admin registration
                     Console.Clear();
                     Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                    Console.Write("\n\t\t ADMIN REGISTRATION:\n\n ");
+                    Console.Write("\n\t\t ADMIN REGISTRATION:\n\n");
 
 
                     //AUTHENTICATE MASTER ADMIN 
@@ -214,8 +213,8 @@ namespace BasicLibrary
                     if (Auth != false)
                     {
                         Console.WriteLine("Welcome new librarian!");
-                        string AdminPassword1 = " ";
-                        string AdminPassword2 = "  ";// first one has one space second has two spaces to ensure they don't match so they don't affect conditions below
+                        string AdminPassword1 = " "; //This has one space
+                        string AdminPassword2 = "  "; //This has two spaces so that it doesn't affect do while loop condition below
                         string AdminEmail1 = " ";
                         string AdminEmail2 = "  ";
 
@@ -238,8 +237,8 @@ namespace BasicLibrary
                             AdminPassword2 = Console.ReadLine();
                         } while (AdminPassword1 != AdminPassword2);
 
-                        //geneate id
-                        int AdminID = Users.Count + 10;
+                        //Geneate id
+                        int AdminID = Admins.Count + 10;
 
                         Admins.Add((AdminID, AdminUserName, AdminPassword1, AdminEmail1));
                         SaveAdmins();
@@ -256,45 +255,6 @@ namespace BasicLibrary
             }
         }
 
-        //MAIN LIBRARY SYSTEM
-        static void System()
-        {
-            Books.Clear();
-            LoadBooksFromFile();
-
-            bool ExitFlag = false;
-            do
-            {
-                Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                Console.WriteLine("OPTIONS: ");
-                Console.WriteLine(" 1. Reader");
-                Console.WriteLine(" 2. Librarian");
-                Console.WriteLine(" 3. Exit\n");
-                int UserIdentity = 0;
-                Console.Write("Enter: ");
-                UserIdentity = int.Parse(Console.ReadLine());
-
-                switch (UserIdentity)
-                {
-                    case 1:
-                        UserPage();
-                        break;
-
-                    case 2:
-                        AdminPage();
-                        break;
-
-                    case 3:
-                        LeaveLibrary(ExitFlag);
-                        ExitFlag = true;
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
-                        break;
-                }
-            } while (!ExitFlag);
-        }
 
         //RETRIEVES BOOK DATA FROM FILE 
         static void LoadBooksFromFile()
@@ -340,8 +300,6 @@ namespace BasicLibrary
                 Console.WriteLine("Press any key to leave.");
                 Console.ReadKey();
             }
-
-            //save to file 
         }
 
 
@@ -350,7 +308,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-            Console.Write("\n\t\tAVAILABLE BOOKS:\n\n ");
+            Console.Write("\n\t\tAVAILABLE BOOKS:\n\n");
             StringBuilder sb = new StringBuilder();
 
             int BookNumber = 0;
@@ -483,9 +441,8 @@ namespace BasicLibrary
 
                     case 4:
                         SaveBooksToFile();
-                        Console.WriteLine("Exiting...");
                         CurrentUser = -1;
-                        ExitFlag = true;
+                        LeaveLibrary(ExitFlag);
                         break;
 
                     default:
@@ -508,7 +465,7 @@ namespace BasicLibrary
             {
                 ViewAllBooks();
 
-                Console.Write("\n\t\tBORROWING A BOOK:\n\n ");
+                Console.Write("\n\t\tBORROWING A BOOK:\n\n");
                 Console.Write("Enter ID: ");
                 int BorrowID = int.Parse(Console.ReadLine());
                 int Location = -1;
@@ -589,7 +546,7 @@ namespace BasicLibrary
         //RETURN BOOK
         static void ReturnBook()
         {
-            Console.Write("\n\t\tRETURN A BOOK:\n\n ");
+            Console.Write("\n\t\tRETURN A BOOK:\n\n");
             Console.Write("Enter Book ID: ");
             int ReturnBook = int.Parse(Console.ReadLine());
 
@@ -895,9 +852,10 @@ namespace BasicLibrary
         //GETS BOOK INFORMATION FROM THE USER 
         static void AddNewBook() 
         {
-            Console.Write("\n\t\tADDING NEW BOOK:\n\n ");
+            Console.Clear();
+            Console.Write("\n\t\tADDING NEW BOOK:\n\n");
             Console.Write("Enter Book Name: ");
-            string Name = Console.ReadLine().Trim(); //trim added for more accurate search  
+            string Name = Console.ReadLine().Trim(); //Trim added for more accurate search  
 
             Console.Write("Enter Book Author: ");
             string Author= Console.ReadLine().Trim();  
@@ -917,7 +875,7 @@ namespace BasicLibrary
         //ALLOWS USER TO SEARCH FOR BOOK
         static void SearchForBook()
         {
-            Console.Write("\n\t\tSEARCH LIBRARY:\n\n ");
+            Console.Write("\n\t\tSEARCH LIBRARY:\n\n");
             Console.Write("Book name: ");
             string name = (Console.ReadLine().Trim()).ToLower();  
             bool flag=false;
