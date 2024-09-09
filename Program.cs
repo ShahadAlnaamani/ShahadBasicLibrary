@@ -12,6 +12,10 @@ namespace BasicLibrary
     internal class Program
     {
         static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)>();
+
+        //Borrow = 1 means book was taken out, 0 means returned 
+        static List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)> Invoices = new List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)>();
+
         static List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)> Admins = new List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)>();
         static List<(int UserID, string UserUserName, string UserPswd, string UserEmail)> Users = new List<(int UserID, string UserUserName, string UserPswd, string UserEmail)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
@@ -27,6 +31,9 @@ namespace BasicLibrary
 
         //Info saved -> ID|UserName|Password|Email
         static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts.txt";
+
+        //Borrowed (1) means book was taken out, 0 means it was returned
+        static string InvoicePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Invoices.txt";
 
         static int CurrentUser = -1; //This is the users ID -1 means null
 
@@ -61,6 +68,7 @@ namespace BasicLibrary
                     case 1:
                         Console.Clear();
                         Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                        Console.Write("\n\t\tREADER LOGIN:\n\n");
                         Console.Write("Username: ");
                         string Usr = Console.ReadLine();
                         Console.Write("Password: ");
@@ -69,15 +77,46 @@ namespace BasicLibrary
 
                         if (UsrAuth)
                         {
+
+                            for (int i = 0; i < Users.Count; i++)
+                            {
+                                if (Users[i].UserUserName == Usr)
+                                {
+                                    CurrentUser = Users[i].UserID;
+                                }
+                            }
+
                             UserPage();
                         }
 
-                        else 
+                        else
                         { Console.WriteLine("Incorrect login details please try again :("); }
                         break;
 
                     case 2:
-                        //LibrarianLogin(); -> system()
+                        Console.Clear();
+                        Console.WriteLine("- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                        Console.Write("\n\t\tLIBRARIAN LOGIN:\n\n");
+                        Console.Write("Username: ");
+                        string AdminUsr = Console.ReadLine();
+                        Console.Write("Password: ");
+                        string AdminPswd = Console.ReadLine();
+                        bool AdminAuth = LibrarianLogin(AdminUsr, AdminPswd);
+
+                        if (AdminAuth)
+                        {
+
+                            for (int i = 0; i < Users.Count; i++)
+                            {
+                                if (Admins[i].AdminUserName == AdminUsr)
+                                {
+                                    CurrentUser = Admins[i].AdminID;
+                                }
+                            }
+
+                            AdminPage();
+                        }
+                        LibrarianLogin(AdminUsr, AdminPswd); //-> system()
                         break;
 
                     case 3:
@@ -170,7 +209,7 @@ namespace BasicLibrary
                     Console.Write("Master Password: ");
                     string Pswd = Console.ReadLine();
 
-                    bool Auth =  CheckMaster(Usr, Pswd);
+                    bool Auth = CheckMaster(Usr, Pswd);
 
                     if (Auth != false)
                     {
@@ -500,6 +539,9 @@ namespace BasicLibrary
                             Books[Location] = ((Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookID, Quantity: NewQuantity, Borrowed: NewBorrowed));
                             SaveBooksToFile();
 
+                            Invoices.Add((CurrentUser, DateTime.Now, Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, 1));
+                            SaveInvoice();
+
                             //Printing recipt 
                             DateTime Now = DateTime.Now;
                             Console.Clear();
@@ -641,6 +683,25 @@ namespace BasicLibrary
             }
         }
 
+        static void SaveInvoice()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(InvoicePath))
+                {
+                    foreach (var invoice in Invoices)
+                    {
+                        writer.WriteLine($"{invoice.CustomerID}|{invoice.BorrowedOn}|{invoice.BookID}|{invoice.BookName}|{invoice.BookAuthor}|{invoice.Borrow}");
+                    }
+                }
+                Console.WriteLine("Invoices saved to file successfully! :)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+        }
+
 
 
 
@@ -668,7 +729,7 @@ namespace BasicLibrary
             Console.WriteLine("WARNING: Please note that these details cannot be changed later make sure to remember them :)\n");
             Console.Write("Enter master username: ");
             string MasterUserName = Console.ReadLine();
-            
+
             Console.Write("Enter master password: ");
             string MasterPassword;
             string Password1;
@@ -721,7 +782,41 @@ namespace BasicLibrary
                                     i = true;
                                 }
                             }
-                          
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading admins from file: {ex.Message}");
+            }
+            return i;
+        }
+
+
+        //ADMIN LOGIN
+        static bool LibrarianLogin(string Usr, string Pswd)
+        {
+            bool i = false;
+            try
+            {
+                if (File.Exists(AdminPath))
+                {
+                    using (StreamReader reader = new StreamReader(AdminPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 4)
+                            {
+                                if (Usr == parts[1] && parts[2] == Pswd)
+                                {
+                                    i = true;
+                                }
+                            }
+
                         }
                     }
                 }
