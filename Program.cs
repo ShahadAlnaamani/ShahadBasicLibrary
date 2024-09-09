@@ -1163,6 +1163,8 @@ namespace BasicLibrary
         //SHOWS STATISTICS ON BORROWED AND AVAILABLE BOOKS 
         static public void Reports()
         {
+            Console.Clear();
+
             //List available books 
             ViewAllBooks();
 
