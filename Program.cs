@@ -100,7 +100,7 @@ namespace BasicLibrary
                         else
                         { 
                             Console.WriteLine("Incorrect login details please try again :(");
-                            Console.WriteLine("Press any key to try again.");
+                            Console.WriteLine("Press enter to try again.");
                             Console.ReadKey();
                         }
                         break;
@@ -132,7 +132,7 @@ namespace BasicLibrary
                         else
                         {
                             Console.WriteLine("Incorrect login details please try again :(");
-                            Console.WriteLine("Press any key to try again.");
+                            Console.WriteLine("Press enter to try again.");
                             Console.ReadKey();
                         }
                         
@@ -267,7 +267,7 @@ namespace BasicLibrary
                     else
                     { 
                         Console.WriteLine("The inputted credentials are incorrect, please try again :(");
-                        Console.WriteLine("Press any key to try again. ");
+                        Console.WriteLine("Press enter to try again. ");
                         Console.ReadKey();
                     }
                     break;
@@ -481,7 +481,7 @@ namespace BasicLibrary
                         break;
 
                 }
-                Console.WriteLine("Press any key to continue.");
+                Console.WriteLine("Press enter to continue.");
                 string cont = Console.ReadLine();
                 Console.Clear();
 
@@ -549,7 +549,7 @@ namespace BasicLibrary
                             Console.WriteLine("\t\tHappy Reading :)");
                             Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n ");
 
-                            Console.WriteLine("Press any key to continue");
+                            Console.WriteLine("Press enter to continue");
                             Console.ReadKey();
 
                             Reccomend(Books[Location].BookAuthor);
@@ -619,7 +619,7 @@ namespace BasicLibrary
                         int NewBorrowCount = (Books[i].Borrowed - 1);
                         int NewBookQuantity = (Books[i].BookQuantity + 1);
                         Books[i] = ((Books[i].BookName, Books[i].BookAuthor, Books[i].BookID, BookQuantity: NewBookQuantity, Borrowed: NewBorrowCount));
-                        Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress any key to print your recipt");
+                        Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress enter to print your recipt");
                         Console.ReadKey();
                         SaveBooksToFile();
                         Console.Clear();
@@ -627,7 +627,7 @@ namespace BasicLibrary
                     }
                     else 
                     {
-                        Console.WriteLine("This book has not been borrowed. \nPress any key to continue."); 
+                        Console.WriteLine("This book has not been borrowed. \nPress enter to continue."); 
                         Console.ReadKey();
 
                     }
@@ -712,7 +712,7 @@ namespace BasicLibrary
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(InvoicePath))
+                using (StreamWriter writer = new StreamWriter(InvoicePath, true))
                 {
                     foreach (var invoice in Invoices)
                     {
@@ -933,7 +933,7 @@ namespace BasicLibrary
                         break;
 
                 }
-                Console.WriteLine("Press any key to continue.");
+                Console.WriteLine("Press enter to continue.");
                 string cont = Console.ReadLine();
                 Console.Clear();
 
@@ -1252,7 +1252,7 @@ namespace BasicLibrary
             {
                 Console.WriteLine(LeastBorrowedAuth[i]);
             };
-            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+           // Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
             /*
             //Most active reader
             Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
@@ -1269,15 +1269,47 @@ namespace BasicLibrary
             }
 
             //Finding recurrences of each ID and choosing maximum
-            int Occurances;
+            int Occurances = 0;
+            int CompareID = 0;
+            int HighestID = 0;
+
+
             for (int i = 0; i < ReaderIDs.Count; i++)
             {
-                if (ReaderIDs.Contains())
-                Occurances = ReaderIDs.Count(ReaderIDs[i]);
+                /*
+                if (ReaderIDs.Contains(ReaderIDs[i])) //Counting how many times ID repeats
+                {
+                    Occurances++;
+                    
+                }
+                
+                for (int j = 0; j < ReaderIDs.Count; j++)
+                {
+                    if (ReaderIDs[i] == ReaderIDs[j])
+                    {
+                        Occurances++;
+                    }
+                }
+
+
+
+
+
+
+                int b = ReaderIDs[i].Count();
+
+                if (Occurances > CompareID)
+                {
+                    HighestID = ReaderIDs[i];
+                }
+                Occurances = 0;
             }
+
+            Console.WriteLine("Reader ID: " + HighestID);
 
             Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
             */
+            
         }
 
 
@@ -1338,7 +1370,7 @@ namespace BasicLibrary
             {
                 if (File.Exists(InvoicePath))
                 {
-                    using (StreamReader reader = new StreamReader(InvoicePath))
+                    using (StreamReader reader = new StreamReader(InvoicePath, true))
                     {
                         string line;
                         while ((line = reader.ReadLine()) != null)
