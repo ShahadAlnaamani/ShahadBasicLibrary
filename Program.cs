@@ -20,6 +20,7 @@ namespace BasicLibrary
         static List<(int AdminID, string AdminUserName, string AdminEmail, string AdminPswd)> Admins = new List<(int AdminID, string AdminUserName, string AdminEmail, string AdminPswd)>();
         static List<(int UserID, string UserUserName, string UserEmail, string UserPswd)> Users = new List<(int UserID, string UserUserName, string UserEmail, string UserPswd)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
+        static List<(int CategoryID, string CategoryName, int NoOfBooks)> Categories = new List<(int CategoryID, string CategoryName, int NoOfBooks)>();
 
         //MasterAdmin
         static string MasterPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Master.txt";
@@ -27,14 +28,18 @@ namespace BasicLibrary
         //Info saved -> BookTitle|Author|ID|Quantity|Borrowed
         static string BooksPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\BookRecords.txt";
 
-        //Info saved -> ID|UserName|Password|Email
+        //Info saved -> ID|UserName|Email|Password
         static string AdminPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\AdminAccounts.txt";
 
-        //Info saved -> ID|UserName|Password|Email
+        //Info saved -> ID|UserName|Email|Password
         static string UserPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\UserAccounts.txt";
 
         //Borrowed 1 means book was taken out, 0 means it was returned
         static string InvoicePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Invoices.txt";
+
+
+        //Info saved -> Category ID|CategoryName|NumberOfBooks
+        static string CategoriesPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Categories.txt";
 
         static int CurrentUser = -1; //This is the users ID -1 means null
 
@@ -383,8 +388,54 @@ namespace BasicLibrary
         }
 
 
+        //LOADING CATEGORY INFORMATION FROM FILE
+        static void LoadCategoriesFromFile()
+        {
+            try
+            {
+                if (File.Exists(CategoriesPath))
+                {
+                    using (StreamReader reader = new StreamReader(CategoriesPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 3)
+                            {
+                                Categories.Add((int.Parse(parts[0]), parts[1], int.Parse(parts[2])));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading from file: {ex.Message}");
+            }
+        }
 
 
+
+        //SAVING CATEGORY INFORMATION TO FILE 
+        static void SaveCategories()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(CategoriesPath))
+                {
+                    foreach (var category in Categories)
+                    {
+                        writer.WriteLine($"{category.CategoryID}|{category.CategoryName}|{category.NoOfBooks}");
+                    }
+                }
+                Console.WriteLine("Categories saved to file successfully! :)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+        }
 
 
         //- - - - - - - - - - - - - - - - - - - - - USER FUNCTIONS  - - - - - - - - - - - - - - - - - - -//
