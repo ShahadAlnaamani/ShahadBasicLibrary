@@ -17,7 +17,7 @@ namespace BasicLibrary
         //Borrow = 1 means book was taken out, 0 means returned 
         static List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)> Invoices = new List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)>();
 
-        static List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)> Admins = new List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)>();
+        static List<(int AdminID, string AdminUserName, string AdminEmail, string AdminPswd)> Admins = new List<(int AdminID, string AdminUserName, string AdminEmail, string AdminPswd)>();
         static List<(int UserID, string UserUserName, string UserEmail, string UserPswd)> Users = new List<(int UserID, string UserUserName, string UserEmail, string UserPswd)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
 
@@ -855,7 +855,7 @@ namespace BasicLibrary
                             var parts = line.Split('|');
                             if (parts.Length == 4)
                             {
-                                if (Usr == parts[1] && parts[2] == Pswd)
+                                if (Usr == parts[1] && parts[3] == Pswd)
                                 {
                                     i = true;
                                 }
@@ -1322,7 +1322,7 @@ namespace BasicLibrary
                 {
                     foreach (var admin in Admins)
                     {
-                        writer.WriteLine($"{admin.AdminID}|{admin.AdminUserName}|{admin.AdminPswd}|{admin.AdminEmail}");
+                        writer.WriteLine($"{admin.AdminID}|{admin.AdminUserName}|{admin.AdminEmail}|{admin.AdminPswd}");
                     }
                 }
                 Console.WriteLine("Admin details saved to file successfully! :)");
