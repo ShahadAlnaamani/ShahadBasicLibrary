@@ -21,6 +21,7 @@ namespace BasicLibrary
         static List<(int UserID, string UserUserName, string UserEmail, string UserPswd)> Users = new List<(int UserID, string UserUserName, string UserEmail, string UserPswd)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
         static List<(int CategoryID, string CategoryName, int NoOfBooks)> Categories = new List<(int CategoryID, string CategoryName, int NoOfBooks)>();
+        static List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)> Borrowing = new List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)>();
 
         //MasterAdmin
         static string MasterPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Master.txt";
@@ -37,9 +38,13 @@ namespace BasicLibrary
         //Borrowed 1 means book was taken out, 0 means it was returned
         static string InvoicePath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Invoices.txt";
 
-
         //Info saved -> Category ID|CategoryName|NumberOfBooks
         static string CategoriesPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Categories.txt";
+
+        //Info saved -> UserID|BorrowID|BorrowDate|RetrunByDate|ActualReturnDate|Rating|IsReturned
+        static string BorrowingPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Borrowing.txt";
+
+
 
         static int CurrentUser = -1; //This is the users ID -1 means null
 
@@ -132,7 +137,6 @@ namespace BasicLibrary
                             }
 
                             AdminPage();
-                            LibrarianLogin(AdminUsr, AdminPswd);
                         }
                         else
                         {
@@ -437,6 +441,55 @@ namespace BasicLibrary
             }
         }
 
+
+        //LOADING CATEGORY INFORMATION FROM FILE
+        static void LoadBorrowsFromFile()
+        {
+            try
+            {
+                if (File.Exists(BorrowingPath))
+                {
+                    using (StreamReader reader = new StreamReader(BorrowingPath))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length == 7)
+                            {
+                                Borrowing.Add((int.Parse(parts[0]), int.Parse(parts[1]), DateTime.Parse(parts[2]), DateTime.Parse(parts[3]), DateTime.Parse(parts[4]), int.Parse(parts[5]), bool.Parse(parts[6])));
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading from file: {ex.Message}");
+            }
+        }
+
+
+
+        //SAVING BORROWING INFORMATION TO FILE 
+        static void SaveBorrowInfo()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(BorrowingPath))
+                {
+                    foreach (var borrow in Borrowing)
+                    {
+                        writer.WriteLine($"{borrow.UserID}|{borrow.BorrowID}|{borrow.BorrowedOn}|{borrow.ReturnBy}|{borrow.ActualReturn}|{borrow.Rating}|{borrow.IsReturned}");
+                    }
+                }
+                Console.WriteLine("Borrows saved to file successfully! :)");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving to file: {ex.Message}");
+            }
+        }
 
         //- - - - - - - - - - - - - - - - - - - - - USER FUNCTIONS  - - - - - - - - - - - - - - - - - - -//
 
