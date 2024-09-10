@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Formats.Asn1;
 using System.Globalization;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml.Linq;
 
@@ -21,7 +22,7 @@ namespace BasicLibrary
         static List<(int UserID, string UserUserName, string UserEmail, string UserPswd)> Users = new List<(int UserID, string UserUserName, string UserEmail, string UserPswd)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
         static List<(int CategoryID, string CategoryName, int NoOfBooks)> Categories = new List<(int CategoryID, string CategoryName, int NoOfBooks)>();
-        static List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)> Borrowing = new List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)>();
+        static List<(int UserID, int BookID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)> Borrowing = new List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)>();
 
         //MasterAdmin
         static string MasterPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Master.txt";
@@ -58,9 +59,13 @@ namespace BasicLibrary
             Admins.Clear();
             Users.Clear();
             Books.Clear();
+            Categories.Clear();
+            Borrowing.Clear();
             LoadBooksFromFile();
             LoadUsers();
             LoadAdmins();
+            LoadCategoriesFromFile();
+            LoadBorrowsFromFile();
 
             bool Authentication = false;
             do
@@ -480,7 +485,7 @@ namespace BasicLibrary
                 {
                     foreach (var borrow in Borrowing)
                     {
-                        writer.WriteLine($"{borrow.UserID}|{borrow.BorrowID}|{borrow.BorrowedOn}|{borrow.ReturnBy}|{borrow.ActualReturn}|{borrow.Rating}|{borrow.IsReturned}");
+                        writer.WriteLine($"{borrow.UserID}|{borrow.BookID}|{borrow.BorrowedOn}|{borrow.ReturnBy}|{borrow.ActualReturn}|{borrow.Rating}|{borrow.IsReturned}");
                     }
                 }
                 Console.WriteLine("Borrows saved to file successfully! :)");
@@ -509,7 +514,7 @@ namespace BasicLibrary
                             var parts = line.Split('|');
                             if (parts.Length == 4)
                             {
-                                if (Usr == parts[1] && parts[2] == Pswd)
+                                if (Usr == parts[1] && parts[3] == Pswd)
                                 {
                                     i = true;
                                 }
@@ -537,9 +542,10 @@ namespace BasicLibrary
                 Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
                 Console.WriteLine("\t\t\tREADER OPTIONS:");
                 Console.WriteLine(" 1. View All Books");
-                Console.WriteLine(" 2. Borrow A Book");
-                Console.WriteLine(" 3. Return A Book");
-                Console.WriteLine(" 4. Log out\n");
+                Console.WriteLine(" 2. Search For A Book");
+                Console.WriteLine(" 3. Borrow A Book");
+                Console.WriteLine(" 4. Return A Book");
+                Console.WriteLine(" 5. Log out\n");
                 Console.Write("Enter: ");
                 int choice;
 
@@ -566,14 +572,18 @@ namespace BasicLibrary
                         break;
 
                     case 2:
-                        BorrowBook();
+                        UserSearchForBook();
                         break;
 
                     case 3:
-                        ReturnBook();
+                        BorrowBook();
                         break;
 
                     case 4:
+                        ReturnBook();
+                        break;
+
+                    case 5:
                         SaveBooksToFile();
                         CurrentUser = -1;
                         LeaveLibrary(ExitFlag);
@@ -631,17 +641,28 @@ namespace BasicLibrary
 
                         if (Checkout != "no")
                         {
+
+                            DateTime Now = DateTime.Now;
+
                             //Decreasing book quantity 
                             int NewQuantity = (Books[Location].BookQuantity - 1);
                             int NewBorrowed = (Books[Location].Borrowed + 1);
                             Books[Location] = ((Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, Quantity: NewQuantity, Borrowed: NewBorrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
+
+                            //Appending data to borrow tuple list
+                            System.TimeSpan timeSpan = new System.TimeSpan(Books[Location].BorrowPeriod);
+                            System.DateTime Return = Now + timeSpan;
+
+                            //DEFUALT: actual return is the return by date | rating -1 | isReturned false
+                            Borrowing.Add((UserID: CurrentUser, BorrowID: Books[Location].BookID, BorrowedOn:Now, ReturnBy: Return, ActualReturn: Return, Rating:  -1, IsReturned: false));
+
+                            SaveBorrowInfo();
                             SaveBooksToFile();
 
                             Invoices.Add((CurrentUser, DateTime.Now, Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, 1));
                             SaveInvoice();
 
                             //Printing recipt 
-                            DateTime Now = DateTime.Now;
                             Console.Clear();
                             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
                             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
@@ -701,15 +722,22 @@ namespace BasicLibrary
         //RETURN BOOK
         static void ReturnBook()
         {
+            bool Found = false;
+            int ReturnBook;
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
             Console.Write("\n\t\tRETURN A BOOK:\n\n");
             Console.Write("Enter Book ID: ");
-            int ReturnBook;
+            
 
             while (!int.TryParse(Console.ReadLine(), out ReturnBook) || ReturnBook < 0)
             {
                 Console.WriteLine("Invalid option please enter a number greater than 0.");
+                while (ReturnBook < 0)
+                {
+                    Console.Write("Enter Book ID: ");
+                    ReturnBook = Console.Read();
+                }
             }
 
 
@@ -720,24 +748,61 @@ namespace BasicLibrary
                     //Checking if this book has been borrowed -> handels case of books being returned without being borrowed (ie new books added)
                     if (Books[i].Borrowed > 0)
                     {
+                        DateTime Now = DateTime.Now;
                         int NewBorrowCount = (Books[i].Borrowed - 1);
                         int NewBookQuantity = (Books[i].BookQuantity + 1);
                         Books[i] = ((Books[i].BookID, Books[i].BookName, Books[i].BookAuthor, Quantity: NewBookQuantity, Borrowed: NewBorrowCount, Books[i].Price, Books[i].Category, Books[i].BorrowPeriod));
+
+                        // Borrowing.Add((UserID: CurrentUser, BorrowID: NewBID, BorrowedOn:Now, ReturnBy: Return, ActualReturn: Return, Rating:  -1, IsReturned: false));
+                        Console.WriteLine($"Please rate {Books[i].BookName} out of 5");
+                        Console.Write("Rating: ");
+
+                        int UserRate;
+                        while (!int.TryParse(Console.ReadLine(), out UserRate) || UserRate < 0)
+                        {
+                            Console.WriteLine("Invalid input please enter a number greater than 0.");
+                            while (UserRate < 0 || UserRate > 6)
+                            {
+                                Console.WriteLine("Invalid input please enter a number between 0 and 5.");
+                                Console.Write("Rating: ");
+                                UserRate = int.Parse(Console.ReadLine());
+                            }
+                        }
+
+                        int Location = -1;
+                        for (int j = 0; j < Borrowing.Count; j++)
+                        {
+                            if (Borrowing[j].BookID == ReturnBook)
+                            {
+                                Location = j;
+                                break;
+                            }
+                        }
+                        
+                        Borrowing[Location] = ((Borrowing[Location].UserID, Borrowing[Location].BookID, Borrowing[Location].BorrowedOn, Borrowing[Location].ReturnBy, ActualRetrun: Now, Rating: UserRate, IsReturned: true));
+
                         Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress enter to print your recipt");
                         Console.ReadKey();
                         SaveBooksToFile();
+                        SaveBorrowInfo();
                         Console.Clear();
                         ReturnRecipt(i);
+                        Found = true;
                     }
                     else 
                     {
                         Console.WriteLine("This book has not been borrowed. \nPress enter to continue."); 
                         Console.ReadKey();
+                        Found = true;
 
                     }
                     break;
                 }
+                Found = true;
+
+               
             }
+             if (Found != true) { Console.WriteLine("Invalid Book ID :("); }
 
 
         }
@@ -848,6 +913,31 @@ namespace BasicLibrary
 
             //Most popular book -> suggest 
         
+        }
+
+
+        //ALLOWS USER TO SEARCH FOR BOOK WITH OUTPUTS SUITED FOR USER 
+        static void UserSearchForBook()
+        {
+            Console.Clear();
+            Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.Write("\n\t\tSEARCH LIBRARY:\n\n");
+            Console.Write("Book name: ");
+            string name = (Console.ReadLine().Trim()).ToLower();
+            bool flag = false;
+
+            for (int i = 0; i < Books.Count; i++)
+            {
+                if ((Books[i].BookName).ToLower() == name)
+                {
+                    Console.WriteLine($"Book Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nBorrow Period: {Books[i].BorrowPeriod} days");
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag != true)
+            { Console.WriteLine("Book not found :("); }
         }
 
 
@@ -1095,7 +1185,7 @@ namespace BasicLibrary
         }
 
 
-        //ALLOWS USER TO SEARCH FOR BOOK
+        //ALLOWS USER TO SEARCH FOR BOOK - SPECIAL ADMIN OUTPUT 
         static void SearchForBook()
         {
             Console.Clear();
@@ -1109,7 +1199,7 @@ namespace BasicLibrary
             {
                 if ((Books[i].BookName).ToLower() == name)
                 {
-                    Console.WriteLine($"Book Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nAvailable Stock: {Books[i].BookQuantity}\n");
+                    Console.WriteLine($"Book ID: {Books[i].BookID} \nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nAvailable Stock: {Books[i].BookQuantity} \nBorrowed Copies: {Books[i].Borrowed} \nBorrowed Period: {Books[i].BorrowPeriod} ");
                     flag = true;
                     break;
                 }
@@ -1482,7 +1572,8 @@ namespace BasicLibrary
             }
         }
 
-
+/*
+ * Not important to load these as it is only used for store records --> black box kind of thing :)
         //LOADS INVOICE RECORDS 
         static void LoadInvoices()
         {
@@ -1510,5 +1601,6 @@ namespace BasicLibrary
                 Console.WriteLine($"Error loading admins from file: {ex.Message}");
             }
         }
+*/
     }
 }
