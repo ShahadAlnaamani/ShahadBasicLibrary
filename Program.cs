@@ -18,7 +18,7 @@ namespace BasicLibrary
         static List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)> Invoices = new List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)>();
 
         static List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)> Admins = new List<(int AdminID, string AdminUserName, string AdminPswd, string AdminEmail)>();
-        static List<(int UserID, string UserUserName, string UserPswd, string UserEmail)> Users = new List<(int UserID, string UserUserName, string UserPswd, string UserEmail)>();
+        static List<(int UserID, string UserUserName, string UserEmail, string UserPswd)> Users = new List<(int UserID, string UserUserName, string UserEmail, string UserPswd)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
 
         //MasterAdmin
@@ -212,7 +212,7 @@ namespace BasicLibrary
                     //Geneate ID
                     int UserID = Users.Count + 10;
 
-                    Users.Add((UserID, UserName, UserPassword1, Email1));
+                    Users.Add((UserID, UserName, Email1, UserPassword1));
                     SaveUsers();
                     break;
 
@@ -667,7 +667,7 @@ namespace BasicLibrary
                 {
                     foreach (var user in Users)
                     {
-                        writer.WriteLine($"{user.UserID}|{user.UserUserName}|{user.UserPswd}|{user.UserEmail}");
+                        writer.WriteLine($"{user.UserID}|{user.UserUserName}|{user.UserEmail}|{user.UserPswd}");
                     }
                 }
                 Console.WriteLine("User details saved to file successfully! :)");
