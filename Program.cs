@@ -727,11 +727,27 @@ namespace BasicLibrary
         //RETURN BOOK
         static void ReturnBook()
         {
+            List<int> BorrowedBookIDs = new List<int>();
+            double CountDown;  
             bool Found = false;
             int ReturnBook;
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
             Console.Write("\n\t\tRETURN A BOOK:\n\n");
+
+            Console.WriteLine("Borrowed books: ");
+            for (int i = 0; i < Borrowing.Count; i++)
+            {
+                if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
+                { 
+                    CountDown = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
+                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}");
+                    BorrowedBookIDs.Add(Borrowing[i].BookID);
+                    
+                }
+            }
+
+
             Console.Write("Enter Book ID: ");
             
 
@@ -745,71 +761,73 @@ namespace BasicLibrary
                 }
             }
 
-
-            for (int i = 0; i < Books.Count; i++)
+            if (BorrowedBookIDs.Contains(ReturnBook)) //Checking if the user has borrowed the book they are trying to return
             {
-                if (Books[i].BookID == ReturnBook)
+                for (int i = 0; i < Books.Count; i++)
                 {
-                    //Checking if this book has been borrowed -> handels case of books being returned without being borrowed (ie new books added)
-                    if (Books[i].Borrowed > 0)
+                    if (Books[i].BookID == ReturnBook)
                     {
-                        DateTime Now = DateTime.Now;
-                        int NewBorrowCount = (Books[i].Borrowed - 1);
-                        int NewBookQuantity = (Books[i].BookQuantity + 1);
-                        Books[i] = ((Books[i].BookID, Books[i].BookName, Books[i].BookAuthor, Quantity: NewBookQuantity, Borrowed: NewBorrowCount, Books[i].Price, Books[i].Category, Books[i].BorrowPeriod));
-
-                        // Borrowing.Add((UserID: CurrentUser, BorrowID: NewBID, BorrowedOn:Now, ReturnBy: Return, ActualReturn: Return, Rating:  -1, IsReturned: false));
-                        Console.WriteLine($"Please rate {Books[i].BookName} out of 5");
-                        Console.Write("Rating: ");
-
-                        float UserRate;
-                        while (!float.TryParse(Console.ReadLine(), out UserRate) || UserRate < 0)
+                        //Checking if this book has been borrowed -> handels case of books being returned without being borrowed (ie new books added)
+                        if (Books[i].Borrowed > 0)
                         {
-                            Console.WriteLine("Invalid input please enter a number greater than 0.");
-                            while (UserRate < 0 || UserRate > 6)
-                            {
-                                Console.WriteLine("Invalid input please enter a number between 0 and 5.");
-                                Console.Write("Rating: ");
-                                UserRate = float.Parse(Console.ReadLine());
-                            }
-                        }
+                            DateTime Now = DateTime.Now;
+                            int NewBorrowCount = (Books[i].Borrowed - 1);
+                            int NewBookQuantity = (Books[i].BookQuantity + 1);
+                            Books[i] = ((Books[i].BookID, Books[i].BookName, Books[i].BookAuthor, Quantity: NewBookQuantity, Borrowed: NewBorrowCount, Books[i].Price, Books[i].Category, Books[i].BorrowPeriod));
 
-                        int Location = -1;
-                        for (int j = 0; j < Borrowing.Count; j++)
+                            // Borrowing.Add((UserID: CurrentUser, BorrowID: NewBID, BorrowedOn:Now, ReturnBy: Return, ActualReturn: Return, Rating:  -1, IsReturned: false));
+                            Console.WriteLine($"Please rate {Books[i].BookName} out of 5");
+                            Console.Write("Rating: ");
+
+                            float UserRate;
+                            while (!float.TryParse(Console.ReadLine(), out UserRate) || UserRate < 0)
+                            {
+                                Console.WriteLine("Invalid input please enter a number greater than 0.");
+                                while (UserRate < 0 || UserRate > 6)
+                                {
+                                    Console.WriteLine("Invalid input please enter a number between 0 and 5.");
+                                    Console.Write("Rating: ");
+                                    UserRate = float.Parse(Console.ReadLine());
+                                }
+                            }
+
+                            int Location = -1;
+                            for (int j = 0; j < Borrowing.Count; j++)
+                            {
+                                if (Borrowing[j].BookID == ReturnBook)
+                                {
+                                    Location = j;
+                                    break;
+                                }
+                            }
+
+                            Borrowing[Location] = ((Borrowing[Location].UserID, Borrowing[Location].BookID, Borrowing[Location].BorrowedOn, Borrowing[Location].ReturnBy, ActualRetrun: Now, Rating: UserRate, IsReturned: true));
+
+                            Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress enter to print your recipt");
+                            Console.ReadKey();
+                            SaveBooksToFile();
+                            SaveBorrowInfo();
+                            Console.Clear();
+                            ReturnRecipt(i);
+                            Found = true;
+                        }
+                        else
                         {
-                            if (Borrowing[j].BookID == ReturnBook)
-                            {
-                                Location = j;
-                                break;
-                            }
+                            Console.WriteLine("This book has not been borrowed. \nPress enter to continue.");
+                            Console.ReadKey();
+                            Found = true;
+
                         }
-                        
-                        Borrowing[Location] = ((Borrowing[Location].UserID, Borrowing[Location].BookID, Borrowing[Location].BorrowedOn, Borrowing[Location].ReturnBy, ActualRetrun: Now, Rating: UserRate, IsReturned: true));
-
-                        Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress enter to print your recipt");
-                        Console.ReadKey();
-                        SaveBooksToFile();
-                        SaveBorrowInfo();
-                        Console.Clear();
-                        ReturnRecipt(i);
-                        Found = true;
+                        break;
                     }
-                    else 
-                    {
-                        Console.WriteLine("This book has not been borrowed. \nPress enter to continue."); 
-                        Console.ReadKey();
-                        Found = true;
+                    Found = true;
 
-                    }
-                    break;
+
                 }
-                Found = true;
+                if (Found != true) { Console.WriteLine("Invalid Book ID :("); }
 
-               
             }
-             if (Found != true) { Console.WriteLine("Invalid Book ID :("); }
-
-
+            else { Console.WriteLine("You have not taken out this book :) \nPlease check your recipt for book ID"); }
         }
 
 
