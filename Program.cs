@@ -12,7 +12,7 @@ namespace BasicLibrary
 {
     internal class Program
     {
-        static List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)> Books = new List<(string BookName, string BookAuthor, int BookID, int BookQuantity, int Borrowed)>();
+        static List<(int BookID, string BookName, string BookAuthor, int BookQuantity, int Borrowed, float Price, string Category, int BorrowPeriod)> Books = new List<(int BookID, string BookName, string BookAuthor, int BookQuantity, int Borrowed, float Price, string Category, int BorrowPeriod)>();
 
         //Borrow = 1 means book was taken out, 0 means returned 
         static List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)> Invoices = new List<(int CustomerID, DateTime BorrowedOn, int BookID, string BookName, string BookAuthor, int Borrow)>();
@@ -304,9 +304,9 @@ namespace BasicLibrary
                         while ((line = reader.ReadLine()) != null)
                         {
                             var parts = line.Split('|');
-                            if (parts.Length == 5)
+                            if (parts.Length == 8)
                             {
-                                Books.Add((parts[0], parts[1], int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4])));
+                                Books.Add((int.Parse(parts[0]), parts[1], parts[2], int.Parse(parts[3]), int.Parse(parts[4]), float.Parse(parts[5]), parts[6], int.Parse(parts[7])));
                             }
                         }
                     }
@@ -634,7 +634,7 @@ namespace BasicLibrary
                             //Decreasing book quantity 
                             int NewQuantity = (Books[Location].BookQuantity - 1);
                             int NewBorrowed = (Books[Location].Borrowed + 1);
-                            Books[Location] = ((Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookID, Quantity: NewQuantity, Borrowed: NewBorrowed));
+                            Books[Location] = ((Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, Quantity: NewQuantity, Borrowed: NewBorrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
                             SaveBooksToFile();
 
                             Invoices.Add((CurrentUser, DateTime.Now, Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, 1));
@@ -722,7 +722,7 @@ namespace BasicLibrary
                     {
                         int NewBorrowCount = (Books[i].Borrowed - 1);
                         int NewBookQuantity = (Books[i].BookQuantity + 1);
-                        Books[i] = ((Books[i].BookName, Books[i].BookAuthor, Books[i].BookID, BookQuantity: NewBookQuantity, Borrowed: NewBorrowCount));
+                        Books[i] = ((Books[i].BookID, Books[i].BookName, Books[i].BookAuthor, Quantity: NewBookQuantity, Borrowed: NewBorrowCount, Books[i].Price, Books[i].Category, Books[i].BorrowPeriod));
                         Console.WriteLine($"Thank you for returning {Books[i].BookName} :) \nPress enter to print your recipt");
                         Console.ReadKey();
                         SaveBooksToFile();
@@ -1072,8 +1072,25 @@ namespace BasicLibrary
                 Console.WriteLine("Invalid option please enter a number greater than 0.");
             }
 
+            Console.Write("Enter Book Price: ");
+            float Price;
+            while (!float.TryParse(Console.ReadLine(), out Price) || Price < 0)
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
             Console.WriteLine("\n");
-            Books.Add(  (Name, Author, ID, Qty, 0 )  );
+
+            Console.Write("Enter Book Category: ");
+            string Category = Console.ReadLine();
+
+            Console.Write("Enter Book BorrowPeriod: ");
+            int BorrowPeriod;
+            while (!int.TryParse(Console.ReadLine(), out BorrowPeriod) || BorrowPeriod < 0)
+            {
+                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            }
+
+            Books.Add(  (ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod )  );
             SaveBooksToFile();
         }
 
@@ -1132,7 +1149,7 @@ namespace BasicLibrary
                         Console.WriteLine("\n\n\t\tEDIT BOOK TITLE:\n");
                         Console.Write("\nNew book name: ");
                         string NewBookName = Console.ReadLine();
-                        Books[Location] = (BookName: NewBookName, Books[Location].BookAuthor, Books[Location].BookID, Books[Location].BookQuantity, Books[Location].Borrowed);
+                        Books[Location] = ((Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookQuantity, Books[Location].Borrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
                         Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Location].BookName}  Author: {Books[Location].BookAuthor}  ID: {Books[Location].BookID}  x{Books[Location].BookQuantity}  Issues Borrowed: {Books[Location].Borrowed}\n ");
                         SaveBooksToFile();
                     }
@@ -1148,7 +1165,7 @@ namespace BasicLibrary
                         Console.WriteLine("\n\n\t\tEDIT AUTHOR NAME:\n");
                         Console.Write("\nNew author name: ");
                         string NewAuthName = Console.ReadLine();
-                        Books[Position] = (Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookID, Books[Position].BookQuantity, Books[Position].Borrowed);
+                        Books[Position] = ((Books[Position].BookID, Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookQuantity, Books[Position].Borrowed, Books[Position].Price, Books[Position].Category, Books[Position].BorrowPeriod));
                         Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Position].BookName}  Author: {Books[Position].BookAuthor}  ID: {Books[Position].BookID}  x{Books[Position].BookQuantity}  Issues Borrowed: {Books[Position].Borrowed}\n ");
                         SaveBooksToFile();
                     }
@@ -1173,7 +1190,7 @@ namespace BasicLibrary
                         if (Add > 0)
                         {
                             Add = Books[Index].BookQuantity + Add;
-                            Books[Index] = (Books[Index].BookName, Books[Index].BookAuthor, Books[Index].BookID, BookQuantity: Add, Books[Index].Borrowed);
+                            Books[Index] = ((Books[Index].BookID, Books[Index].BookName, Books[Index].BookAuthor, BookQuantity: Add, Books[Index].Borrowed, Books[Index].Price, Books[Index].Category, Books[Index].BorrowPeriod));
                             Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Index].BookName}  Author: {Books[Index].BookAuthor}  ID: {Books[Index].BookID}  x{Books[Index].BookQuantity}  Issues Borrowed: {Books[Index].Borrowed}\n ");
                             SaveBooksToFile();
                         }
@@ -1211,7 +1228,7 @@ namespace BasicLibrary
                 { Console.WriteLine("The book was not deleted :)"); }
                 else
                 {
-                    Books.Remove((Books[DeleteIndex].BookName, Books[DeleteIndex].BookAuthor, Books[DeleteIndex].BookID, Books[DeleteIndex].BookQuantity, Books[DeleteIndex].Borrowed));
+                    Books.Remove(( Books[DeleteIndex] = (Books[DeleteIndex].BookID, Books[DeleteIndex].BookName, Books[DeleteIndex].BookAuthor, Books[DeleteIndex].BookQuantity, Books[DeleteIndex].Borrowed, Books[DeleteIndex].Price, Books[DeleteIndex].Category, Books[DeleteIndex].BorrowPeriod)));
                     Console.WriteLine("The book was deleted sucessfully :)");
                 }
             }
@@ -1249,7 +1266,7 @@ namespace BasicLibrary
 
                 for (int i = 0; i < Books.Count; i++)
                 {
-                    var (BookNames, BookAuthors, BookID, BookQuantity, Borrowed) = Books[i];
+                    var (BookID, BookNames, BookAuthors, BookQuantity, Borrowed, Price, Category, BorrowPeriod) = Books[i];
                     LocationList.Add(BookID);
                 }
 
@@ -1291,9 +1308,9 @@ namespace BasicLibrary
 
             for (int i = 0; i < Books.Count; i++)
             {
-                var (BookName, BookAuthor, BookID, BookQuantity, Borrowed) = Books[i];
-                BookNames.Add(BookName);
-                BookAuthors.Add(BookAuthor);
+                var (BookID, bookNames, bookAuthors, BookQuantity, Borrowed, Price, Category, BorrowPeriod) = Books[i];
+                BookNames.Add(bookNames);
+                BookAuthors.Add(bookAuthors);
                 BookIDs.Add(BookID);
                 BookQuantities.Add(BookQuantity);
                 BorrowedBooks.Add(Borrowed);
