@@ -22,7 +22,7 @@ namespace BasicLibrary
         static List<(int UserID, string UserUserName, string UserEmail, string UserPswd)> Users = new List<(int UserID, string UserUserName, string UserEmail, string UserPswd)>();
         static List<(string MasterUser, string MasterPswd)> Master = new List<(string MasterUser, string MasterPswd)>();
         static List<(int CategoryID, string CategoryName, int NoOfBooks)> Categories = new List<(int CategoryID, string CategoryName, int NoOfBooks)>();
-        static List<(int UserID, int BookID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)> Borrowing = new List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, int Rating, bool IsReturned)>();
+        static List<(int UserID, int BookID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, float Rating, bool IsReturned)> Borrowing = new List<(int UserID, int BorrowID, DateTime BorrowedOn, DateTime ReturnBy, DateTime ActualReturn, float Rating, bool IsReturned)>();
 
         //MasterAdmin
         static string MasterPath = "C:\\Users\\Codeline user\\Desktop\\Projects\\BasicLibrary\\Master.txt";
@@ -363,6 +363,8 @@ namespace BasicLibrary
                     sb.AppendLine();
                     sb.Append("BOOK ").Append(BookNumber).Append(" AUTHOR: ").Append(Books[i].BookAuthor);
                     sb.AppendLine();
+                    sb.Append("BOOK ").Append(BookNumber).Append(" CATEGORY: ").Append(Books[i].Category);
+                    sb.AppendLine(); 
                     sb.Append("BOOK ").Append(BookNumber).Append(" AVIALABLE QTY: ").Append(Books[i].BookQuantity);
                     sb.AppendLine().AppendLine();
                     Console.WriteLine(sb.ToString());
@@ -372,7 +374,7 @@ namespace BasicLibrary
             }
             else { Console.WriteLine("Sorry it looks like we don't have any books available :( \nPlease come again another time.\n"); }
 
-
+            
         }
 
 
@@ -385,7 +387,7 @@ namespace BasicLibrary
                 {
                     foreach (var book in Books)
                     {
-                        writer.WriteLine($"{book.BookName}|{book.BookAuthor}|{book.BookID}|{book.BookQuantity}|{book.Borrowed}");
+                        writer.WriteLine($"{book.BookID}|{book.BookName}|{book.BookAuthor}|{book.BookQuantity}|{book.Borrowed}|{book.Price}|{book.Category}|{book.BorrowPeriod}");
                     }
                 }
                 Console.WriteLine("Books saved to file successfully! :)");
@@ -495,6 +497,9 @@ namespace BasicLibrary
                 Console.WriteLine($"Error saving to file: {ex.Message}");
             }
         }
+
+
+
 
         //- - - - - - - - - - - - - - - - - - - - - USER FUNCTIONS  - - - - - - - - - - - - - - - - - - -//
 
@@ -757,15 +762,15 @@ namespace BasicLibrary
                         Console.WriteLine($"Please rate {Books[i].BookName} out of 5");
                         Console.Write("Rating: ");
 
-                        int UserRate;
-                        while (!int.TryParse(Console.ReadLine(), out UserRate) || UserRate < 0)
+                        float UserRate;
+                        while (!float.TryParse(Console.ReadLine(), out UserRate) || UserRate < 0)
                         {
                             Console.WriteLine("Invalid input please enter a number greater than 0.");
                             while (UserRate < 0 || UserRate > 6)
                             {
                                 Console.WriteLine("Invalid input please enter a number between 0 and 5.");
                                 Console.Write("Rating: ");
-                                UserRate = int.Parse(Console.ReadLine());
+                                UserRate = float.Parse(Console.ReadLine());
                             }
                         }
 
@@ -1168,7 +1173,6 @@ namespace BasicLibrary
             {
                 Console.WriteLine("Invalid option please enter a number greater than 0.");
             }
-            Console.WriteLine("\n");
 
             Console.Write("Enter Book Category: ");
             string Category = Console.ReadLine();
