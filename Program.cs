@@ -78,14 +78,13 @@ namespace BasicLibrary
                 Console.WriteLine(" 2. Librarian Login");
                 Console.WriteLine(" 3. Register");
                 Console.WriteLine(" 4. Exit\n");
-                int Option;
+                int Option = 0;
                 Console.Write("Enter: ");
 
-                while (!int.TryParse(Console.ReadLine(), out Option))
-                { 
-                    Console.WriteLine("Invalid option please enter a number greater than 0.");
-                }
-                
+                try
+                {
+                    Option = int.Parse(Console.ReadLine());
+                }catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\n Press enter to continue :(");  Console.ReadKey(); }
 
                 switch (Option)
                 {
@@ -109,7 +108,7 @@ namespace BasicLibrary
                                     CurrentUser = Users[i].UserID;
                                 }
                             }
-
+                            Console.Clear();
                             UserPage();
                         }
 
@@ -154,6 +153,7 @@ namespace BasicLibrary
                         break;
 
                     case 3:
+                        Console.Clear();
                         Register();
                         Console.Clear();
                         break;
@@ -164,6 +164,7 @@ namespace BasicLibrary
 
                     default:
                         Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
+                        Console.WriteLine("\nPress enter to continue"); Console.ReadKey();
                         break;
                 }
             } while (Authentication != true);
@@ -187,10 +188,11 @@ namespace BasicLibrary
             int Identity = 0;
             Console.Write("Enter: ");
 
-            while (!int.TryParse(Console.ReadLine(), out Identity))
+            try 
             {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
-            }
+                Identity = int.Parse(Console.ReadLine());
+
+            } catch (Exception ex) { Console.WriteLine(ex.Message); }
 
             switch (Identity)
             {
@@ -228,6 +230,8 @@ namespace BasicLibrary
                     int UserID = Users.Count + 10;
 
                     Users.Add((UserID, UserName, Email1, UserPassword1));
+                    Console.WriteLine("User created :) \nPress enter to continue!");
+                    Console.ReadKey();
                     SaveUsers();
                     break;
 
@@ -276,8 +280,11 @@ namespace BasicLibrary
                         //Geneate id
                         int AdminID = Admins.Count + 10;
 
-                        Admins.Add((AdminID, AdminUserName, AdminPassword1, AdminEmail1));
+                        
+                        Admins.Add((AdminID, AdminUserName, AdminEmail1, AdminPassword1));
                         SaveAdmins();
+                        Console.WriteLine("Admin created :) \nPress enter to continue!");
+                        Console.ReadKey();
                     }
                     else
                     { 
@@ -291,7 +298,9 @@ namespace BasicLibrary
                     break;
 
                 default:
-                    Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
+                    Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options."); 
+                   // Console.WriteLine("\nPress enter to try again. ");
+                    Console.ReadKey();
                     break;
             }
         }
@@ -326,19 +335,25 @@ namespace BasicLibrary
 
 
         //METHOD TO EXIT THE LIBRARY  
-        static void LeaveLibrary(bool ExitFlag)
+        static bool LeaveLibrary(bool ExitFlag)
         {
-            Console.WriteLine("\n\nAre you sure you want to leave? Yes or No.");
+            Console.WriteLine("\n\nAre you sure you want to leave? \nYes to leave anything else to stay.");
             Console.Write("Enter: ");
             string Leave = (Console.ReadLine()).ToLower();
 
-            if (Leave != "no")
+            if (Leave != "yes")
+            {
+                return false;
+            }
+            else 
             {
                 SaveBooksToFile();
+                CurrentUser = -1;
                 ExitFlag = true;
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n\n");
-                Console.WriteLine("Thank you for visiting the library :) \nCome again soon!");
+                Console.WriteLine("Thank you for visiting the library :) \nCome again soon!\n\n");
+                return true;
             }
         }
 
@@ -554,51 +569,66 @@ namespace BasicLibrary
                 Console.WriteLine(" 5. Return A Book");
                 Console.WriteLine(" 6. Log out\n");
                 Console.Write("Enter: ");
-                int choice;
+                int choice =0;
 
-                while (!int.TryParse(Console.ReadLine(), out choice))
+                try
                 {
-                    Console.WriteLine("Invalid option please enter a number greater than 0.");
-                }
+                    choice = int.Parse(Console.ReadLine());
+                }catch(Exception ex) { Console.WriteLine(ex.Message); }
 
                 switch (choice)
                 {
                     case 1:;
+                        Console.Clear();
                         ViewAllBooks();
                         if (Books.Count != 0)
                         {
-                            Console.WriteLine("Would you like to borrow a book? Yes or No.");
+                            Console.WriteLine("Would you like to borrow a book? \n\nYes to continue anything else to leave.");
                             Console.Write("Enter: ");
                             string BorrowNow = Console.ReadLine().ToLower();
 
-                            if (BorrowNow != "no")
+                            if (BorrowNow != "yes")
                             {
-                                BorrowBook();
+                                Console.WriteLine("Exiting...");
+                                break;
                             }
+
+                            else;
+                            { 
+                                BorrowBook(); 
+                            }
+
                         }
                         break;
 
                     case 2:
+                        Console.Clear();
                         UserSearchForBook();
                         break;
 
                     case 3:
+                        Console.Clear();
                         ViewUsrProfile();
                         break;
 
                     case 4:
+                        Console.Clear();
                         BorrowBook();
                         break;
 
                     case 5:
+                        Console.Clear();
                         ReturnBook();
                         break;
 
                     case 6:
+                        Console.Clear();
                         SaveBooksToFile();
-                        CurrentUser = -1;
-                        LeaveLibrary(ExitFlag);
-                        ExitFlag = true;    
+                        bool Response = LeaveLibrary(ExitFlag);
+                        if (Response == true)
+                        {
+                            ExitFlag = true;
+                        }
                         break;
 
                     default:
@@ -606,7 +636,7 @@ namespace BasicLibrary
                         break;
 
                 }
-                Console.WriteLine("Press enter to continue.");
+                Console.Write("Press enter to continue. ");
                 string cont = Console.ReadLine();
                 Console.Clear();
 
@@ -623,12 +653,12 @@ namespace BasicLibrary
 
                 Console.Write("\n\t\tBORROWING A BOOK:\n\n");
                 Console.Write("Enter ID: ");
-                int BorrowID;
+                int BorrowID = 0;
 
-                while (!int.TryParse(Console.ReadLine(), out BorrowID))
+                try
                 {
-                    Console.WriteLine("Invalid option please enter a number greater than 0.");
-                }
+                    BorrowID = int.Parse(Console.ReadLine());
+                }catch(Exception ex) { Console.WriteLine(ex.Message+ "\n"); }
 
                 int Location = -1;
 
@@ -716,14 +746,16 @@ namespace BasicLibrary
 
                 else
                 {
-                    Console.WriteLine("Sorry we do not have this book :(");
-                    Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? Yes or No");
+                    Console.WriteLine("Sorry we don't have this book :(");
+                    Console.WriteLine("We might have something else that you might like! \n\nWould you like to see what we have in stock? \nYes to continue anything else to leave.");
                     string ViewOtherBooks = Console.ReadLine().ToLower();
 
-                    if (ViewOtherBooks != "no")
+                    if (ViewOtherBooks != "yes")
                     {
-                        ViewAllBooks();
+                        Console.WriteLine("Exiting...");
                     }
+                    else
+                            { ViewAllBooks(); }
                 }
             }
             else { Console.WriteLine("Sorry it looks like we don't have any books available right now :( \n"); }
@@ -736,12 +768,12 @@ namespace BasicLibrary
             List<int> BorrowedBookIDs = new List<int>();
             double CountDown;  
             bool Found = false;
-            int ReturnBook;
+            int ReturnBook = 0;
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n\n");
             Console.Write("\n\t\tRETURN A BOOK:\n\n");
 
-            Console.WriteLine("Borrowed books: ");
+            Console.WriteLine("BORROWED BOOKS: ");
             for (int i = 0; i < Borrowing.Count; i++)
             {
                 if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
@@ -756,17 +788,12 @@ namespace BasicLibrary
 
 
             Console.Write("Enter Book ID: ");
-            
 
-            while (!int.TryParse(Console.ReadLine(), out ReturnBook) || ReturnBook < 0)
+            try
             {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
-                while (ReturnBook < 0)
-                {
-                    Console.Write("Enter Book ID: ");
-                    ReturnBook = Console.Read();
-                }
-            }
+                ReturnBook = int.Parse(Console.ReadLine());
+            }catch (Exception ex) { Console.WriteLine(ex.Message); }
+           
 
             if (BorrowedBookIDs.Contains(ReturnBook)) //Checking if the user has borrowed the book they are trying to return
             {
@@ -1172,41 +1199,48 @@ namespace BasicLibrary
                 Console.WriteLine(" 6. Show Reports");
                 Console.WriteLine(" 7. Save and Exit\n");
                 Console.Write("Enter: ");
-                int choice;
+                int choice = 0;
 
-                while (!int.TryParse(Console.ReadLine(), out choice))
+                try 
                 {
-                    Console.WriteLine("Invalid option please enter a number greater than 0.");
-                }
+                    choice = int.Parse(Console.ReadLine());
+                }catch (Exception ex) { Console.WriteLine(ex.Message); }
 
                 switch (choice)
                 {
 
                     case 1:
+                        Console.Clear();
                         AddNewBook();
                         break;
 
                     case 2:
+                        Console.Clear();
                         ViewAllBooks();
                         break;
 
                     case 3:
+                        Console.Clear();
                         SearchForBook();
                         break;
 
                     case 4:
+                        Console.Clear();
                         EditBooks();
                         break;
 
                     case 5:
+                        Console.Clear();
                         DeleteBook();
                         break;
 
                     case 6:
+                        Console.Clear();
                         Reports();
                         break;
 
                     case 7:
+                        Console.Clear();
                         SaveBooksToFile();
                         ExitFlag = true;
                         break;
@@ -1235,38 +1269,42 @@ namespace BasicLibrary
             string Name = Console.ReadLine().Trim(); //Trim added for more accurate search  
 
             Console.Write("Enter Book Author: ");
-            string Author= Console.ReadLine().Trim();  
+            string Author= Console.ReadLine().Trim();
 
-            Console.Write("Enter Book ID: ");
-            int ID;
-            while (!int.TryParse(Console.ReadLine(), out ID) || ID < 0)
-            {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
-            }
+            int ID = Books.Count + 100;
+
+            Console.Write($"Book ID: {ID}\n");
+            
 
             Console.Write("Enter Book Quantity: ");
-            int Qty;
-            while (!int.TryParse(Console.ReadLine(), out Qty) || Qty < 0)
+            int Qty = 0;
+            try
             {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
+                Qty = int.Parse(Console.ReadLine());
             }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\nDefualt Quantity of 0 set\n"); }
 
             Console.Write("Enter Book Price: ");
-            float Price;
-            while (!float.TryParse(Console.ReadLine(), out Price) || Price < 0)
+            float Price = 0;
+            try
             {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
+                Price = float.Parse(Console.ReadLine());
             }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\nDefualt Price of 0 set\n"); }
+
+
 
             Console.Write("Enter Book Category: ");
             string Category = Console.ReadLine();
 
             Console.Write("Enter Book BorrowPeriod: ");
-            int BorrowPeriod;
-            while (!int.TryParse(Console.ReadLine(), out BorrowPeriod) || BorrowPeriod < 0)
-            {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
+            int BorrowPeriod = 10;
+
+            try
+            { 
+                 BorrowPeriod = int.Parse(Console.ReadLine());
             }
+            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\n Defualt Borrow Period of 10 set\n"); }
 
             Books.Add(  (ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod )  );
             SaveBooksToFile();
@@ -1307,12 +1345,12 @@ namespace BasicLibrary
             Console.WriteLine(" 3. Add More Copies of Available Books");
             Console.WriteLine(" 4. Save and exit\n");
             Console.Write("Enter Option:");
-            int Choice;
+            int Choice=0;
 
-            while (!int.TryParse(Console.ReadLine(), out Choice))
+            try 
             {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
-            }
+                Choice = int.Parse(Console.ReadLine()); 
+            }catch(Exception ex) { Console.WriteLine(ex.Message); }
 
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
@@ -1327,7 +1365,7 @@ namespace BasicLibrary
                         Console.WriteLine("\n\n\t\tEDIT BOOK TITLE:\n");
                         Console.Write("\nNew book name: ");
                         string NewBookName = Console.ReadLine();
-                        Books[Location] = ((Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, Books[Location].BookQuantity, Books[Location].Borrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
+                        Books[Location] = ((Books[Location].BookID,BookName: NewBookName, Books[Location].BookAuthor, Books[Location].BookQuantity, Books[Location].Borrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
                         Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Location].BookName}  Author: {Books[Location].BookAuthor}  ID: {Books[Location].BookID}  x{Books[Location].BookQuantity}  Issues Borrowed: {Books[Location].Borrowed}\n ");
                         SaveBooksToFile();
                     }
@@ -1357,12 +1395,12 @@ namespace BasicLibrary
                     {
                         Console.WriteLine("\n\n\t\tEDIT BOOK QUANTITY:\n");
                         Console.Write("\nHow many would you like to add: ");
-                        int Add;
+                        int Add = 0;
 
-                        while (!int.TryParse(Console.ReadLine(), out Add))
+                        try 
                         {
-                            Console.WriteLine("Invalid option please enter a number greater than 0.");
-                        }
+                            Add = int.Parse(Console.ReadLine());
+                        }catch (Exception ex) { Console.WriteLine(ex.Message); }    
 
                         //Checking the positive number inputted so that books aren't minused 
                         if (Add > 0)
@@ -1379,6 +1417,11 @@ namespace BasicLibrary
 
                 case 4:
                     SaveBooksToFile();
+                    break;
+                
+
+                default:
+                    Console.WriteLine("Improper input, please choose one of the given options :(");
                     break;
             }
 
@@ -1419,41 +1462,46 @@ namespace BasicLibrary
             Console.Clear();
             ViewAllBooks();
             Console.Write("Enter ID: ");
-            int ChangeID;
+            int ChangeID = -1;
 
-            while (!int.TryParse(Console.ReadLine(), out ChangeID))
+            try 
             {
-                Console.WriteLine("Invalid option please enter a number greater than 0.");
-            }
+                ChangeID = int.Parse(Console.ReadLine());
+            
+            }catch(Exception ex) { Console.WriteLine(ex.Message); }
 
             //Checking if book ID exists in library
             bool Found = false;
-            for (int i = 0; i<=Books.Count; i ++)
+            if (ChangeID != -1)
             {
-                if (Books[i].BookID == ChangeID)
-                {
-                    Found = true;
-                    break;
-                }
-            }
-
-            if (Found)
-            {
-                //Finding the index of given ID
-                List<int> LocationList = new List<int>();
-
                 for (int i = 0; i < Books.Count; i++)
                 {
-                    var (BookID, BookNames, BookAuthors, BookQuantity, Borrowed, Price, Category, BorrowPeriod) = Books[i];
-                    LocationList.Add(BookID);
+                    if (Books[i].BookID == ChangeID)
+                    {
+                        Found = true;
+                        break;
+                    }
                 }
 
-                if (LocationList.Contains(ChangeID))
+                if (Found)
                 {
-                    int Location = LocationList.IndexOf(ChangeID);
-                    return (Location);
+                    //Finding the index of given ID
+                    List<int> LocationList = new List<int>();
+
+                    for (int i = 0; i < Books.Count; i++)
+                    {
+                        var (BookID, BookNames, BookAuthors, BookQuantity, Borrowed, Price, Category, BorrowPeriod) = Books[i];
+                        LocationList.Add(BookID);
+                    }
+
+                    if (LocationList.Contains(ChangeID))
+                    {
+                        int Location = LocationList.IndexOf(ChangeID);
+                        return (Location);
+                    }
+                    else { return -1; }
                 }
-                else { return -1; }
+                else { Console.WriteLine("ID does not exist :("); return -1; }
             }
             else { Console.WriteLine("ID does not exist :("); return -1; }
         }
