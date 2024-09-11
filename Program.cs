@@ -646,7 +646,7 @@ namespace BasicLibrary
                     Console.WriteLine($"Request to borrow: {Books[Location].BookName}");
                     if (Books[Location].BookQuantity > 0)
                     {
-                        Console.WriteLine("We've got this in stock!");
+                        Console.WriteLine("We've got this in stock!\n");
                         Console.Write("Would you like to proceed? Yes or No: ");
                         string Checkout = Console.ReadLine().ToLower();
 
@@ -661,8 +661,8 @@ namespace BasicLibrary
                             Books[Location] = ((Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, Quantity: NewQuantity, Borrowed: NewBorrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
 
                             //Appending data to borrow tuple list
-                            System.TimeSpan timeSpan = new System.TimeSpan(Books[Location].BorrowPeriod);
-                            System.DateTime Return = Now + timeSpan;
+                            //System.TimeSpan timeSpan = new System.TimeSpan(Books[Location].BorrowPeriod);
+                            DateTime Return = Now.AddDays(Books[Location].BorrowPeriod);
 
                             //DEFUALT: actual return is the return by date | rating -1 | isReturned false
                             Borrowing.Add((UserID: CurrentUser, BorrowID: Books[Location].BookID, BorrowedOn:Now, ReturnBy: Return, ActualReturn: Return, Rating:  -1, IsReturned: false));
