@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Formats.Asn1;
 using System.Globalization;
 using System.Net;
+using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml.Linq;
@@ -548,9 +549,10 @@ namespace BasicLibrary
                 Console.WriteLine("\t\t\tREADER OPTIONS:");
                 Console.WriteLine(" 1. View All Books");
                 Console.WriteLine(" 2. Search For A Book");
-                Console.WriteLine(" 3. Borrow A Book");
-                Console.WriteLine(" 4. Return A Book");
-                Console.WriteLine(" 5. Log out\n");
+                Console.WriteLine(" 3. View Profile");
+                Console.WriteLine(" 4. Borrow A Book");
+                Console.WriteLine(" 5. Return A Book");
+                Console.WriteLine(" 6. Log out\n");
                 Console.Write("Enter: ");
                 int choice;
 
@@ -581,14 +583,18 @@ namespace BasicLibrary
                         break;
 
                     case 3:
-                        BorrowBook();
+                        ViewUsrProfile();
                         break;
 
                     case 4:
-                        ReturnBook();
+                        BorrowBook();
                         break;
 
                     case 5:
+                        ReturnBook();
+                        break;
+
+                    case 6:
                         SaveBooksToFile();
                         CurrentUser = -1;
                         LeaveLibrary(ExitFlag);
@@ -830,8 +836,64 @@ namespace BasicLibrary
             else { Console.WriteLine("You have not taken out this book :) \nPlease check your recipt for book ID"); }
         }
 
+        
+        //PRINTS USER DETAILS
+        static void ViewUsrProfile()
+        {
+            List<int> SearchIDs = new List<int>();
+            List<int> BookID = new List<int>();
+            List<int> BorrowedBookIDs = new List<int>();
+            int CountDown;
+            DateTime Now = DateTime.Now;
 
-        //PRINT RETRUN RECIPT
+            for (int i = 0; i<Users.Count; i++) 
+            {
+                SearchIDs.Add(Users[i].UserID);
+            }
+
+            for (int i = 0; i < Books.Count; i++)
+            {
+                BookID.Add(Books[i].BookID);
+            }
+
+            int CurrentIndex = SearchIDs.IndexOf(CurrentUser);
+
+            Console.Clear();
+            Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.WriteLine($" * * * * * * * * * * * * {Users[CurrentIndex].UserUserName}'s Home Page :) * * * * * * * * * * * *\n ");
+            Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail}\n");
+            Console.WriteLine(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n ");
+            Console.WriteLine($"CURRENTLY BORROWED:"); //Add currently borrowed books 
+            for (int i = 0; i < Borrowing.Count; i++)
+            {
+                if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
+                {
+                    int BookIndex = BookID.IndexOf(Borrowing[i].BookID);
+                    CountDown = Borrowing[i].ReturnBy.CompareTo(Now);
+                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}");
+                    BorrowedBookIDs.Add(Borrowing[i].BookID);
+
+                }
+            }
+            Console.WriteLine("\n");
+            Console.WriteLine(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n");
+            Console.WriteLine("RETURNED BOOKS:");
+            for (int i = 0; i < Borrowing.Count; i++)
+            {
+                if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != false)
+                {
+                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nActual Return: {Borrowing[i].ActualReturn}");
+                    BorrowedBookIDs.Add(Borrowing[i].BookID);
+
+                }
+            }
+            Console.WriteLine("\n");
+            Console.WriteLine(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n");
+
+        }
+
+
+        //PRINT RETRUN RECIPT 
         static void ReturnRecipt(int i)
         {
             DateTime Now = DateTime.Now;
