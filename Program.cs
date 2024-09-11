@@ -532,7 +532,7 @@ namespace BasicLibrary
                         string line;
                         while ((line = reader.ReadLine()) != null)
                         {
-                            var parts = line.Split('|');
+                            var parts = line.Split(" | ");
                             if (parts.Length == 4)
                             {
                                 if (Usr == parts[1] && parts[3] == Pswd)
@@ -952,7 +952,7 @@ namespace BasicLibrary
                 {
                     foreach (var user in Users)
                     {
-                        writer.WriteLine($"{user.UserID}|{user.UserUserName}|{user.UserEmail}|{user.UserPswd}");
+                        writer.WriteLine($"{user.UserID} | {user.UserUserName} | {user.UserEmail} | {user.UserPswd}");
                     }
                 }
                 Console.WriteLine("User details saved to file successfully! :)");
@@ -1162,7 +1162,7 @@ namespace BasicLibrary
                         string line;
                         while ((line = reader.ReadLine()) != null)
                         {
-                            var parts = line.Split('|');
+                            var parts = line.Split(" | ");
                             if (parts.Length == 4)
                             {
                                 if (Usr == parts[1] && parts[3] == Pswd)
@@ -1669,7 +1669,7 @@ namespace BasicLibrary
                 {
                     foreach (var admin in Admins)
                     {
-                        writer.WriteLine($"{admin.AdminID}|{admin.AdminUserName}|{admin.AdminEmail}|{admin.AdminPswd}");
+                        writer.WriteLine($"{admin.AdminID} | {admin.AdminUserName} | {admin.AdminEmail} | {admin.AdminPswd}");
                     }
                 }
                 Console.WriteLine("Admin details saved to file successfully! :)");
@@ -1693,7 +1693,7 @@ namespace BasicLibrary
                         string line;
                         while ((line = reader.ReadLine()) != null)
                         {
-                            var parts = line.Split('|');
+                            var parts = line.Split(" | ");
                             if (parts.Length == 4)
                             {
                                 Admins.Add((int.Parse(parts[0]), parts[1], parts[2], parts[3]));
