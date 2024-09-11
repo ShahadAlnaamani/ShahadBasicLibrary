@@ -679,10 +679,10 @@ namespace BasicLibrary
                             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
                             Console.WriteLine("\t\t" + Now);
                             Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
-                            Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor}");
+                            Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor} \nRETURN BY - {Return}");
                             Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n\n");
-                            Console.WriteLine("\t\tThank you for visiting the library come again soon!");
-                            Console.WriteLine("\t\tHappy Reading :)");
+                            Console.WriteLine("\tThank you for visiting the library come again soon!");
+                            Console.WriteLine("\tHappy Reading :)");
                             Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n ");
 
                             Console.WriteLine("Press enter to continue");
@@ -747,7 +747,8 @@ namespace BasicLibrary
                 if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
                 { 
                     CountDown = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
-                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}");
+                    CountDown = Math.Round(CountDown, 0);
+                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}\n");
                     BorrowedBookIDs.Add(Borrowing[i].BookID);
                     
                 }
@@ -843,7 +844,7 @@ namespace BasicLibrary
             List<int> SearchIDs = new List<int>();
             List<int> BookID = new List<int>();
             List<int> BorrowedBookIDs = new List<int>();
-            int CountDown;
+            double CountDown;
             DateTime Now = DateTime.Now;
 
             for (int i = 0; i<Users.Count; i++) 
@@ -863,14 +864,17 @@ namespace BasicLibrary
             Console.WriteLine($" * * * * * * * * * * * * {Users[CurrentIndex].UserUserName}'s Home Page :) * * * * * * * * * * * *\n ");
             Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail}\n");
             Console.WriteLine(" * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n ");
-            Console.WriteLine($"CURRENTLY BORROWED:"); //Add currently borrowed books 
+            Console.WriteLine($"CURRENTLY BORROWED:"); 
             for (int i = 0; i < Borrowing.Count; i++)
             {
                 if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != true)
                 {
-                    int BookIndex = BookID.IndexOf(Borrowing[i].BookID);
-                    CountDown = Borrowing[i].ReturnBy.CompareTo(Now);
-                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}");
+                    CountDown = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
+                    CountDown = Math.Round(CountDown, 0);
+
+                   // int BookIndex = BookID.IndexOf(Borrowing[i].BookID);
+                  //  CountDown = Borrowing[i].ReturnBy.CompareTo(Now);
+                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}\n");
                     BorrowedBookIDs.Add(Borrowing[i].BookID);
 
                 }
@@ -882,7 +886,7 @@ namespace BasicLibrary
             {
                 if (Borrowing[i].UserID == CurrentUser && Borrowing[i].IsReturned != false)
                 {
-                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nActual Return: {Borrowing[i].ActualReturn}");
+                    Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nActual Return: {Borrowing[i].ActualReturn}\n");
                     BorrowedBookIDs.Add(Borrowing[i].BookID);
 
                 }
