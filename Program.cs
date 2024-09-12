@@ -337,7 +337,7 @@ namespace BasicLibrary
         //METHOD TO EXIT THE LIBRARY  
         static bool LeaveLibrary(bool ExitFlag)
         {
-            Console.WriteLine("\n\nAre you sure you want to leave? \nYes to leave anything else to stay.");
+            Console.WriteLine("\n\nAre you sure you want to leave? \n\nYes to leave anything else to stay.");
             Console.Write("Enter: ");
             string Leave = (Console.ReadLine()).ToLower();
 
@@ -403,7 +403,7 @@ namespace BasicLibrary
                 {
                     foreach (var book in Books)
                     {
-                        writer.WriteLine($"{book.BookID}|{book.BookName}|{book.BookAuthor}|{book.BookQuantity}|{book.Borrowed}|{book.Price}|{book.Category}|{book.BorrowPeriod}");
+                        writer.WriteLine($"{book.BookID}| {book.BookName} | {book.BookAuthor} |{book.BookQuantity}|{book.Borrowed}|{book.Price}| {book.Category} |{book.BorrowPeriod}");
                     }
                 }
                 Console.WriteLine("Books saved to file successfully! :)");
@@ -441,7 +441,6 @@ namespace BasicLibrary
                 Console.WriteLine($"Error loading from file: {ex.Message}");
             }
         }
-
 
 
         //SAVING CATEGORY INFORMATION TO FILE 
@@ -1271,7 +1270,7 @@ namespace BasicLibrary
             Console.Write("Enter Book Author: ");
             string Author= Console.ReadLine().Trim();
 
-            int ID = Books.Count + 100;
+            int ID = Books.Count + 1;
 
             Console.Write($"Book ID: {ID}\n");
             
@@ -1290,24 +1289,123 @@ namespace BasicLibrary
             {
                 Price = float.Parse(Console.ReadLine());
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\nDefualt Price of 0 set\n"); }
+            catch (Exception ex) 
+            { 
+                Console.WriteLine(ex.Message); 
+                Console.WriteLine("\nDefualt Price of 0 set\nPress enter to continue\n"); 
+                Console.ReadKey();
+            }
 
+            //Functionality to allow user to choose category from specific options :)
+            Console.Clear();
+            Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+            Console.Write("\n\t\tADDING NEW BOOK:\n\n");
+            Console.WriteLine("Choose a Book Category: ");
+            Console.WriteLine("1. Children");
+            Console.WriteLine("2. Cooking");
+            Console.WriteLine("3. History");
+            Console.WriteLine("4. IT");
+            Console.WriteLine("5. Non-Fiction");
+            Console.WriteLine("6. Science");
+            Console.WriteLine("7. Self Help ");
+            Console.WriteLine("8. Software");
+            Console.WriteLine("9. Stories");
+            Console.WriteLine("10. Young Adult");
+            Console.Write("Enter: ");
 
-
-            Console.Write("Enter Book Category: ");
-            string Category = Console.ReadLine();
-
-            Console.Write("Enter Book BorrowPeriod: ");
-            int BorrowPeriod = 10;
+            int CategoryChoice = 0;
+            string Category = " ";
+            bool FormComplete = true;
 
             try
-            { 
-                 BorrowPeriod = int.Parse(Console.ReadLine());
+            {
+                CategoryChoice = int.Parse(Console.ReadLine());
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\n Defualt Borrow Period of 10 set\n"); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
 
-            Books.Add(  (ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod )  );
-            SaveBooksToFile();
+            do { 
+            switch (CategoryChoice)
+            {
+                case 1:
+                    Category = "Children";
+                    break;
+
+                case 2:
+                    Category = "Cooking";
+                    break;
+
+                case 3:
+                    Category = "History";
+                    break;
+
+                case 4:
+                    Category = "IT";
+                    break;
+
+                case 5:
+                    Category = "Non-Fiction";
+                    break;
+
+                case 6:
+                    Category = "Science";
+                    break;
+
+                case 7:
+                    Category = "Self Help";
+                    break;
+
+                case 8:
+                    Category = "Software";
+                    break;
+
+                case 9:
+                    Category = "Stories";
+                    break;
+
+                case 10:
+                    Category = "Young Adult";
+                    break;
+
+                default:
+                    Console.WriteLine("Improper input :(");
+                    Console.WriteLine("Please choose one of the given options \nPress enter to continue");
+                    Console.ReadKey();
+                    FormComplete = false;
+                    break;
+
+            }
+
+
+            if (FormComplete != true)
+                { break; }
+
+
+            Console.WriteLine($"\nYou have chosen {Category}. \nEnter Yes to continue No to choose again");
+            string Confirm = (Console.ReadLine()).ToLower();
+            if (Confirm != "yes")
+            { 
+               Category = " "; 
+            }
+
+            } while (Category == " ");
+
+            if (FormComplete == true)
+            {
+                Console.Clear();
+                Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                Console.Write("\n\t\tADDING NEW BOOK:\n\n");
+                Console.Write("Enter Book BorrowPeriod: ");
+                int BorrowPeriod = 10;
+
+                try
+                {
+                    BorrowPeriod = int.Parse(Console.ReadLine());
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\n Defualt Borrow Period of 10 set\n"); }
+
+                Books.Add((ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod));
+                SaveBooksToFile();
+            }
         }
 
 
