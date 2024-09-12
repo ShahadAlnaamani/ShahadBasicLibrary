@@ -1464,7 +1464,7 @@ namespace BasicLibrary
             Console.WriteLine(" 2. Edit Author Name");
             Console.WriteLine(" 3. Add More Copies of Available Books");
             Console.WriteLine(" 4. Save and exit\n");
-            Console.Write("Enter Option:");
+            Console.Write("Enter Option: ");
             int Choice=0;
 
             try 
@@ -1484,7 +1484,32 @@ namespace BasicLibrary
                     {
                         Console.WriteLine("\n\n\t\tEDIT BOOK TITLE:\n");
                         Console.Write("\nNew book name: ");
-                        string NewBookName = Console.ReadLine();
+                        string NewBookName;
+                        bool Repeated;
+
+                        do
+                        {
+                            Repeated = false;
+                            Console.Write("Enter Book Name: ");
+                            NewBookName = Console.ReadLine().Trim(); //Trim added for more accurate search  
+
+                            for (int i = 0; i < Books.Count; i++)
+                            {
+                                if ((Books[i].BookName).Trim() == NewBookName)
+                                {
+                                    Repeated = true;
+                                    break;
+                                }
+                            }
+
+                            if (Repeated != false)
+                            {
+                                Console.WriteLine("This book already exists please enter a new book name");
+                                Repeated = true;
+                            }
+
+                        } while (Repeated != false);
+
                         Books[Location] = ((Books[Location].BookID,BookName: NewBookName, Books[Location].BookAuthor, Books[Location].BookQuantity, Books[Location].Borrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
                         Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Location].BookName}  Author: {Books[Location].BookAuthor}  ID: {Books[Location].BookID}  x{Books[Location].BookQuantity}  Issues Borrowed: {Books[Location].Borrowed}\n ");
                         SaveBooksToFile();
