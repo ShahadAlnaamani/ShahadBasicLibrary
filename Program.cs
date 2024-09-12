@@ -537,6 +537,7 @@ namespace BasicLibrary
                                 if (Usr == parts[1] && parts[3] == Pswd)
                                 {
                                     i = true;
+                                    CurrentUser = int.Parse(parts[0]);
                                 }
                             }
 
