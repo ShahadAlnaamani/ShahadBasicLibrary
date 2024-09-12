@@ -1321,7 +1321,7 @@ namespace BasicLibrary
             {
                 CategoryChoice = int.Parse(Console.ReadLine());
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex) { Console.WriteLine("\n"+ex.Message); }
 
             do { 
             switch (CategoryChoice)
@@ -1368,8 +1368,6 @@ namespace BasicLibrary
 
                 default:
                     Console.WriteLine("Improper input :(");
-                    Console.WriteLine("Please choose one of the given options \nPress enter to continue");
-                    Console.ReadKey();
                     FormComplete = false;
                     break;
 
