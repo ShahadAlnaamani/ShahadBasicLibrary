@@ -1264,8 +1264,32 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
             Console.Write("\n\t\tADDING NEW BOOK:\n\n");
-            Console.Write("Enter Book Name: ");
-            string Name = Console.ReadLine().Trim(); //Trim added for more accurate search  
+            bool Repeated = false;
+            string Name = " ";
+
+            do
+            {
+                Repeated = false;
+                Console.Write("Enter Book Name: ");
+                Name = Console.ReadLine().Trim(); //Trim added for more accurate search  
+               
+                for (int i = 0; i < Books.Count; i++)
+                {
+                    if ((Books[i].BookName).Trim() == Name)
+                    {
+                        Repeated = true;
+                        break;
+                    }
+                }
+
+                if (Repeated != false) 
+                { 
+                    Console.WriteLine("This book already exists please enter a new book"); 
+                   Repeated = true; 
+                }
+
+            } while (Repeated != false);
+
 
             Console.Write("Enter Book Author: ");
             string Author= Console.ReadLine().Trim();
