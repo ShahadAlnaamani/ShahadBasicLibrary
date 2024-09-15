@@ -565,7 +565,7 @@ namespace BasicLibrary
                 Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
                 Console.WriteLine("\t\t\tREADER OPTIONS:");
                 Console.WriteLine(" 1. View All Books");
-                Console.WriteLine(" 2. Search For A Book");
+                Console.WriteLine(" 2. Search by Book Name or Author");
                 Console.WriteLine(" 3. View Profile");
                 Console.WriteLine(" 4. Borrow A Book");
                 Console.WriteLine(" 5. Return A Book");
@@ -1054,8 +1054,6 @@ namespace BasicLibrary
                 {
                     Console.WriteLine($"\nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nBorrow Period: {Books[i].BorrowPeriod} days\n");
                     flag = true;
-                    //break;
-
                 }
             }
 
@@ -1200,7 +1198,7 @@ namespace BasicLibrary
                 Console.WriteLine("LIBRARIAN OPTIONS:");
                 Console.WriteLine(" 1. Add New Book");
                 Console.WriteLine(" 2. Display All Books");
-                Console.WriteLine(" 3. Search for Book by Name");
+                Console.WriteLine(" 3. Search by Book Name or Author");
                 Console.WriteLine(" 4. Edit Book");
                 Console.WriteLine(" 5. Delete Book");
                 Console.WriteLine(" 6. Show Reports");
@@ -1445,17 +1443,18 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
             Console.Write("\n\t\tSEARCH LIBRARY:\n\n");
-            Console.Write("Book name: ");
+            Console.Write("Book name or author: ");
             string name = (Console.ReadLine().Trim()).ToLower();  
             bool flag=false;
+            string SearchPattern = Regex.Escape(name);
+            Regex regex = new Regex(SearchPattern, RegexOptions.IgnoreCase);
 
-            for(int i = 0; i< Books.Count;i++)
+            for (int i = 0; i< Books.Count;i++)
             {
-                if ((Books[i].BookName).ToLower() == name)
+                if (regex.IsMatch(Books[i].BookName) || regex.IsMatch(Books[i].BookAuthor))
                 {
-                    Console.WriteLine($"Book ID: {Books[i].BookID} \nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nAvailable Stock: {Books[i].BookQuantity} \nBorrowed Copies: {Books[i].Borrowed} \nBorrowed Period: {Books[i].BorrowPeriod} ");
+                    Console.WriteLine($"\nBook ID: {Books[i].BookID} \nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nAvailable Stock: {Books[i].BookQuantity} \nBorrowed Copies: {Books[i].Borrowed} \nBorrowed Period: {Books[i].BorrowPeriod} \n");
                     flag = true;
-                    break;
                 }
             }
 
