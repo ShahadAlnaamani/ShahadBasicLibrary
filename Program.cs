@@ -634,7 +634,7 @@ namespace BasicLibrary
                                 break;
 
                         }
-                    } while (ReturnLoop = true);
+                    } while (ReturnLoop == true);
                 }
             }
                 if (Overdue)
