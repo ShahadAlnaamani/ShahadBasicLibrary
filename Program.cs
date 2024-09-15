@@ -1593,16 +1593,33 @@ namespace BasicLibrary
             
             if (DeleteIndex !=-1) 
             {
-                Console.WriteLine($"DELETING: Name: {Books[DeleteIndex].BookName}  Author: {Books[DeleteIndex].BookAuthor}  ID: {Books[DeleteIndex].BookID}  x{Books[DeleteIndex].BookQuantity}  Issues Borrowed: {Books[DeleteIndex].Borrowed} ");
-                Console.WriteLine("To delete press X:");
-                string Delete =  Console.ReadLine().ToLower();
+                if (Books[DeleteIndex].Borrowed > 0)  //Book currently borrowed 
+                {
+                    Console.WriteLine("Sorry you can't delete this book as someone currently has it borrowed :( \n");
+                    for (int i = 0; i < Borrowing.Count; i++)
+                    {
+                        if (Books[DeleteIndex].BookID == Borrowing[i].BookID)
+                        {
+                            Console.WriteLine($"User {Borrowing[i].UserID} is currently borrowing this book \nThey should return the book by {Borrowing[i].ReturnBy} ");
+                        }
+                    }
 
-                if (Delete != "x")
-                { Console.WriteLine("The book was not deleted :)"); }
+                }
+
                 else
                 {
-                    Books.Remove(( Books[DeleteIndex] = (Books[DeleteIndex].BookID, Books[DeleteIndex].BookName, Books[DeleteIndex].BookAuthor, Books[DeleteIndex].BookQuantity, Books[DeleteIndex].Borrowed, Books[DeleteIndex].Price, Books[DeleteIndex].Category, Books[DeleteIndex].BorrowPeriod)));
-                    Console.WriteLine("The book was deleted sucessfully :)");
+                    Console.WriteLine($"DELETING: Name: {Books[DeleteIndex].BookName}  Author: {Books[DeleteIndex].BookAuthor}  ID: {Books[DeleteIndex].BookID}  x{Books[DeleteIndex].BookQuantity}  Issues Borrowed: {Books[DeleteIndex].Borrowed} ");
+                    Console.WriteLine("To delete press X:");
+                    string Delete = Console.ReadLine().ToLower();
+
+                    if (Delete != "x")
+                    { Console.WriteLine("The book was not deleted :)"); }
+                    else
+                    {
+                        Books.Remove((Books[DeleteIndex] = (Books[DeleteIndex].BookID, Books[DeleteIndex].BookName, Books[DeleteIndex].BookAuthor, Books[DeleteIndex].BookQuantity, Books[DeleteIndex].Borrowed, Books[DeleteIndex].Price, Books[DeleteIndex].Category, Books[DeleteIndex].BorrowPeriod)));
+                        Console.WriteLine("The book was deleted sucessfully :)");
+                    }
+                    SaveBooksToFile();
                 }
             }
         }
