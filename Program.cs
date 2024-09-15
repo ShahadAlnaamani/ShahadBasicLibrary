@@ -364,31 +364,42 @@ namespace BasicLibrary
         static void ViewAllBooks()
         {
             Console.Clear();
-            Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-            Console.Write("\n\t\tAVAILABLE BOOKS:\n\n");
+            Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
+            Console.Write("\n\t\t\t\t\t\t  AVAILABLE BOOKS:\n\n");
             StringBuilder sb = new StringBuilder();
 
             int BookNumber = 0;
-            
-            if (Books != null)
-            {
-                for (int i = 0; i < Books.Count; i++)
-                {
-                    BookNumber = i + 1;
-                    sb.Append("BOOK ").Append(BookNumber).Append(" ID: ").Append(Books[i].BookID);
-                    sb.AppendLine();
-                    sb.Append("BOOK ").Append(BookNumber).Append(" NAME: ").Append(Books[i].BookName);
-                    sb.AppendLine();
-                    sb.Append("BOOK ").Append(BookNumber).Append(" AUTHOR: ").Append(Books[i].BookAuthor);
-                    sb.AppendLine();
-                    sb.Append("BOOK ").Append(BookNumber).Append(" CATEGORY: ").Append(Books[i].Category);
-                    sb.AppendLine(); 
-                    sb.Append("BOOK ").Append(BookNumber).Append(" AVIALABLE QTY: ").Append(Books[i].BookQuantity);
-                    sb.AppendLine().AppendLine();
-                    Console.WriteLine(sb.ToString());
-                    sb.Clear();
 
+            if (Books != null) 
+            {
+                var BooksTable = new DataTable("Books");
+                BooksTable.Columns.Add("ID", typeof(int));
+                BooksTable.Columns.Add("NAME", typeof(string));
+                BooksTable.Columns.Add("AUTHOR", typeof (string));
+                BooksTable.Columns.Add("CATEGORY", typeof (string));
+                BooksTable.Columns.Add("AVAILABLE QTY", typeof(int));
+
+                for (int i = 0; i <Books.Count; i++) 
+                {
+                    BooksTable.Rows.Add(Books[i].BookID , Books[i].BookName.Trim(), Books[i].BookAuthor.Trim(), Books[i].Category.Trim(), Books[i].BookQuantity);
                 }
+
+                foreach (DataColumn column in BooksTable.Columns)
+                {
+                    Console.Write($"{column.ColumnName,-25}");
+                }
+                Console.WriteLine();
+
+
+                foreach (DataRow row in BooksTable.Rows)
+                {
+                    foreach (var item in row.ItemArray)
+                    {
+                        Console.Write($"{item,-25}");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
             }
             else { Console.WriteLine("Sorry it looks like we don't have any books available :( \nPlease come again another time.\n"); }
 
