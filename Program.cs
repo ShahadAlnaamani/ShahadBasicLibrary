@@ -231,6 +231,11 @@ namespace BasicLibrary
                     string UserPassword2 = "  "; //This has two spaces so that it doesn't affect do while loop condition below
                     string Email1 = " ";
                     string Email2 = "  ";
+                    bool EmailTemp = false;
+                    bool UsrContinue = false;
+                    bool ExistingUsr = false;
+                    string EmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+                    Regex userRegex = new Regex(EmailPattern);
 
                     do
                     {
@@ -238,7 +243,25 @@ namespace BasicLibrary
                         Email1 = Console.ReadLine();
                         Console.Write("Re-enter Email: ");
                         Email2 = Console.ReadLine();
-                    } while (Email1 != Email2);
+
+
+                        bool isValid = userRegex.IsMatch(Email1);
+
+                        if (isValid == true)
+                        {
+                            EmailTemp = true;
+                        }
+
+                        //check if email has been used already 
+
+                        if (EmailTemp != false && Email1 == Email2 && ExistingUsr != true) //ensures that emails match and in correct format 
+                        {
+                            UsrContinue = true;
+                        }
+
+                    } while (UsrContinue != true);
+
+
 
                     Console.Write("User Name: ");
                     string UserName = Console.ReadLine();
@@ -282,25 +305,66 @@ namespace BasicLibrary
                         string AdminPassword2 = "  "; //This has two spaces so that it doesn't affect do while loop condition below
                         string AdminEmail1 = " ";
                         string AdminEmail2 = "  ";
+                        string EmailHolder;
+                        bool EmailFormat = false;
+                        bool PasswordFormat = false;
+                        bool Reused = false;    
+                        bool Continue = false;
 
+                        string AdminEmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+                        Regex regex = new Regex(AdminEmailPattern);
+
+                        Console.WriteLine("\nHint: Make sure your emails match");
                         do
                         {
+                            EmailFormat = false;
                             Console.Write("Email: ");
                             AdminEmail1 = Console.ReadLine();
                             Console.Write("Re-enter Email: ");
                             AdminEmail2 = Console.ReadLine();
-                        } while (AdminEmail1 != AdminEmail2);
+
+                            bool isValid = regex.IsMatch(AdminEmail1);
+
+                            if (isValid == true)
+                            {
+                                EmailFormat = true;
+                            }
+
+                            else 
+                            {
+                                Console.WriteLine("Sorry this email is not in the correct format :(");
+                            }
+
+                            for (int i = 0; i < Admins.Count; i++)
+                            {
+                                if (Admins[i].AdminEmail.Trim() == AdminEmail1.Trim())
+                                {
+                                    Console.WriteLine("This email has already been used to create an account :(");
+                                    Reused = true;
+                                }
+                            }
+
+                            if (EmailFormat != false && AdminEmail1 == AdminEmail2 && Reused != true) //ensures that emails match and in correct format 
+                            {
+                                Continue = true;
+                            }
+
+                        } while (Continue != true);
 
                         Console.Write("User Name: ");
                         string AdminUserName = Console.ReadLine();
 
+                        Console.WriteLine("\nHint: Make sure your passwords match and follow criteria below");
+                        Console.WriteLine("At least 8 characters, includes upper and lower case characters, contains number and special character\n");
                         do
                         {
                             Console.Write("Password: ");
                             AdminPassword1 = Console.ReadLine();
                             Console.Write("Re-enter Password: ");
                             AdminPassword2 = Console.ReadLine();
-                        } while (AdminPassword1 != AdminPassword2);
+                        } while (AdminPassword1 != AdminPassword2 && PasswordFormat != true);
+
+                        
 
                         //Geneate id
                         int AdminID = Admins.Count + 10;
