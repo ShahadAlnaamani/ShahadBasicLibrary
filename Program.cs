@@ -100,7 +100,7 @@ namespace BasicLibrary
                         string Pswd = Console.ReadLine();
                         bool UsrAuth = ReaderLogin(Usr, Pswd);
 
-                        if (UsrAuth)
+                        if (UsrAuth == true)
                         {
 
                             for (int i = 0; i < Users.Count; i++)
@@ -115,10 +115,33 @@ namespace BasicLibrary
                         }
 
                         else
-                        { 
-                            Console.WriteLine("Incorrect login details please try again :(");
-                            Console.WriteLine("Press enter to try again.");
-                            Console.ReadKey();
+                        {
+                            bool UsrFound = false;
+                            for (int i = 0; i < Users.Count; i++)
+                            {
+                                if (Users[i].UserUserName == Usr)
+                                {
+                                    UsrFound = true;
+                                }
+                            }
+
+                            if (UsrFound == false)
+                            {
+                                Console.WriteLine("This username is not in our system. \n\nWould you like to register? Yes to register, enter to exit");
+                                Console.Write("Enter: ");
+                                string NewRegistration = (Console.ReadLine()).ToLower();
+
+                                if (NewRegistration == "yes")
+                                {
+                                    Register();
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Incorrect password please try again :(");
+                                Console.WriteLine("Press enter to try again.");
+                                Console.ReadKey();
+                            }
                         }
                         break;
 
