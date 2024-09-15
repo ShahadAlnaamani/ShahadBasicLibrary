@@ -9,6 +9,8 @@ using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
+using System.Data.SqlTypes;
 
 namespace BasicLibrary
 {
@@ -1038,17 +1040,22 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
             Console.Write("\n\t\tSEARCH LIBRARY:\n\n");
-            Console.Write("Book name: ");
+            Console.Write("Book name or author: ");
             string name = (Console.ReadLine().Trim()).ToLower();
+            string SearchPattern = Regex.Escape(name);
+            Regex regex = new Regex(SearchPattern, RegexOptions.IgnoreCase);
+
             bool flag = false;
 
             for (int i = 0; i < Books.Count; i++)
             {
-                if ((Books[i].BookName).ToLower() == name)
+
+                if (regex.IsMatch(Books[i].BookName) || regex.IsMatch(Books[i].BookAuthor))
                 {
-                    Console.WriteLine($"Book Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nBorrow Period: {Books[i].BorrowPeriod} days");
+                    Console.WriteLine($"\nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nBorrow Period: {Books[i].BorrowPeriod} days\n");
                     flag = true;
-                    break;
+                    //break;
+
                 }
             }
 
