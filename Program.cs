@@ -416,7 +416,7 @@ namespace BasicLibrary
                 {
                     foreach (var book in Books)
                     {
-                        writer.WriteLine($"{book.BookID}| {book.BookName} | {book.BookAuthor} |{book.BookQuantity}|{book.Borrowed}|{book.Price}| {book.Category} |{book.BorrowPeriod}");
+                        writer.WriteLine($"{book.BookID}|{book.BookName}|{book.BookAuthor}|{book.BookQuantity}|{book.Borrowed}|{book.Price}|{book.Category}|{book.BorrowPeriod}");
                     }
                 }
                 Console.WriteLine("Books saved to file successfully! :)");
@@ -570,90 +570,167 @@ namespace BasicLibrary
         static void UserPage()
         {
             bool ExitFlag = false;
-            do
+            bool Overdue = false;
+            string BookName = " ";
+            List<(int BookID, string BookName, DateTime ReturnDate, double DaysLate)> OverdueBooks = new List<(int BookID, string BookName, DateTime ReturnDate, double DaysLate)>();
+
+            for (int i = 0; i < Borrowing.Count; i++)
             {
-                Console.Clear();
-                Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
-                Console.WriteLine("\t\t\tREADER OPTIONS:");
-                Console.WriteLine(" 1. View All Books");
-                Console.WriteLine(" 2. Search by Book Name or Author");
-                Console.WriteLine(" 3. View Profile");
-                Console.WriteLine(" 4. Borrow A Book");
-                Console.WriteLine(" 5. Return A Book");
-                Console.WriteLine(" 6. Log out\n");
-                Console.Write("Enter: ");
-                int choice =0;
-
-                try
+                double DaysLeft = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
+                if (DaysLeft < 0 && Borrowing[i].IsReturned == false && Borrowing[i].UserID == CurrentUser)//user has overdue books
                 {
-                    choice = int.Parse(Console.ReadLine());
-                }catch(Exception ex) { Console.WriteLine(ex.Message); }
-
-                switch (choice)
-                {
-                    case 1:;
-                        Console.Clear();
-                        ViewAllBooks();
-                        if (Books.Count != 0)
+                    Overdue = true;
+                    for (int j = 0; j < Books.Count; j++)
+                    {
+                        if (Books[j].BookID == Borrowing[i].BookID)
                         {
-                            Console.WriteLine("Would you like to borrow a book? \n\nYes to continue anything else to leave.");
-                            Console.Write("Enter: ");
-                            string BorrowNow = Console.ReadLine().ToLower();
+                            BookName = Books[j].BookName;
+                        }
+                    }
 
-                            if (BorrowNow != "yes")
-                            {
-                                Console.WriteLine("Exiting...");
+                    double DaysCount = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
+                    int OverdueDays = (int)Math.Truncate(DaysCount);
+
+                    OverdueBooks.Add((Borrowing[i].BookID, BookName, Borrowing[i].ReturnBy, OverdueDays)); //Add pendalty here as well 
+
+                    Console.Clear();
+
+                    Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                    Console.WriteLine("! ! ! ! ! ! ! ! ! ! ! ! ! ! ACCOUNT SUSPENDED :( ! ! ! ! ! ! ! ! ! ! ! ! ! ! ");
+                    Console.WriteLine("Please return the following overdue books to unlock your account\n");
+                    for (int j = 0; j < OverdueBooks.Count; j++)
+                    {
+                        Console.WriteLine($"Book ID: {OverdueBooks[j].BookID} \nBook Name: {OverdueBooks[j].BookName} \nReturn Date: {OverdueBooks[j].ReturnDate} \nDays Late: {OverdueBooks[j].DaysLate}\n\n");
+                    }
+
+                    bool ReturnLoop = true;
+                    do
+                    {
+                        Console.WriteLine("\t\t\tREADER OPTIONS:");
+                        Console.WriteLine(" 1. Return A Book");
+                        Console.WriteLine(" 2. Logout\n");
+                        Console.Write("Enter: ");
+                        int choice = 0;
+
+                        try
+                        {
+                            choice = int.Parse(Console.ReadLine());
+                        }
+                        catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+                        switch (choice)
+                        {
+                            case 1:
+                                Console.Clear();
+                                ReturnBook();
                                 break;
-                            }
 
-                            else;
-                            { 
-                                BorrowBook(); 
-                            }
+                            case 2:
+                                ReturnLoop = false;
+                                break;
+
+                            default:
+                                Console.WriteLine("Invalid choice :(");
+                                break;
 
                         }
-                        break;
-
-                    case 2:
-                        Console.Clear();
-                        UserSearchForBook();
-                        break;
-
-                    case 3:
-                        Console.Clear();
-                        ViewUsrProfile();
-                        break;
-
-                    case 4:
-                        Console.Clear();
-                        BorrowBook();
-                        break;
-
-                    case 5:
-                        Console.Clear();
-                        ReturnBook();
-                        break;
-
-                    case 6:
-                        Console.Clear();
-                        SaveBooksToFile();
-                        bool Response = LeaveLibrary(ExitFlag);
-                        if (Response == true)
-                        {
-                            ExitFlag = true;
-                        }
-                        break;
-
-                    default:
-                        Console.WriteLine("Sorry your choice was wrong");
-                        break;
-
+                    } while (ReturnLoop = true);
                 }
-                Console.Write("Press enter to continue. ");
-                string cont = Console.ReadLine();
-                Console.Clear();
+            }
+                if (Overdue)
+                { }
 
-            } while (ExitFlag != true);
+                //Only happens if user does not have overdue books 
+                else
+                {
+                    do
+                    {
+                        Console.Clear();
+                        Console.WriteLine("\n\n- - - - - -  - - - -C I T Y   L I B R A R Y- - - - - - - - - - \n\n");
+                        Console.WriteLine("\t\t\tREADER OPTIONS:");
+                        Console.WriteLine(" 1. View All Books");
+                        Console.WriteLine(" 2. Search by Book Name or Author");
+                        Console.WriteLine(" 3. View Profile");
+                        Console.WriteLine(" 4. Borrow A Book");
+                        Console.WriteLine(" 5. Return A Book");
+                        Console.WriteLine(" 6. Log out\n");
+                        Console.Write("Enter: ");
+                        int choice = 0;
+
+                        try
+                        {
+                            choice = int.Parse(Console.ReadLine());
+                        }
+                        catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+                        switch (choice)
+                        {
+                            case 1:
+                                ;
+                                Console.Clear();
+                                ViewAllBooks();
+                                if (Books.Count != 0)
+                                {
+                                    Console.WriteLine("Would you like to borrow a book? \n\nYes to continue anything else to leave.");
+                                    Console.Write("Enter: ");
+                                    string BorrowNow = Console.ReadLine().ToLower();
+
+                                    if (BorrowNow != "yes")
+                                    {
+                                        Console.WriteLine("Exiting...");
+                                        break;
+                                    }
+
+                                    else;
+                                    {
+                                        BorrowBook();
+                                    }
+
+                                }
+                                break;
+
+                            case 2:
+                                Console.Clear();
+                                UserSearchForBook();
+                                break;
+
+                            case 3:
+                                Console.Clear();
+                                ViewUsrProfile();
+                                break;
+
+                            case 4:
+                                Console.Clear();
+                                BorrowBook();
+                                break;
+
+                            case 5:
+                                Console.Clear();
+                                ReturnBook();
+                                break;
+
+                            case 6:
+                                Console.Clear();
+                                SaveBooksToFile();
+                                bool Response = LeaveLibrary(ExitFlag);
+                                if (Response == true)
+                                {
+                                    ExitFlag = true;
+                                }
+                                break;
+
+                            default:
+                                Console.WriteLine("Sorry your choice was wrong");
+                                break;
+
+                        }
+                        Console.Write("Press enter to continue. ");
+                        string cont = Console.ReadLine();
+                        Console.Clear();
+
+                    } while (ExitFlag != true);
+                }
+            
         }
 
 
@@ -1444,6 +1521,14 @@ namespace BasicLibrary
 
                 Books.Add((ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod));
                 SaveBooksToFile();
+
+                for (int i = 0; i < Categories.Count; i++) 
+                {
+                    if (Categories[i].CategoryName == Category)
+                    {
+                        Categories[i] = ((Categories[i].CategoryID, Categories[i].CategoryName, NoOfBooks: Categories[i].NoOfBooks + 1));
+                    }
+                }
             }
         }
 
