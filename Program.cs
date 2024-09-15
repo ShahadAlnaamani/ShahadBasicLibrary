@@ -1817,6 +1817,38 @@ namespace BasicLibrary
             int SumOfAvailable = BookQuantities.Sum();
             Console.WriteLine("Number of Available Books: " + SumOfAvailable);
 
+            //Number of categories
+            Console.WriteLine("Number of Available Categories: " + Categories.Count);
+
+            //Category information 
+            var CategoriesTable = new DataTable("Categories");
+            CategoriesTable.Columns.Add("ID", typeof(int));
+            CategoriesTable.Columns.Add("Name", typeof(string));
+            CategoriesTable.Columns.Add("No. Books", typeof(int));
+
+            for (int i = 0; i < Categories.Count; i++)
+            {
+                CategoriesTable.Rows.Add(Categories[i].CategoryID, Categories[i].CategoryName, Categories[i].NoOfBooks);
+            }
+
+            foreach (DataColumn column in CategoriesTable.Columns)
+            {
+                Console.Write($"{column.ColumnName,-25}");
+            }
+            Console.WriteLine();
+
+
+            foreach (DataRow row in CategoriesTable.Rows)
+            {
+                foreach (var item in row.ItemArray)
+                {
+                    Console.Write($"{item,-25}");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+
 
             //Most borrowed book
             Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
