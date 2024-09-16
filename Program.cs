@@ -275,9 +275,28 @@ namespace BasicLibrary
                     } while (UsrContinue != true);
 
 
+                    //Checks that usernames are not repeated 
+                    bool RepeatedName = false;
+                    string UserName;
+                    do
+                    {
+                        RepeatedName = false;
+                        Console.Write("User Name: ");
+                        UserName = Console.ReadLine();
 
-                    Console.Write("User Name: ");
-                    string UserName = Console.ReadLine();
+                        for (int i = 0; i < Users.Count; i++)
+                        {
+                            if (Users[i].UserUserName.ToLower().Trim() == UserName.ToLower().Trim())
+                            {
+                                RepeatedName = true;
+                                Console.WriteLine("This username is taken please try another one :(");
+                            }
+                        }
+                    } while (RepeatedName != false);
+
+
+
+                    //Password format validation 
                     bool PassValid = false;
                     bool PassOk = false;
                     string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}$";
