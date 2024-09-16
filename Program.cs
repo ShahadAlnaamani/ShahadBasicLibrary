@@ -82,6 +82,7 @@ namespace BasicLibrary
                 Console.WriteLine(" 4. Exit\n");
                 int Option = 0;
                 Console.Write("Enter: ");
+               
 
                 try
                 {
@@ -781,6 +782,7 @@ namespace BasicLibrary
                     Console.Clear();
                     Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
                     Console.WriteLine("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ACCOUNT SUSPENDED :( ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+
                     Console.WriteLine("Please return the following overdue books to unlock your account\n");
                     for (int j = 0; j < OverdueBooks.Count; j++)
                     {
@@ -989,18 +991,67 @@ namespace BasicLibrary
                                 Invoices.Add((CurrentUser, DateTime.Now, Books[Location].BookID, Books[Location].BookName, Books[Location].BookAuthor, 1));
                                 SaveInvoice();
 
+                                //Finding book category to print related ASCII art
+                                string CurrentCategory = Books[Location].Category.Trim();
+
+
                                 //Printing recipt 
                                 Console.Clear();
                                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
                                 Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-                                Console.WriteLine("\t\t\t" + Now);
+                                Console.WriteLine("\t\t\t\t\t" + Now);
                                 Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n");
+
+                                //Getting related ASCII art
+                                switch (CurrentCategory)
+                                {
+                                    case "Children":
+                                        PrintBear();
+                                        break;
+
+                                    case "Cooking":
+                                        PrintPie();
+                                        break;
+
+                                    case "History":
+                                        PrintScroll();
+                                        break;
+
+                                    case "IT":
+                                        PrintComputer();
+                                        break;
+
+                                    case "Non-Fiction":
+                                        PrintPerson();
+                                        break;
+
+                                    case "Science":
+                                        PrintBooks();
+                                        break;
+
+                                    case "Self Help":
+                                        PrintMoon();
+                                        break;
+
+                                    case "Software":
+                                        PrintWindowsLogo();
+                                        break;
+
+                                    case "Stories":
+                                        PrintSherlock();
+                                        break;
+
+                                    case "Young Adult":
+                                        PrintPacMan();
+                                        break;
+
+                                }
+
                                 Console.WriteLine($"BOOK: ID - {Books[Location].BookID} \nNAME - {Books[Location].BookName} \nAUTHOR - {Books[Location].BookAuthor} \nRETURN BY - {Return}");
                                 Console.WriteLine("\n\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n\n\n");
-                                Console.WriteLine("\t\t\tThank you for visiting the library come again soon!");
+                                Console.WriteLine("\n\t\t\tThank you for visiting the library come again soon!");
                                 Console.WriteLine("\t\t\tHappy Reading :)");
                                 Console.WriteLine("\n\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n ");
-
                                 Console.WriteLine("Press enter to continue");
                                 Console.ReadKey();
 
@@ -1240,7 +1291,7 @@ namespace BasicLibrary
                 {
                     foreach (var user in Users)
                     {
-                        writer.WriteLine($"{user.UserID} | {user.UserUserName} | {user.UserEmail} | {user.UserPswd}");
+                        writer.WriteLine($"{user.UserID}|{user.UserUserName}|{user.UserEmail}|{user.UserPswd}");
                     }
                 }
                 Console.WriteLine("User details saved to file successfully! :)");
@@ -2204,35 +2255,145 @@ namespace BasicLibrary
             }
         }
 
-/*
- * Not important to load these as it is only used for store records --> black box kind of thing :)
-        //LOADS INVOICE RECORDS 
-        static void LoadInvoices()
+
+
+
+        //- - - - - - - - - - - - - - - - - - - - CUTE DRAWINGS :)  - - - - - - - - - - - - - - - - - - //
+    
+         static void PrintBear()
         {
-            Invoices.Clear();
-            try
-            {
-                if (File.Exists(InvoicePath))
-                {
-                    using (StreamReader reader = new StreamReader(InvoicePath, true))
-                    {
-                        string line;
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            var parts = line.Split('|');
-                            if (parts.Length == 6)
-                            {
-                                Invoices.Add((int.Parse(parts[0]), DateTime.Parse(parts[1]), int.Parse(parts[2]), parts[3], parts[4], int.Parse(parts[5])));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading admins from file: {ex.Message}");
-            }
+            string multilineString = @"
+             
+                 ()=()   ()-()   ()=()   ()-()
+                 ('Y')   (':')   (^;^)   ('&')
+                 q . p   d . b   C   C   c . c
+                 ()_()   ()_()   ()_()   ()=()
+            ";
+            Console.WriteLine(multilineString); 
         }
-*/
+
+        static void PrintPie()
+        {
+            string multilineString = @"
+                         (
+                          )
+                     __..---..__
+                 ,-='  /  |  \  `=-.
+                :--..___________..--;
+                 \.,_____________,./
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintScroll()
+        {
+            string multilineString = @"
+           
+                    (\
+                    \'\
+                     \'\     __________
+                     / '|   ()_________)
+                     \ '/    \ ~~~~~~~~ \
+                       \       \ ~~~~~~   \
+                       ==).      \__________\
+                      (__)       ()__________)
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintComputer()
+        {
+            string multilineString = @"
+
+                                      .----.
+                          .---------. | == |
+                          |  .--.   | |----|
+                          ||       || | == |
+                          ||       || |----|
+                          |'-.....-'| |::::|
+                         `   )---(  ` |___.|
+                         /:::::::::::\"" _  ""
+                        /:::=======:::\`\`\
+                   `""""""""""""""""""""""""""`  '-'
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintPerson()
+        {
+            string multilineString = @"
+
+                         ,,,
+                        (o o)
+                ----oOO--( )--OOo----
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintSherlock()
+        {
+            string multilineString = @"
+                           ,_
+                         ,'  `\,_
+                         |_,-'_)
+                         /##c '\  (
+                        ' |'  -{.  )
+                          /\__-' \[]
+                         /`-_`\
+                         '     \
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintMoon()
+        {
+            string multilineString = @"
+                     ,-,-.
+                    /.( +.\
+                    \ {. */
+                     `-`-'
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintWindowsLogo()
+        {
+            string multilineString = @"
+                   
+                         _.-;;-._
+                  '-..-'|   ||   |
+                  '-..-'|_.-;;-._|
+                  '-..-'|   ||   |
+                  '-..-'|_.-''-._|
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintPacMan()
+        {
+            string multilineString = @"
+                  __        ___
+                 / o\      /o o\
+                |   <      |   |
+                 \__/      |,,,|
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintBooks()
+        {
+            string multilineString = @"
+               
+                          _ _
+                     .-. | | |
+                     |M|_|A|N|
+                     |A|a|.|.|<\
+                     |T|r| | | \\
+                     |H|t|M|Z|  \\      
+                     | |!| | |   \>     
+                    """"""""""""""""""
+            ";
+            Console.WriteLine(multilineString);
+        }
     }
 }
