@@ -11,6 +11,7 @@ using System.Text;
 using System.Xml.Linq;
 using System.Text.RegularExpressions;
 using System.Data.SqlTypes;
+using System.Diagnostics.Metrics;
 
 namespace BasicLibrary
 {
@@ -758,7 +759,7 @@ namespace BasicLibrary
 
         //LEADERBOARD OF MOST ACTIVE READERS 
         static void LeaderBoard()
-        { 
+        {  
             int Counter  = 0;
             int HighestID = 0;
             int SecondScore = 0;
@@ -776,8 +777,7 @@ namespace BasicLibrary
             }
 
 
-            //find top 3 readers 
-            //Will [print out their reading score but not personal info [id or name]
+            //Finds the top 3 readers and shows their score 
             for (int i = 0; i < ReaderIDs.Count; i++) 
             {
                 Counter = 0;
@@ -799,13 +799,14 @@ namespace BasicLibrary
                     HighestID = ReaderIDs[i];
                 }
 
+
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - -W E L C O M E   T O   T H E   L I B R A R Y- - - - - - - - - - - - - - - - - - -\n\n");
-                Console.WriteLine("\n\t\t\t\t L E A D E R   B O A R D:\n\n");
+                Console.WriteLine("\n\t\t\t\t\t L E A D E R   B O A R D:\n\n");
                 PrintCrown();
-                Console.WriteLine($"HIGHEST SCORE -> {HighestScore} books read!");
-                Console.WriteLine($"SECOND PLACE -> {SecondScore} books read");
-                Console.WriteLine($"THIRD PLACE -> {ThirdScore} books read");
+                Console.WriteLine($"\t\t\t\t\tHIGHEST SCORE -> {HighestScore} books read!");
+                Console.WriteLine($"\t\t\t\t\tSECOND PLACE -> {SecondScore} books read");
+                Console.WriteLine($"\t\t\t\t\tTHIRD PLACE -> {ThirdScore} books read");
             }
         }
 
@@ -910,8 +911,8 @@ namespace BasicLibrary
 
                             case 2:
                                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                                PrintMonkey(); 
-                                Console.WriteLine("\t\t\t\tPress enter to continue...");
+                                PrintMonkey();
+                                Console.WriteLine("\t\t\t\t\tPress enter to continue...");
                                 Console.ReadKey();
                                 ReturnLoop = false;
                                 break;
@@ -940,7 +941,8 @@ namespace BasicLibrary
                         Console.WriteLine(" 3. View Profile");
                         Console.WriteLine(" 4. Borrow A Book");
                         Console.WriteLine(" 5. Return A Book");
-                        Console.WriteLine(" 6. Log out\n");
+                        Console.WriteLine(" 6. View Leader Board");
+                        Console.WriteLine(" 7. Log out\n");
                         Console.Write("Enter: ");
                         int choice = 0;
 
@@ -997,6 +999,10 @@ namespace BasicLibrary
                                 break;
 
                             case 6:
+                                 LeaderBoard();
+                                 break;
+
+                            case 7:
                                 Console.Clear();
                                 SaveBooksToFile();
                                 bool Response = LeaveLibrary(ExitFlag);
@@ -1016,7 +1022,6 @@ namespace BasicLibrary
                         PrintMonkey(); 
                         Console.WriteLine("\t\t\t\t\tPress enter to continue...");
                         Console.ReadKey();
-                        Console.Write("Press enter to continue. ");
                         string cont = Console.ReadLine();
                         Console.Clear();
 
@@ -1315,6 +1320,8 @@ namespace BasicLibrary
             List<int> SearchIDs = new List<int>();
             List<int> BookID = new List<int>();
             List<int> BorrowedBookIDs = new List<int>();
+            List<int> ReaderIDs = new List<int>();
+
             double CountDown;
             DateTime Now = DateTime.Now;
 
@@ -1330,12 +1337,59 @@ namespace BasicLibrary
 
             int CurrentIndex = SearchIDs.IndexOf(CurrentUser);
 
+            //Getting user reading ranking across all readers 
+            
+            int UserCounter = 0;
+            int Counter = 0;
+            int CurrentCount = 0;
+            int HighScore = 0;
+            int UserRead = 0;
+
+            for (int i = 0; i < Borrowing.Count; i++)
+            {
+                if (Borrowing[i].IsReturned) //We only want values of books completed by reader (so borrowed and returned as well)
+                {
+                    ReaderIDs.Add(Borrowing[i].UserID);
+                }
+            }
+            int UserRank = ReaderIDs.Count;
+
+            for (int i = 0; i < ReaderIDs.Count; i++)
+            {
+                Counter = 0;
+                for (int j = 0; j < ReaderIDs.Count; j++)
+                {
+                    if (ReaderIDs[i] == ReaderIDs[j])
+                    {
+                        Counter++;
+                    }
+                }
+
+                if (ReaderIDs[i] != CurrentUser) //Ensures that user is not being compared to themself
+                {
+                    if (CurrentCount < UserCounter) //Moves users rank down one as if the counter is higher than they have a higher rank 
+                    {
+                        UserRank--;
+                    }
+                }
+            }
+
+
+            for (int i = 0; i < ReaderIDs.Count; i++)
+            {
+                if (ReaderIDs[i] == CurrentUser)
+                {
+                    UserRead++;
+                }
+            }
+            
+
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             PrintOwl();
             Console.WriteLine($"\n\t\t\t\t {Users[CurrentIndex].UserUserName}'s Home Page :) \n ");
-            Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail}\n");
+            Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail} \nUser Ranking: #{UserRank}, Books Read: {UserRead}\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             Console.WriteLine($"CURRENTLY BORROWED:"); 
             for (int i = 0; i < Borrowing.Count; i++)
@@ -1344,9 +1398,6 @@ namespace BasicLibrary
                 {
                     CountDown = (Borrowing[i].ReturnBy - DateTime.Now).TotalDays;
                     CountDown = Math.Round(CountDown, 0);
-
-                   // int BookIndex = BookID.IndexOf(Borrowing[i].BookID);
-                  //  CountDown = Borrowing[i].ReturnBy.CompareTo(Now);
                     Console.WriteLine($"Book ID: {Borrowing[i].BookID} \nReturn Date: {Borrowing[i].ReturnBy} \nDays remaining: {CountDown}\n");
                     BorrowedBookIDs.Add(Borrowing[i].BookID);
 
@@ -1366,6 +1417,8 @@ namespace BasicLibrary
             }
             Console.WriteLine("\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+            Console.WriteLine("\n\t\t\t\t\t Press enter to continue...");
+            Console.ReadKey();
 
         }
 
