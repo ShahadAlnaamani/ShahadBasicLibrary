@@ -408,8 +408,27 @@ namespace BasicLibrary
 
                         } while (Continue != true);
 
-                        Console.Write("User Name: ");
-                        string AdminUserName = Console.ReadLine();
+
+                        //Checks that usernames are not repeated 
+                        bool RepeatedAdminName = false;
+                        string AdminUserName;
+                        do
+                        {
+                            RepeatedName = false;
+                            Console.Write("User Name: ");
+                            AdminUserName = Console.ReadLine();
+
+                            for (int i = 0; i < Admins.Count; i++)
+                            {
+                                if (Admins[i].AdminUserName.ToLower().Trim() == AdminUserName.ToLower().Trim())
+                                {
+                                    RepeatedName = true;
+                                    Console.WriteLine("This username is taken please try another one :(");
+                                }
+                            }
+                        } while (RepeatedName != false);
+
+
 
                         bool AdminPassOk = false;
                         string AdminPasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}$";
