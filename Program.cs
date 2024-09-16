@@ -177,9 +177,32 @@ namespace BasicLibrary
                         }
                         else
                         {
-                            Console.WriteLine("Incorrect login details please try again :(");
-                            Console.WriteLine("Press enter to try again.");
-                            Console.ReadKey();
+                            bool AdminUserFound = false;
+                            for (int i = 0; i < Admins.Count; i++)
+                            {
+                                if (Admins[i].AdminUserName == AdminUsr)
+                                {
+                                    AdminUserFound = true;
+                                }
+                            }
+
+                            if (AdminUserFound == false)
+                            {
+                                Console.WriteLine("This username is not in our system. \n\nWould you like to register? Yes to register, enter to exit");
+                                Console.Write("Enter: ");
+                                string NewRegistration = (Console.ReadLine()).ToLower();
+
+                                if (NewRegistration == "yes")
+                                {
+                                    Register();
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Incorrect password please try again :(");
+                                Console.WriteLine("Press enter to try again.");
+                                Console.ReadKey();
+                            }
                         }
                         
                         break;
@@ -191,6 +214,11 @@ namespace BasicLibrary
                         break;
 
                     case 4:
+                        Console.Clear();
+                        Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - -L E A V I N G   T H E   L I B R A R Y- - - - - - - - - - - - - - - - - - -\n\n");
+                        PrintAlien();
+                        Console.WriteLine("\t\t\t\tPress enter to continue...");
+                        Console.ReadKey();
                         Authentication = true;
                         break;
 
@@ -341,7 +369,10 @@ namespace BasicLibrary
                     int UserID = Users.Count + 10;
 
                     Users.Add((UserID, UserName, Email1, UserPassword1));
-                    Console.WriteLine("User created :) \nPress enter to continue!");
+                    Console.Clear();
+                    Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                    PrintPenguin();
+                    Console.WriteLine("\t\t\t\tPress enter to continue!");
                     Console.ReadKey();
                     SaveUsers();
                     break;
@@ -354,6 +385,7 @@ namespace BasicLibrary
 
 
                     //AUTHENTICATE MASTER ADMIN 
+                    PrintGrimReaper();
                     Console.Write("Master Username: ");
                     string Usr = Console.ReadLine();
                     Console.Write("Master Password: ");
@@ -473,11 +505,12 @@ namespace BasicLibrary
 
                         //Geneate id
                         int AdminID = Admins.Count + 10;
-
-                        
                         Admins.Add((AdminID, AdminUserName, AdminEmail1, AdminPassword1));
                         SaveAdmins();
-                        Console.WriteLine("Admin created :) \nPress enter to continue!");
+                        Console.Clear();
+                        Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                        PrintDino();
+                        Console.WriteLine("\nPress enter to continue!");
                         Console.ReadKey();
                     }
                     else
@@ -736,10 +769,10 @@ namespace BasicLibrary
                         string line;
                         while ((line = reader.ReadLine()) != null)
                         {
-                            var parts = line.Split(" | ");
+                            var parts = line.Split("|");
                             if (parts.Length == 4)
                             {
-                                if (Usr == parts[1] && parts[3] == Pswd)
+                                if (Usr == parts[1].Trim() && parts[3].Trim() == Pswd)
                                 {
                                     i = true;
                                     CurrentUser = int.Parse(parts[0]);
@@ -788,6 +821,7 @@ namespace BasicLibrary
                     Console.Clear();
                     Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
                     Console.WriteLine("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ACCOUNT SUSPENDED :( ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                    PrintSpaceShip();
 
                     Console.WriteLine("Please return the following overdue books to unlock your account\n");
                     for (int j = 0; j < OverdueBooks.Count; j++)
@@ -818,6 +852,10 @@ namespace BasicLibrary
                                 break;
 
                             case 2:
+                                Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                                PrintMonkey(); 
+                                Console.WriteLine("\t\t\t\tPress enter to continue...");
+                                Console.ReadKey();
                                 ReturnLoop = false;
                                 break;
 
@@ -863,7 +901,7 @@ namespace BasicLibrary
                                 ViewAllBooks();
                                 if (Books.Count != 0)
                                 {
-                                    Console.WriteLine("Would you like to borrow a book? \n\nYes to continue anything else to leave.");
+                                    Console.WriteLine("Would you like to borrow a book? \n\nYes to continue enter to leave.");
                                     Console.Write("Enter: ");
                                     string BorrowNow = Console.ReadLine().ToLower();
 
@@ -916,6 +954,11 @@ namespace BasicLibrary
                                 break;
 
                         }
+                        Console.Clear();
+                        Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                        PrintMonkey(); 
+                        Console.WriteLine("\t\t\t\t\tPress enter to continue...");
+                        Console.ReadKey();
                         Console.Write("Press enter to continue. ");
                         string cont = Console.ReadLine();
                         Console.Clear();
@@ -1233,6 +1276,7 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
+            PrintOwl();
             Console.WriteLine($"\n\t\t\t\t {Users[CurrentIndex].UserUserName}'s Home Page :) \n ");
             Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail}\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
@@ -1279,6 +1323,7 @@ namespace BasicLibrary
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
             Console.WriteLine("\t\t\t Returned: " + Now);
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
+            PrintDucks();
             Console.WriteLine($"BOOK: \nID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
             Console.WriteLine($"Thank you for returning {Books[i].BookName} :)\n\n");
@@ -1297,7 +1342,7 @@ namespace BasicLibrary
                 {
                     foreach (var user in Users)
                     {
-                        writer.WriteLine($"{user.UserID}|{user.UserUserName}|{user.UserEmail}|{user.UserPswd}");
+                        writer.WriteLine($"{user.UserID}| {user.UserUserName.Trim()} | {user.UserEmail.Trim()} | {user.UserPswd.Trim()}");
                     }
                 }
                 Console.WriteLine("User details saved to file successfully! :)");
@@ -1545,7 +1590,7 @@ namespace BasicLibrary
                 Console.WriteLine(" 4. Edit Book");
                 Console.WriteLine(" 5. Delete Book");
                 Console.WriteLine(" 6. Show Reports");
-                Console.WriteLine(" 7. Save and Exit\n");
+                Console.WriteLine(" 7. Log out\n");
                 Console.Write("Enter: ");
                 int choice = 0;
 
@@ -1589,6 +1634,8 @@ namespace BasicLibrary
 
                     case 7:
                         Console.Clear();
+                        Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
+                        PrintFish();
                         SaveBooksToFile();
                         ExitFlag = true;
                         break;
@@ -2429,5 +2476,152 @@ namespace BasicLibrary
             ";
             Console.WriteLine(multilineString);
         }
+
+        static void PrintSpaceShip()
+        {
+            string multilineString = @"
+
+        
+                             ___
+                         ___/   \___
+                        /   '---'   \
+                        '--_______--'
+                             / \
+                            /   \
+                            /\O/\
+                            / | \
+                            // \\
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintGrimReaper()
+        { 
+            string multilineString = @"
+
+                                                         ___          
+                                                        /   \\        
+                                                   /\\ | . . \\       
+                 Answer correctly to enter       ////\\|     ||       
+                                               ////   \\ ___//\       
+                                              ///      \\      \      
+                                             ///       |\\      |     
+                                            //         | \\  \   \    
+                                            /          |  \\  \   \   
+                                                       |   \\ /   /   
+                                                       |    \/   /    
+                                                       |     \\/|     
+                                                       |      \\|     
+                                                       |       \\     
+                                                       |        |     
+                                                       |_________\ 
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintFish()
+        {
+            string multilineString = @"
+
+                            O  o
+                          _\_   o
+                >('>   \\/  o\ .  Bye! 
+                       //\___=      
+                          ''       
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintAlien()
+        {
+            string multilineString = @"
+
+                   
+                                                  .-.
+                                   .-""`""-.    |(@ @)
+                                _/`oOoOoOoOo`\_ \ \-/  Bye!
+                               '.-=-=-=-=-=-=-.' \/ \
+                                 `-=.=-.-=.=-'    \ /\
+                                    ^  ^  ^       _H_ \ 
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintMonkey()
+        {
+            string multilineString = @"
+
+                                  __
+                             w  c(..)o   (
+                  Bye!        \__(-)    __)
+                                  /\   (
+                                 /(_)___)
+                                 w /|
+                                  | \
+                                 m  m  
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintDucks()
+        {
+            string multilineString = @"
+
+              Thank you!  >(.)__ <(.)__ =(.)__
+                           (___/  (___/  (___/  
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintPenguin()
+        {
+            string multilineString = @"
+
+
+
+                                 __
+                                ( o>  User Created!
+                                ///\
+                                \V_/_   
+
+
+
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintDino()
+        {
+            string multilineString = @"
+                                                  __
+                                                  / _)  Admin created!
+                                         _.----._/ /
+                                        /         /
+                                     __/ (  | (  |
+                                    /__.-'|_|--|_|     
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintOwl()
+        {
+            string multilineString = @"
+
+                     ^ ^
+                    (O,O)
+                    (   )
+                ----""-""-----
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
+
+
+
     }
 }
