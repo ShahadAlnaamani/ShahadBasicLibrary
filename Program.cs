@@ -2427,10 +2427,10 @@ namespace BasicLibrary
         {
             string multilineString = @"
              
-                                             ()=()   ()-()   ()=()   ()-()
-                                             ('Y')   (':')   (^;^)   ('&')
-                                             q . p   d . b   C   C   c . c
-                                             ()_()   ()_()   ()_()   ()=()
+                                     ()=()   ()-()   ()=()   ()-()
+                                     ('Y')   (':')   (^;^)   ('&')
+                                     q . p   d . b   C   C   c . c
+                                     ()_()   ()_()   ()_()   ()=()
             ";
             Console.WriteLine(multilineString); 
         }
@@ -2438,12 +2438,12 @@ namespace BasicLibrary
         static void PrintPie()
         {
             string multilineString = @"
-                                                             (
-                                                              )
-                                                         __..---..__
-                                                     ,-='  /  |  \  `=-.
-                                                    :--..___________..--;
-                                                     \.,_____________,./
+                                                         (
+                                                          )
+                                                     __..---..__
+                                                 ,-='  /  |  \  `=-.
+                                                :--..___________..--;
+                                                 \.,_____________,./
             ";
             Console.WriteLine(multilineString);
         }
@@ -2452,14 +2452,14 @@ namespace BasicLibrary
         {
             string multilineString = @"
            
-                                                (\
-                                                \'\
-                                                 \'\     __________
-                                                 / '|   ()_________)
-                                                 \ '/    \ ~~~~~~~~ \
-                                                   \       \ ~~~~~~   \
-                                                   ==).      \__________\
-                                                  (__)       ()__________)
+                                            (\
+                                            \'\
+                                             \'\     __________
+                                             / '|   ()_________)
+                                             \ '/    \ ~~~~~~~~ \
+                                               \       \ ~~~~~~   \
+                                               ==).      \__________\
+                                              (__)       ()__________)
             ";
             Console.WriteLine(multilineString);
         }
@@ -2468,16 +2468,16 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                                                                  .----.
-                                                      .---------. | == |
-                                                      |  .--.   | |----|
-                                                      ||       || | == |
-                                                      ||       || |----|
-                                                      |'-.....-'| |::::|
-                                                     `   )---(  ` |___.|
-                                                     /:::::::::::\"" _  ""
-                                                    /:::=======:::\`\`\
-                                               `""""""""""""""""""""""""""`  '-'
+                                                    .----.
+                                        .---------. | == |
+                                        |  .--.   | |----|
+                                        ||       || | == |
+                                        ||       || |----|
+                                        |'-.....-'| |::::|
+                                        `   )---(  ` |___.|
+                                        /:::::::::::\"" _  ""
+                                    /:::=======:::\`\`\
+                                `""""""""""""""""""""""""""`  '-'
             ";
             Console.WriteLine(multilineString);
         }
@@ -2486,9 +2486,9 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                                                         ,,,
-                                                        (o o)
-                                                ----oOO--( )--OOo----
+                                                 ,,,
+                                                (o o)
+                                        ----oOO--( )--OOo----
             ";
             Console.WriteLine(multilineString);
         }
@@ -2496,14 +2496,14 @@ namespace BasicLibrary
         static void PrintSherlock()
         {
             string multilineString = @"
-                                                           ,_
-                                                         ,'  `\,_
-                                                         |_,-'_)
-                                                         /##c '\  (
-                                                        ' |'  -{.  )
-                                                          /\__-' \[]
-                                                         /`-_`\
-                                                         '     \
+                                                       ,_
+                                                     ,'  `\,_
+                                                     |_,-'_)
+                                                     /##c '\  (
+                                                    ' |'  -{.  )
+                                                      /\__-' \[]
+                                                     /`-_`\
+                                                     '     \
             ";
             Console.WriteLine(multilineString);
         }
@@ -2511,10 +2511,10 @@ namespace BasicLibrary
         static void PrintMoon()
         {
             string multilineString = @"
-                                                         ,-,-.
-                                                        /.( +.\
-                                                        \ {. */
-                                                         `-`-'
+                                                 ,-,-.
+                                                /.( +.\
+                                                \ {. */
+                                                 `-`-'
             ";
             Console.WriteLine(multilineString);
         }
@@ -2535,10 +2535,10 @@ namespace BasicLibrary
         static void PrintPacMan()
         {
             string multilineString = @"
-                                                      __        ___
-                                                     / o\      /o o\
-                                                    |   <      |   |
-                                                     \__/      |,,,|
+                                                  __        ___
+                                                 / o\      /o o\
+                                                |   <      |   |
+                                                 \__/      |,,,|
             ";
             Console.WriteLine(multilineString);
         }
