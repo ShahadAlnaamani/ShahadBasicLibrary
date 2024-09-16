@@ -70,6 +70,12 @@ namespace BasicLibrary
             LoadCategoriesFromFile();
             LoadBorrowsFromFile();
 
+            Console.Clear();
+            Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - -W E L C O M E   T O   T H E   L I B R A R Y- - - - - - - - - - - - - - - - - - -\n\n");
+            PrintCastle();
+            Console.WriteLine("\t\t\t\t\t\tPress enter to continue...");
+            Console.ReadKey();
+
             bool Authentication = false;
             do
             {
@@ -2392,6 +2398,34 @@ namespace BasicLibrary
                      |H|t|M|Z|  \\      
                      | |!| | |   \>     
                     """"""""""""""""""
+            ";
+            Console.WriteLine(multilineString);
+        }
+
+        static void PrintCastle()
+        {
+            string multilineString = @"
+           
+                            |>>>                                                      |>>>
+                            |                     |>>>          |>>>                  |
+                            *                     |             |                     *
+                           / \                    *             *                    / \
+                          /___\                 _/ \           / \_                 /___\
+                          [   ]                |/   \_________/   \|                [   ]
+                          [ I ]                /     \       /     \                [ I ]
+                          [   ]_ _ _          /       \     /       \          _ _ _[   ]
+                          [   ] U U |        {#########}   {#########}        | U U [   ]
+                          [   ]====/          \=======/     \=======/          \====[   ]
+                          [   ]    |           |   I |_ _ _ _| I   |           |    [   ]
+                          [___]    |_ _ _ _ _ _|     | U U U |     |_ _ _ _ _ _|    [___]
+                          \===/  I | U U U U U |     |=======|     | U U U U U | I  \===/
+                           \=/     |===========| I   | + W + |   I |===========|     \=/
+                            |  I   |           |     |_______|     |           |   I  |
+                            |      |           |     |||||||||     |           |      |
+                            |      |           |   I ||vvvvv|| I   |           |      |
+                        _-_-|______|-----------|_____||     ||_____|-----------|______|-_-_
+                           /________\         /______||     ||______\         /________\
+                          |__________|-------|________\_____/________|-------|__________|
             ";
             Console.WriteLine(multilineString);
         }
