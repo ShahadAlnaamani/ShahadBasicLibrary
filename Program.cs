@@ -237,6 +237,8 @@ namespace BasicLibrary
                     string EmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
                     Regex userRegex = new Regex(EmailPattern);
 
+                    //Checks email validity
+                    Console.WriteLine("\nHint: Make sure your emails match");
                     do
                     {
                         Console.Write("Email: ");
@@ -252,8 +254,19 @@ namespace BasicLibrary
                             EmailTemp = true;
                         }
 
-                        //check if email has been used already 
+                        else
+                        {
+                            Console.WriteLine("Sorry this email is not in the correct format :(");
+                        }
 
+                        for (int i = 0; i < Users.Count; i++)
+                        {
+                            if (Users[i].UserEmail.Trim() == Email1.Trim())
+                            {
+                                Console.WriteLine("This email has already been used to create an account :(");
+                                ExistingUsr = true;
+                            }
+                        }
                         if (EmailTemp != false && Email1 == Email2 && ExistingUsr != true) //ensures that emails match and in correct format 
                         {
                             UsrContinue = true;
@@ -265,14 +278,38 @@ namespace BasicLibrary
 
                     Console.Write("User Name: ");
                     string UserName = Console.ReadLine();
+                    bool PassValid = false;
+                    bool PassOk = false;
+                    string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}$";
+                    Regex UserPassRegex = new Regex(PasswordPattern);
 
+
+                    Console.WriteLine("\nHint: Make sure your passwords match and follow criteria below");
+                    Console.WriteLine("At least 8 characters, includes upper and lower case characters, contains number and special character\n");
                     do
                     {
                         Console.Write("Password: ");
                         UserPassword1 = Console.ReadLine();
                         Console.Write("Re-enter Password: ");
                         UserPassword2 = Console.ReadLine();
-                    } while (UserPassword1 != UserPassword2);
+                        PassValid = UserPassRegex.IsMatch(UserPassword1);
+                        if (PassValid != true) 
+                        {
+                            Console.WriteLine("This passowrd is not in the correct format :( \n");
+                        }
+
+                        if (UserPassword1 != UserPassword2)
+                        {
+                            Console.WriteLine("The passwords do not match :(");
+                        }
+
+                        if (UserPassword1 == UserPassword2 && PassValid == true) // checks pass format is valid 
+                        {
+                            PassOk = true;
+                        }
+                       
+
+                    } while (PassOk !=true);
 
                     //Geneate ID
                     int UserID = Users.Count + 10;
@@ -314,6 +351,7 @@ namespace BasicLibrary
                         string AdminEmailPattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
                         Regex regex = new Regex(AdminEmailPattern);
 
+                        //Checks email validity
                         Console.WriteLine("\nHint: Make sure your emails match");
                         do
                         {
