@@ -392,6 +392,11 @@ namespace BasicLibrary
                         Console.Write("User Name: ");
                         string AdminUserName = Console.ReadLine();
 
+                        bool AdminPassOk = false;
+                        string AdminPasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}$";
+                        Regex AdminPassRegex = new Regex(AdminPasswordPattern);
+
+
                         Console.WriteLine("\nHint: Make sure your passwords match and follow criteria below");
                         Console.WriteLine("At least 8 characters, includes upper and lower case characters, contains number and special character\n");
                         do
@@ -400,7 +405,24 @@ namespace BasicLibrary
                             AdminPassword1 = Console.ReadLine();
                             Console.Write("Re-enter Password: ");
                             AdminPassword2 = Console.ReadLine();
-                        } while (AdminPassword1 != AdminPassword2 && PasswordFormat != true);
+                            PassValid = AdminPassRegex.IsMatch(AdminPassword1);
+
+                            if (PassValid != true)
+                            {
+                                Console.WriteLine("This passowrd is not in the correct format :( \n");
+                            }
+
+                            if (AdminPassword1 != AdminPassword2)
+                            {
+                                Console.WriteLine("The passwords do not match :(");
+                            }
+
+                            if (AdminPassword1 == AdminPassword2 && PassValid == true)
+                            {
+                                AdminPassOk = true;
+                            }
+
+                        } while (AdminPassOk != true);
 
                         
 
