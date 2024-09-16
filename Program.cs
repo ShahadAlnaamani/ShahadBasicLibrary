@@ -76,6 +76,10 @@ namespace BasicLibrary
             Console.WriteLine("\t\t\t\t\t\tPress enter to continue...");
             Console.ReadKey();
 
+            LeaderBoard();
+            Console.WriteLine("\t\t\t\t\t\tPress enter to continue...");
+            Console.ReadKey();
+
             bool Authentication = false;
             do
             {
@@ -752,6 +756,59 @@ namespace BasicLibrary
         }
 
 
+        //LEADERBOARD OF MOST ACTIVE READERS 
+        static void LeaderBoard()
+        { 
+            int Counter  = 0;
+            int HighestID = 0;
+            int SecondScore = 0;
+            int ThirdScore = 0;
+            int HighestScore = 0;
+            List<int> ReaderIDs = new List<int>();
+
+            //Isolating reader IDs
+            for (int i = 0; i < Borrowing.Count; i++) 
+            {
+                if (Borrowing[i].IsReturned) //We only want values of books completed by reader (so borrowed and returned as well)
+                {
+                    ReaderIDs.Add(Borrowing[i].UserID);
+                }
+            }
+
+
+            //find top 3 readers 
+            //Will [print out their reading score but not personal info [id or name]
+            for (int i = 0; i < ReaderIDs.Count; i++) 
+            {
+                Counter = 0;
+                for(int j=0; j<ReaderIDs.Count; j++) 
+                {
+                    if (ReaderIDs[i] == ReaderIDs[j])
+                    {
+                        Counter++;
+                    }
+                }
+
+                if (Counter > HighestScore) //New High score 
+                {
+                    //Rearranging top scorers
+                    ThirdScore = SecondScore;
+                    SecondScore = HighestScore;
+                    HighestScore = Counter;
+                    
+                    HighestID = ReaderIDs[i];
+                }
+
+                Console.Clear();
+                Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - -W E L C O M E   T O   T H E   L I B R A R Y- - - - - - - - - - - - - - - - - - -\n\n");
+                Console.WriteLine("\n\t\t\t\t L E A D E R   B O A R D:\n\n");
+                PrintCrown();
+                Console.WriteLine($"HIGHEST SCORE -> {HighestScore} books read!");
+                Console.WriteLine($"SECOND PLACE -> {SecondScore} books read");
+                Console.WriteLine($"THIRD PLACE -> {ThirdScore} books read");
+            }
+        }
+
 
 
         //- - - - - - - - - - - - - - - - - - - - - USER FUNCTIONS  - - - - - - - - - - - - - - - - - - -//
@@ -1321,13 +1378,13 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-            Console.WriteLine("\t\t\t Returned: " + Now);
+            Console.WriteLine("\t\t\t\t\t Returned: " + Now);
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
             PrintDucks();
-            Console.WriteLine($"BOOK: \nID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
+            Console.WriteLine($"\t\t\t\t\tBOOK: \nID - {Books[i].BookID} \nNAME - {Books[i].BookName} \nAUTHOR - {Books[i].BookAuthor}");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
-            Console.WriteLine($"Thank you for returning {Books[i].BookName} :)\n\n");
-            Console.WriteLine("\t\t\tCome again soon!");
+            Console.WriteLine($"\t\t\t\t\tThank you for returning {Books[i].BookName} :)\n\n");
+            Console.WriteLine("\t\t\t\t\t\tCome again soon!");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
 
         }
@@ -2317,10 +2374,10 @@ namespace BasicLibrary
         {
             string multilineString = @"
              
-                 ()=()   ()-()   ()=()   ()-()
-                 ('Y')   (':')   (^;^)   ('&')
-                 q . p   d . b   C   C   c . c
-                 ()_()   ()_()   ()_()   ()=()
+                                             ()=()   ()-()   ()=()   ()-()
+                                             ('Y')   (':')   (^;^)   ('&')
+                                             q . p   d . b   C   C   c . c
+                                             ()_()   ()_()   ()_()   ()=()
             ";
             Console.WriteLine(multilineString); 
         }
@@ -2328,12 +2385,12 @@ namespace BasicLibrary
         static void PrintPie()
         {
             string multilineString = @"
-                         (
-                          )
-                     __..---..__
-                 ,-='  /  |  \  `=-.
-                :--..___________..--;
-                 \.,_____________,./
+                                                             (
+                                                              )
+                                                         __..---..__
+                                                     ,-='  /  |  \  `=-.
+                                                    :--..___________..--;
+                                                     \.,_____________,./
             ";
             Console.WriteLine(multilineString);
         }
@@ -2342,14 +2399,14 @@ namespace BasicLibrary
         {
             string multilineString = @"
            
-                    (\
-                    \'\
-                     \'\     __________
-                     / '|   ()_________)
-                     \ '/    \ ~~~~~~~~ \
-                       \       \ ~~~~~~   \
-                       ==).      \__________\
-                      (__)       ()__________)
+                                                (\
+                                                \'\
+                                                 \'\     __________
+                                                 / '|   ()_________)
+                                                 \ '/    \ ~~~~~~~~ \
+                                                   \       \ ~~~~~~   \
+                                                   ==).      \__________\
+                                                  (__)       ()__________)
             ";
             Console.WriteLine(multilineString);
         }
@@ -2358,16 +2415,16 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                                      .----.
-                          .---------. | == |
-                          |  .--.   | |----|
-                          ||       || | == |
-                          ||       || |----|
-                          |'-.....-'| |::::|
-                         `   )---(  ` |___.|
-                         /:::::::::::\"" _  ""
-                        /:::=======:::\`\`\
-                   `""""""""""""""""""""""""""`  '-'
+                                                                  .----.
+                                                      .---------. | == |
+                                                      |  .--.   | |----|
+                                                      ||       || | == |
+                                                      ||       || |----|
+                                                      |'-.....-'| |::::|
+                                                     `   )---(  ` |___.|
+                                                     /:::::::::::\"" _  ""
+                                                    /:::=======:::\`\`\
+                                               `""""""""""""""""""""""""""`  '-'
             ";
             Console.WriteLine(multilineString);
         }
@@ -2376,9 +2433,9 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                         ,,,
-                        (o o)
-                ----oOO--( )--OOo----
+                                                         ,,,
+                                                        (o o)
+                                                ----oOO--( )--OOo----
             ";
             Console.WriteLine(multilineString);
         }
@@ -2386,14 +2443,14 @@ namespace BasicLibrary
         static void PrintSherlock()
         {
             string multilineString = @"
-                           ,_
-                         ,'  `\,_
-                         |_,-'_)
-                         /##c '\  (
-                        ' |'  -{.  )
-                          /\__-' \[]
-                         /`-_`\
-                         '     \
+                                                           ,_
+                                                         ,'  `\,_
+                                                         |_,-'_)
+                                                         /##c '\  (
+                                                        ' |'  -{.  )
+                                                          /\__-' \[]
+                                                         /`-_`\
+                                                         '     \
             ";
             Console.WriteLine(multilineString);
         }
@@ -2401,10 +2458,10 @@ namespace BasicLibrary
         static void PrintMoon()
         {
             string multilineString = @"
-                     ,-,-.
-                    /.( +.\
-                    \ {. */
-                     `-`-'
+                                                         ,-,-.
+                                                        /.( +.\
+                                                        \ {. */
+                                                         `-`-'
             ";
             Console.WriteLine(multilineString);
         }
@@ -2413,11 +2470,11 @@ namespace BasicLibrary
         {
             string multilineString = @"
                    
-                         _.-;;-._
-                  '-..-'|   ||   |
-                  '-..-'|_.-;;-._|
-                  '-..-'|   ||   |
-                  '-..-'|_.-''-._|
+                                                         _.-;;-._
+                                                  '-..-'|   ||   |
+                                                  '-..-'|_.-;;-._|
+                                                  '-..-'|   ||   |
+                                                  '-..-'|_.-''-._|
             ";
             Console.WriteLine(multilineString);
         }
@@ -2425,10 +2482,10 @@ namespace BasicLibrary
         static void PrintPacMan()
         {
             string multilineString = @"
-                  __        ___
-                 / o\      /o o\
-                |   <      |   |
-                 \__/      |,,,|
+                                                      __        ___
+                                                     / o\      /o o\
+                                                    |   <      |   |
+                                                     \__/      |,,,|
             ";
             Console.WriteLine(multilineString);
         }
@@ -2437,14 +2494,14 @@ namespace BasicLibrary
         {
             string multilineString = @"
                
-                          _ _
-                     .-. | | |
-                     |M|_|A|N|
-                     |A|a|.|.|<\
-                     |T|r| | | \\
-                     |H|t|M|Z|  \\      
-                     | |!| | |   \>     
-                    """"""""""""""""""
+                                                          _ _
+                                                     .-. | | |
+                                                     |M|_|A|N|
+                                                     |A|a|.|.|<\
+                                                     |T|r| | | \\
+                                                     |H|t|M|Z|  \\      
+                                                     | |!| | |   \>     
+                                                    """"""""""""""""""
             ";
             Console.WriteLine(multilineString);
         }
@@ -2482,15 +2539,17 @@ namespace BasicLibrary
             string multilineString = @"
 
         
-                             ___
-                         ___/   \___
-                        /   '---'   \
-                        '--_______--'
-                             / \
-                            /   \
-                            /\O/\
-                            / | \
-                            // \\
+                                                         ___
+                                                     ___/   \___
+                                                    /   '---'   \
+                                                    '--_______--'
+                                                         / \
+                                                        /   \
+                                                        /\O/\
+                                                        / | \
+                                                        // \\
+
+
         ";
             Console.WriteLine(multilineString);
         }
@@ -2523,11 +2582,11 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                            O  o
-                          _\_   o
-                >('>   \\/  o\ .  Bye! 
-                       //\___=      
-                          ''       
+                                                            O  o
+                                                          _\_   o
+                                                >('>   \\/  o\ .  Bye! 
+                                                       //\___=      
+                                                          ''       
                    
         ";
             Console.WriteLine(multilineString);
@@ -2538,12 +2597,12 @@ namespace BasicLibrary
             string multilineString = @"
 
                    
-                                                  .-.
-                                   .-""`""-.    |(@ @)
-                                _/`oOoOoOoOo`\_ \ \-/  Bye!
-                               '.-=-=-=-=-=-=-.' \/ \
-                                 `-=.=-.-=.=-'    \ /\
-                                    ^  ^  ^       _H_ \ 
+                                                                      .-.
+                                                       .-""`""-.    |(@ @)
+                                                    _/`oOoOoOoOo`\_ \ \-/  Bye!
+                                                   '.-=-=-=-=-=-=-.' \/ \
+                                                     `-=.=-.-=.=-'    \ /\
+                                                        ^  ^  ^       _H_ \ 
                    
         ";
             Console.WriteLine(multilineString);
@@ -2553,14 +2612,14 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                                  __
-                             w  c(..)o   (
-                  Bye!        \__(-)    __)
-                                  /\   (
-                                 /(_)___)
-                                 w /|
-                                  | \
-                                 m  m  
+                                                          __
+                                                     w  c(..)o   (
+                                          Bye!        \__(-)    __)
+                                                          /\   (
+                                                         /(_)___)
+                                                         w /|
+                                                          | \
+                                                         m  m  
                    
         ";
             Console.WriteLine(multilineString);
@@ -2570,8 +2629,8 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-              Thank you!  >(.)__ <(.)__ =(.)__
-                           (___/  (___/  (___/  
+                                          Thank you!  >(.)__ <(.)__ =(.)__
+                                                       (___/  (___/  (___/  
                    
         ";
             Console.WriteLine(multilineString);
@@ -2583,10 +2642,10 @@ namespace BasicLibrary
 
 
 
-                                 __
-                                ( o>  User Created!
-                                ///\
-                                \V_/_   
+                                                             __
+                                                            ( o>  User Created!
+                                                            ///\
+                                                            \V_/_   
 
 
 
@@ -2597,12 +2656,12 @@ namespace BasicLibrary
         static void PrintDino()
         {
             string multilineString = @"
-                                                  __
-                                                  / _)  Admin created!
-                                         _.----._/ /
-                                        /         /
-                                     __/ (  | (  |
-                                    /__.-'|_|--|_|     
+                                                              __
+                                                              / _)  Admin created!
+                                                     _.----._/ /
+                                                    /         /
+                                                 __/ (  | (  |
+                                                /__.-'|_|--|_|     
                    
         ";
             Console.WriteLine(multilineString);
@@ -2612,16 +2671,32 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                     ^ ^
-                    (O,O)
-                    (   )
-                ----""-""-----
+                                                             ^ ^
+                                                            (O,O)
+                                                            (   )
+                                                        ----""-""-----
                    
         ";
             Console.WriteLine(multilineString);
         }
 
+        static void PrintCrown()
+        {
+            string multilineString = @"
 
+                                                   .       |         .    .
+                                            .  *         -*-          *
+                                                 \        |         /   .
+                                .    .            .      /^\     .              .    .
+                                   *    |\   /\    /\  / / \ \  /\    /\   /|    *
+                                 .   .  |  \ \/ /\ \ / /     \ \ / /\ \/ /  | .     .
+                                         \ | _ _\/_ _ \_\_ _ /_/_ _\/_ _ \_/
+                                           \  *  *  *   \ \/ /  *  *  *  /
+                                            ` ~ ~ ~ ~ ~  ~\/~ ~ ~ ~ ~ ~ '                                                           
+                   
+        ";
+            Console.WriteLine(multilineString);
+        }
 
     }
 }
