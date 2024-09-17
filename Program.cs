@@ -105,10 +105,10 @@ namespace BasicLibrary
                     case 1:
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                        Console.Write("\n\n\n\n\t\t\t\t\t\t   READER LOGIN:\n\n");
-                        Console.Write("Username: ");
+                        Console.Write("\n\n\n\n\n\t\t\t\t\t\t   READER LOGIN:\n\n");
+                        Console.Write("\t\t\t\t\tUsername: ");
                         string Usr = Console.ReadLine();
-                        Console.Write("Password: ");
+                        Console.Write("\t\t\t\t\tPassword: ");
                         string Pswd = Console.ReadLine();
                         bool UsrAuth = ReaderLogin(Usr, Pswd);
 
@@ -117,7 +117,7 @@ namespace BasicLibrary
 
                             for (int i = 0; i < Users.Count; i++)
                             {
-                                if (Users[i].UserUserName == Usr)
+                                if (Users[i].UserUserName.Trim() == Usr)
                                 {
                                     CurrentUser = Users[i].UserID;
                                 }
@@ -131,7 +131,7 @@ namespace BasicLibrary
                             bool UsrFound = false;
                             for (int i = 0; i < Users.Count; i++)
                             {
-                                if (Users[i].UserUserName == Usr)
+                                if (Users[i].UserUserName.Trim() == Usr)
                                 {
                                     UsrFound = true;
                                 }
@@ -139,8 +139,8 @@ namespace BasicLibrary
 
                             if (UsrFound == false)
                             {
-                                Console.WriteLine("This username is not in our system. \n\nWould you like to register? Yes to register, enter to exit");
-                                Console.Write("Enter: ");
+                                Console.WriteLine("\n\t\t\t\t\t<!>This username is not in our system<!> \n\n\t\t\t\tWould you like to register? Yes to register, enter to exit");
+                                Console.Write("\t\t\t\t\tEnter: ");
                                 string NewRegistration = (Console.ReadLine()).ToLower();
 
                                 if (NewRegistration == "yes")
@@ -150,8 +150,8 @@ namespace BasicLibrary
                             }
                             else
                             {
-                                Console.WriteLine("<!>Incorrect password please try again :( <!>");
-                                Console.WriteLine("<!>Press enter to try again<!>");
+                                Console.WriteLine("\n\t\t\t\t\t<!>Incorrect password please try again :( <!>");
+                                Console.WriteLine("\t\t\t\t\t<!>Press enter to try again<!>");
                                 Console.ReadKey();
                             }
                         }
@@ -161,9 +161,9 @@ namespace BasicLibrary
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
                         Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN LOGIN:\n\n");
-                        Console.Write("Username: ");
+                        Console.Write("\t\t\t\t\tUsername: ");
                         string AdminUsr = Console.ReadLine();
-                        Console.Write("Password: ");
+                        Console.Write("\t\t\t\t\tPassword: ");
                         string AdminPswd = Console.ReadLine();
                         bool AdminAuth = LibrarianLogin(AdminUsr, AdminPswd);
 
@@ -172,7 +172,7 @@ namespace BasicLibrary
 
                             for (int i = 0; i < Admins.Count; i++)
                             {
-                                if (Admins[i].AdminUserName == AdminUsr)
+                                if (Admins[i].AdminUserName.Trim() == AdminUsr)
                                 {
                                     CurrentUser = Admins[i].AdminID;
                                 }
@@ -185,7 +185,7 @@ namespace BasicLibrary
                             bool AdminUserFound = false;
                             for (int i = 0; i < Admins.Count; i++)
                             {
-                                if (Admins[i].AdminUserName == AdminUsr)
+                                if (Admins[i].AdminUserName.Trim() == AdminUsr)
                                 {
                                     AdminUserFound = true;
                                 }
@@ -193,8 +193,8 @@ namespace BasicLibrary
 
                             if (AdminUserFound == false)
                             {
-                                Console.WriteLine("This username is not in our system. \n\nWould you like to register? Yes to register, enter to exit");
-                                Console.Write("Enter: ");
+                                Console.WriteLine("\n\t\t\t\t\t<!>This username is not in our system<!> \n\n\t\t\t\tWould you like to register? Yes to register, enter to exit");
+                                Console.Write("\t\t\t\t\tEnter: ");
                                 string NewRegistration = (Console.ReadLine()).ToLower();
 
                                 if (NewRegistration == "yes")
@@ -204,8 +204,8 @@ namespace BasicLibrary
                             }
                             else
                             {
-                                Console.WriteLine("<!>Incorrect password please try again :( <!>");
-                                Console.WriteLine("<!>Press enter to try again<!>");
+                                Console.WriteLine("\n\t\t\t\t\t<!>Incorrect password please try again :( <!>");
+                                Console.Write("\n\t\t\t\t\t<!>Press enter to try again<!>");
                                 Console.ReadKey();
                             }
                         }
@@ -228,8 +228,8 @@ namespace BasicLibrary
                         break;
 
                     default:
-                        Console.WriteLine("\n<!>Invalid input :( <!> \n<!>Please try again, enter one of the given options<!>");
-                        Console.WriteLine("\n<!>Press enter to continue<!>"); Console.ReadKey();
+                        Console.WriteLine("\n\t\t\t\t\t<!>Invalid input :( <!> \n\t\t\t<!>Please try again, enter one of the given options<!>");
+                        Console.WriteLine("\n\t\t\t\t\t<!>Press enter to continue<!>"); Console.ReadKey();
                         break;
                 }
             } while (Authentication != true);
@@ -1032,7 +1032,7 @@ namespace BasicLibrary
                                 break;
 
                             default:
-                                Console.WriteLine("Sorry your choice was wrong");
+                                Console.WriteLine("\n\t\t\t\t\t<!>Sorry your choice was wrong<!>");
                                 break;
 
                         }
