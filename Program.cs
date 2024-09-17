@@ -1076,6 +1076,8 @@ namespace BasicLibrary
                     {
                         CanBorrow = false;
                         Console.WriteLine("Looks like you already borrowed this book, sorry you can't borrow more than one copy :(");
+                        Console.WriteLine("Press enter...");
+                        Console.ReadKey();
                     }
                 }
 
@@ -1330,6 +1332,9 @@ namespace BasicLibrary
 
                 }
                 if (Found != true) { Console.WriteLine("Invalid Book ID :("); }
+
+                Console.WriteLine("Press enter to continue...");
+                Console.ReadKey();
 
             }
             else { Console.WriteLine("You have not taken out this book :) \nPlease check your recipt for book ID"); }
