@@ -909,10 +909,10 @@ namespace BasicLibrary
                     bool ReturnLoop = true;
                     do
                     {
-                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   READER OPTIONS:");
-                        Console.WriteLine(" 1. Return A Book");
-                        Console.WriteLine(" 2. Logout\n");
-                        Console.Write("Enter: ");
+                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   READER OPTIONS:\n");
+                        Console.WriteLine("\t\t\t\t\t1.  Return A Book\n");
+                        Console.WriteLine("\t\t\t\t\t2.  Logout\n\n");
+                        Console.Write("\t\t\t\t\tEnter: ");
                         int choice = 0;
 
                         try
@@ -931,13 +931,13 @@ namespace BasicLibrary
                             case 2:
                                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - -L O G I N G   O U T- - - - - - - - - - - - - - - - - - - - - - -\n\n");
                                 PrintMonkey();
-                                Console.WriteLine("\t\t\t\t\tPress enter to continue...");
+                                Console.Write("\t\t\t\t\tPress enter to continue...");
                                 Console.ReadKey();
                                 ReturnLoop = false;
                                 break;
 
                             default:
-                                Console.WriteLine("Invalid choice :(");
+                                Console.WriteLine("\n\t\t\t\t\t<!>Invalid choice :( <!>");
                                 break;
 
                         }
@@ -954,15 +954,15 @@ namespace BasicLibrary
                     {
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                        Console.Write("\n\n\n\n\t\t\t\t\t\t   READER OPTIONS:\n\n");
-                        Console.WriteLine(" 1. View All Books");
-                        Console.WriteLine(" 2. Search by Book Name or Author");
-                        Console.WriteLine(" 3. View Profile");
-                        Console.WriteLine(" 4. Borrow A Book");
-                        Console.WriteLine(" 5. Return A Book");
-                        Console.WriteLine(" 6. View Leader Board");
-                        Console.WriteLine(" 7. Log out\n");
-                        Console.Write("Enter: ");
+                        Console.Write("\n\n\n\n\t\t\t\t\t\tREADER OPTIONS:\n\n\n");
+                        Console.WriteLine("\t\t\t\t\t1. View All Books\n");
+                        Console.WriteLine("\t\t\t\t\t2. Search by Book Name or Author\n");
+                        Console.WriteLine("\t\t\t\t\t3. View Profile\n");
+                        Console.WriteLine("\t\t\t\t\t4. Borrow A Book\n");
+                        Console.WriteLine("\t\t\t\t\t5. Return A Book\n");
+                        Console.WriteLine("\t\t\t\t\t6. View Leader Board\n");
+                        Console.WriteLine("\t\t\t\t\t7. Log out\n\n\n");
+                        Console.Write("\t\t\t\t\tEnter: ");
                         int choice = 0;
 
                         try
@@ -1557,7 +1557,7 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.Write("\n\n\n\n\t\t\t\t\t\t   SEARCH LIBRARY:\n\n"); 
-            Console.Write("Book name or author: ");
+            Console.Write("\t\t\t\t\tBook name or author: ");
             string name = (Console.ReadLine().Trim()).ToLower();
             string SearchPattern = Regex.Escape(name);
             Regex regex = new Regex(SearchPattern, RegexOptions.IgnoreCase);
@@ -1572,10 +1572,14 @@ namespace BasicLibrary
                     Console.WriteLine($"\nBook Title: {Books[i].BookName} \nBook Author: {Books[i].BookAuthor} \nID: {Books[i].BookID} \nCategory: {Books[i].Category} \nPrice: {Books[i].Price} \nBorrow Period: {Books[i].BorrowPeriod} days\n");
                     flag = true;
                 }
+                
             }
 
             if (flag != true)
-            { Console.WriteLine("Book not found :("); }
+            { Console.WriteLine("\t\t\t\t\t<!>Book not found :( <!>"); }
+
+            Console.Write("\n\t\t\t\t\tPress enter to continue");
+            Console.ReadKey();
         }
 
 
