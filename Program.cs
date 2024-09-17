@@ -1971,13 +1971,16 @@ namespace BasicLibrary
 
                 for (int i = 0; i < Categories.Count; i++) 
                 {
-                    if (Categories[i].CategoryName == Category)
+                    if (Categories[i].CategoryName.Trim() == Category.Trim())
                     {
-                        Categories[i] = ((Categories[i].CategoryID, Categories[i].CategoryName, NoOfBooks: Categories[i].NoOfBooks + 1));
+                        int New = Categories[i].NoOfBooks + 1;
+                        Categories[i] = ((Categories[i].CategoryID, Categories[i].CategoryName, NoOfBooks: New));
+                        break;
                     }
                 }
                 SaveCategories();
             }
+            //SaveCategories();
         }
 
 
