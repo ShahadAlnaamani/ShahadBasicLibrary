@@ -1942,6 +1942,7 @@ namespace BasicLibrary
 
 
             Console.WriteLine($"\n\t\t\t\t\tYou have chosen {Category}. \n\n\t\t\t\t\tEnter Yes to continue No to choose again");
+            Console.Write("\n\t\t\t\t\tEnter: ");
             string Confirm = (Console.ReadLine()).ToLower();
 
                 if (Confirm != "yes")
@@ -2025,100 +2026,105 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
 
-            switch (Choice)
+            bool ChooseOption = true;
+            do
             {
-                //Editing book title
-                case 1:
-                    int Location = GetInformation();
-                    if (Location != -1)
-                    {
-                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK TITLE:\n");
-                        Console.Write("\n\t\t\t\t\t\tNew book name: ");
-                        string NewBookName;
-                        bool Repeated;
-
-                        do
+                ChooseOption = true;
+                switch (Choice)
+                {
+                    //Editing book title
+                    case 1:
+                        int Location = GetInformation();
+                        if (Location != -1)
                         {
-                            Repeated = false;
-                            Console.Write("\t\t\t\t\t\tEnter Book Name: ");
-                            NewBookName = Console.ReadLine().Trim(); //Trim added for more accurate search  
+                            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK TITLE:\n");
+                            string NewBookName;
+                            bool Repeated;
 
-                            for (int i = 0; i < Books.Count; i++)
+                            do
                             {
-                                if ((Books[i].BookName).Trim() == NewBookName)
+                                Repeated = false;
+                                Console.Write("\t\t\t\t\t\tEnter Book Name: ");
+                                NewBookName = Console.ReadLine().Trim(); //Trim added for more accurate search  
+
+                                for (int i = 0; i < Books.Count; i++)
                                 {
-                                    Repeated = true;
-                                    break;
+                                    if ((Books[i].BookName).Trim() == NewBookName)
+                                    {
+                                        Repeated = true;
+                                        break;
+                                    }
                                 }
-                            }
 
-                            if (Repeated != false)
-                            {
-                                Console.WriteLine("\n\t\t\t\t<!>This book already exists please enter a new book name<!>");
-                                Repeated = true;
-                            }
+                                if (Repeated != false)
+                                {
+                                    Console.WriteLine("\n\t\t\t\t<!>This book already exists please enter a new book name<!>");
+                                    Repeated = true;
+                                }
 
-                        } while (Repeated != false);
+                            } while (Repeated != false);
 
-                        Books[Location] = ((Books[Location].BookID,BookName: NewBookName, Books[Location].BookAuthor, Books[Location].BookQuantity, Books[Location].Borrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
-                        Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Location].BookName}  Author: {Books[Location].BookAuthor}  ID: {Books[Location].BookID}  x{Books[Location].BookQuantity}  Issues Borrowed: {Books[Location].Borrowed}\n ");
-                        SaveBooksToFile();
-                    }
-                    
-                    break;
-
-                
-                //Editing author name 
-                case 2:
-                    int Position = GetInformation();
-                    if (Position != -1)
-                    {
-                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT AUTHOR NAME:\n");
-                        Console.Write("\n\t\t\t\t\t\tNew author name: ");
-                        string NewAuthName = Console.ReadLine();
-                        Books[Position] = ((Books[Position].BookID, Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookQuantity, Books[Position].Borrowed, Books[Position].Price, Books[Position].Category, Books[Position].BorrowPeriod));
-                        Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Position].BookName}  Author: {Books[Position].BookAuthor}  ID: {Books[Position].BookID}  x{Books[Position].BookQuantity}  Issues Borrowed: {Books[Position].Borrowed}\n ");
-                        SaveBooksToFile();
-                    }
-                    break;
-
-
-                //Adding book copies 
-                case 3:
-                    int Index = GetInformation();
-                    if (Index != -1)
-                    {
-                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK QUANTITY:\n");
-                        Console.Write("\n\t\t\t\t\t\tHow many would you like to add: ");
-                        int Add = 0;
-
-                        try 
-                        {
-                            Add = int.Parse(Console.ReadLine());
-                        }catch (Exception ex) { Console.WriteLine(ex.Message); }    
-
-                        //Checking the positive number inputted so that books aren't minused 
-                        if (Add > 0)
-                        {
-                            Add = Books[Index].BookQuantity + Add;
-                            Books[Index] = ((Books[Index].BookID, Books[Index].BookName, Books[Index].BookAuthor, BookQuantity: Add, Books[Index].Borrowed, Books[Index].Price, Books[Index].Category, Books[Index].BorrowPeriod));
-                            Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Index].BookName}  Author: {Books[Index].BookAuthor}  ID: {Books[Index].BookID}  x{Books[Index].BookQuantity}  Issues Borrowed: {Books[Index].Borrowed}\n ");
+                            Books[Location] = ((Books[Location].BookID, BookName: NewBookName, Books[Location].BookAuthor, Books[Location].BookQuantity, Books[Location].Borrowed, Books[Location].Price, Books[Location].Category, Books[Location].BorrowPeriod));
+                            Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Location].BookName}  Author: {Books[Location].BookAuthor}  ID: {Books[Location].BookID}  x{Books[Location].BookQuantity}  Issues Borrowed: {Books[Location].Borrowed}\n ");
                             SaveBooksToFile();
                         }
-                        else { Console.WriteLine("\t\t\t\t<!>Improper input please input a number greater than 0 :( <!>"); }
-                    }
-                    break;
+
+                        break;
 
 
-                case 4:
-                    SaveBooksToFile();
-                    break;
-                
+                    //Editing author name 
+                    case 2:
+                        int Position = GetInformation();
+                        if (Position != -1)
+                        {
+                            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT AUTHOR NAME:\n");
+                            Console.Write("\n\t\t\t\t\t\tNew author name: ");
+                            string NewAuthName = Console.ReadLine();
+                            Books[Position] = ((Books[Position].BookID, Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookQuantity, Books[Position].Borrowed, Books[Position].Price, Books[Position].Category, Books[Position].BorrowPeriod));
+                            Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Position].BookName}  Author: {Books[Position].BookAuthor}  ID: {Books[Position].BookID}  x{Books[Position].BookQuantity}  Issues Borrowed: {Books[Position].Borrowed}\n ");
+                            SaveBooksToFile();
+                        }
+                        break;
 
-                default:
-                    Console.WriteLine("\t\t\t\t<!>Improper input, please choose one of the given options :( <!>");
-                    break;
-            }
+
+                    //Adding book copies 
+                    case 3:
+                        int Index = GetInformation();
+                        if (Index != -1)
+                        {
+                            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK QUANTITY:\n");
+                            Console.Write("\n\t\t\t\t\t\tHow many would you like to add: ");
+                            int Add = 0;
+
+                            try
+                            {
+                                Add = int.Parse(Console.ReadLine());
+                            }
+                            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+                            //Checking the positive number inputted so that books aren't minused 
+                            if (Add > 0)
+                            {
+                                Add = Books[Index].BookQuantity + Add;
+                                Books[Index] = ((Books[Index].BookID, Books[Index].BookName, Books[Index].BookAuthor, BookQuantity: Add, Books[Index].Borrowed, Books[Index].Price, Books[Index].Category, Books[Index].BorrowPeriod));
+                                Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Index].BookName}  Author: {Books[Index].BookAuthor}  ID: {Books[Index].BookID}  x{Books[Index].BookQuantity}  Issues Borrowed: {Books[Index].Borrowed}\n ");
+                                SaveBooksToFile();
+                            }
+                            else { Console.WriteLine("\t\t\t\t<!>Improper input please input a number greater than 0 :( <!>"); }
+                        }
+                        break;
+
+
+                    case 4:
+                        SaveBooksToFile();
+                        break;
+
+
+                    default:
+                        Console.WriteLine("\t\t\t\t<!>Improper input, please choose one of the given options :( <!>");
+                        break;
+                }
+            } while (ChooseOption != false);
 
 
         }
