@@ -123,6 +123,7 @@ namespace BasicLibrary
                                 }
                             }
                             Console.Clear();
+
                             UserPage();
                         }
 
@@ -1720,15 +1721,15 @@ namespace BasicLibrary
             {
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN OPTIONS:\n\n");
-                Console.WriteLine(" 1. Add New Book");
-                Console.WriteLine(" 2. Display All Books");
-                Console.WriteLine(" 3. Search by Book Name or Author");
-                Console.WriteLine(" 4. Edit Book");
-                Console.WriteLine(" 5. Delete Book");
-                Console.WriteLine(" 6. Show Reports");
-                Console.WriteLine(" 7. Log out\n");
-                Console.Write("Enter: ");
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN OPTIONS:\n\n\n");
+                Console.WriteLine("\t\t\t\t\t1. Add New Book\n");
+                Console.WriteLine("\t\t\t\t\t2. Display All Books\n");
+                Console.WriteLine("\t\t\t\t\t3. Search by Book Name or Author\n");
+                Console.WriteLine("\t\t\t\t\t4. Edit Book\n");
+                Console.WriteLine("\t\t\t\t\t5. Delete Book\n");
+                Console.WriteLine("\t\t\t\t\t6. Show Reports\n");
+                Console.WriteLine("\t\t\t\t\t7. Log out\n\n\n");
+                Console.Write("\t\t\t\t\tEnter: ");
                 int choice = 0;
 
                 try 
@@ -1778,11 +1779,11 @@ namespace BasicLibrary
                         break;
 
                     default:
-                        Console.WriteLine("Sorry your choice was wrong");
+                        Console.WriteLine("\t\t\t\t\t<!>Sorry your choice was wrong<!>");
                         break;
 
                 }
-                Console.WriteLine("Press enter to continue.");
+                Console.WriteLine("\t\t\t\t\tPress enter to continue...");
                 string cont = Console.ReadLine();
                 Console.Clear();
 
@@ -1803,7 +1804,7 @@ namespace BasicLibrary
             do
             {
                 Repeated = false;
-                Console.Write("Enter Book Name: ");
+                Console.Write("\t\t\t\t\tEnter Book Name: ");
                 Name = Console.ReadLine().Trim(); //Trim added for more accurate search  
                
                 for (int i = 0; i < Books.Count; i++)
@@ -1817,30 +1818,30 @@ namespace BasicLibrary
 
                 if (Repeated != false) 
                 { 
-                    Console.WriteLine("This book already exists please enter a new book"); 
+                    Console.WriteLine("\n\t\t\t\t<!>This book already exists please enter a new book<!>"); 
                    Repeated = true; 
                 }
 
             } while (Repeated != false);
 
 
-            Console.Write("Enter Book Author: ");
+            Console.Write("\t\t\t\t\tEnter Book Author: ");
             string Author= Console.ReadLine().Trim();
 
             int ID = Books.Count + 1;
 
-            Console.Write($"Book ID: {ID}\n");
+            Console.Write($"\t\t\t\t\tBook ID: {ID}\n");
             
 
-            Console.Write("Enter Book Quantity: ");
+            Console.Write("\t\t\t\t\tEnter Book Quantity: ");
             int Qty = 0;
             try
             {
                 Qty = int.Parse(Console.ReadLine());
             }
-            catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\nDefualt Quantity of 0 set\n"); }
+            catch (Exception ex) { Console.WriteLine("\n\t\t\t<!>" + ex.Message+"<!>"); Console.WriteLine("\n\t\t\t<!>Defualt Quantity of 0 set<!>\n"); }
 
-            Console.Write("Enter Book Price: ");
+            Console.Write("\t\t\t\t\tEnter Book Price: ");
             float Price = 0;
             try
             {
@@ -1848,8 +1849,8 @@ namespace BasicLibrary
             }
             catch (Exception ex) 
             { 
-                Console.WriteLine(ex.Message); 
-                Console.WriteLine("\nDefualt Price of 0 set\nPress enter to continue\n"); 
+                Console.WriteLine("\n\t\t\t < !> " +ex.Message + "<!>"); 
+                Console.WriteLine("\n\t\t\t<!>Defualt Price of 0 set\n\n\t\t\t\t\tPress enter to continue<!>\n"); 
                 Console.ReadKey();
             }
 
@@ -1857,90 +1858,96 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
-            Console.WriteLine("Choose a Book Category: ");
-            Console.WriteLine("1. Children");
-            Console.WriteLine("2. Cooking");
-            Console.WriteLine("3. History");
-            Console.WriteLine("4. IT");
-            Console.WriteLine("5. Non-Fiction");
-            Console.WriteLine("6. Science");
-            Console.WriteLine("7. Self Help ");
-            Console.WriteLine("8. Software");
-            Console.WriteLine("9. Stories");
-            Console.WriteLine("10. Young Adult");
-            Console.Write("Enter: ");
+            Console.WriteLine("\t\t\t\t\tChoose a Book Category: ");
+            Console.WriteLine("\t\t\t\t\t1. Children");
+            Console.WriteLine("\t\t\t\t\t2. Cooking");
+            Console.WriteLine("\t\t\t\t\t3. History");
+            Console.WriteLine("\t\t\t\t\t4. IT");
+            Console.WriteLine("\t\t\t\t\t5. Non-Fiction");
+            Console.WriteLine("\t\t\t\t\t6. Science");
+            Console.WriteLine("\t\t\t\t\t7. Self Help ");
+            Console.WriteLine("\t\t\t\t\t8. Software");
+            Console.WriteLine("\t\t\t\t\t9. Stories");
+            Console.WriteLine("\t\t\t\t\t10. Young Adult");
 
             int CategoryChoice = 0;
             string Category = " ";
             bool FormComplete = true;
 
-            try
+            do
             {
-                CategoryChoice = int.Parse(Console.ReadLine());
-            }
-            catch (Exception ex) { Console.WriteLine("\n"+ex.Message); }
+                do
+                {
 
-            do { 
-            switch (CategoryChoice)
-            {
-                case 1:
-                    Category = "Children";
-                    break;
+                    Console.Write("\t\t\t\t\tEnter: ");
+                    try
+                    {
+                        CategoryChoice = int.Parse(Console.ReadLine());
+                    }
+                    catch (Exception ex) { Console.WriteLine("\n" + ex.Message); }
 
-                case 2:
-                    Category = "Cooking";
-                    break;
+                    FormComplete = true;
 
-                case 3:
-                    Category = "History";
-                    break;
+                    switch (CategoryChoice)
+                    {
+                        case 1:
+                            Category = "Children";
+                            break;
 
-                case 4:
-                    Category = "IT";
-                    break;
+                        case 2:
+                            Category = "Cooking";
+                            break;
 
-                case 5:
-                    Category = "Non-Fiction";
-                    break;
+                        case 3:
+                            Category = "History";
+                            break;
 
-                case 6:
-                    Category = "Science";
-                    break;
+                        case 4:
+                            Category = "IT";
+                            break;
 
-                case 7:
-                    Category = "Self Help";
-                    break;
+                        case 5:
+                            Category = "Non-Fiction";
+                            break;
 
-                case 8:
-                    Category = "Software";
-                    break;
+                        case 6:
+                            Category = "Science";
+                            break;
 
-                case 9:
-                    Category = "Stories";
-                    break;
+                        case 7:
+                            Category = "Self Help";
+                            break;
 
-                case 10:
-                    Category = "Young Adult";
-                    break;
+                        case 8:
+                            Category = "Software";
+                            break;
 
-                default:
-                    Console.WriteLine("Improper input :(");
-                    FormComplete = false;
-                    break;
+                        case 9:
+                            Category = "Stories";
+                            break;
 
-            }
+                        case 10:
+                            Category = "Young Adult";
+                            break;
 
+                        default:
+                            Console.WriteLine("\n\t\t\t\t\t<!>Improper input :( <!>");
+                            FormComplete = false;
+                            break;
 
+                    }
+                } while (FormComplete != true);
             if (FormComplete != true)
                 { break; }
 
 
-            Console.WriteLine($"\nYou have chosen {Category}. \nEnter Yes to continue No to choose again");
+            Console.WriteLine($"\n\t\t\t\t\tYou have chosen {Category}. \n\n\t\t\t\t\tEnter Yes to continue No to choose again");
             string Confirm = (Console.ReadLine()).ToLower();
-            if (Confirm != "yes")
-            { 
-               Category = " "; 
-            }
+
+                if (Confirm != "yes")
+                { 
+                    Category = " "; 
+                }
 
             } while (Category == " ");
 
@@ -1949,14 +1956,14 @@ namespace BasicLibrary
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
                 Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
-                Console.Write("Enter Book BorrowPeriod: ");
+                Console.Write("\t\t\t\t\tEnter Book BorrowPeriod: ");
                 int BorrowPeriod = 10;
 
                 try
                 {
                     BorrowPeriod = int.Parse(Console.ReadLine());
                 }
-                catch (Exception ex) { Console.WriteLine(ex.Message); Console.WriteLine("\n Defualt Borrow Period of 10 set\n"); }
+                catch (Exception ex) { Console.WriteLine("\t\t\t\t\t<!>" + ex.Message+"<!>"); Console.WriteLine("\n\t\t\t\t\tDefualt Borrow Period of 10 set\n"); }
 
                 Books.Add((ID, Name, Author, Qty, 0, Price, Category, BorrowPeriod));
                 SaveBooksToFile();
@@ -1979,7 +1986,7 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.Write("\n\n\n\n\t\t\t\t\t\t   SEARCH LIBRARY:\n\n");
-            Console.Write("Book name or author: ");
+            Console.Write("\n\t\t\t\t\t\tBook name or author: ");
             string name = (Console.ReadLine().Trim()).ToLower();  
             bool flag=false;
             string SearchPattern = Regex.Escape(name);
@@ -1995,19 +2002,19 @@ namespace BasicLibrary
             }
 
             if (flag != true)
-            { Console.WriteLine("Book not found :("); }
+            { Console.WriteLine("\n\t\t\t\t\t\t<!>Book not found :( <!>"); }
         }
 
 
         //ALLOWS LIBRARIAN TO EDIT BOOK INFO
         static void EditBooks()
         {
-            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOKS:\n\n");
-            Console.WriteLine(" 1. Edit Book Title");
-            Console.WriteLine(" 2. Edit Author Name");
-            Console.WriteLine(" 3. Add More Copies of Available Books");
-            Console.WriteLine(" 4. Save and exit\n");
-            Console.Write("Enter Option: ");
+            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOKS:\n\n\n");
+            Console.WriteLine("\t\t\t\t\t\t1.  Edit Book Title\n");
+            Console.WriteLine("\t\t\t\t\t\t2.  Edit Author Name\n");
+            Console.WriteLine("\t\t\t\t\t\t3.  Add More Copies of Available Books\n");
+            Console.WriteLine("\t\t\t\t\t\t4.  Save and exit\n\n\n");
+            Console.Write("\t\t\t\t\t\tEnter Option: ");
             int Choice=0;
 
             try 
@@ -2026,14 +2033,14 @@ namespace BasicLibrary
                     if (Location != -1)
                     {
                         Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK TITLE:\n");
-                        Console.Write("\nNew book name: ");
+                        Console.Write("\n\t\t\t\t\t\tNew book name: ");
                         string NewBookName;
                         bool Repeated;
 
                         do
                         {
                             Repeated = false;
-                            Console.Write("Enter Book Name: ");
+                            Console.Write("\t\t\t\t\t\tEnter Book Name: ");
                             NewBookName = Console.ReadLine().Trim(); //Trim added for more accurate search  
 
                             for (int i = 0; i < Books.Count; i++)
@@ -2047,7 +2054,7 @@ namespace BasicLibrary
 
                             if (Repeated != false)
                             {
-                                Console.WriteLine("This book already exists please enter a new book name");
+                                Console.WriteLine("\n\t\t\t\t<!>This book already exists please enter a new book name<!>");
                                 Repeated = true;
                             }
 
@@ -2067,7 +2074,7 @@ namespace BasicLibrary
                     if (Position != -1)
                     {
                         Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT AUTHOR NAME:\n");
-                        Console.Write("\nNew author name: ");
+                        Console.Write("\n\t\t\t\t\t\tNew author name: ");
                         string NewAuthName = Console.ReadLine();
                         Books[Position] = ((Books[Position].BookID, Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookQuantity, Books[Position].Borrowed, Books[Position].Price, Books[Position].Category, Books[Position].BorrowPeriod));
                         Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Position].BookName}  Author: {Books[Position].BookAuthor}  ID: {Books[Position].BookID}  x{Books[Position].BookQuantity}  Issues Borrowed: {Books[Position].Borrowed}\n ");
@@ -2082,7 +2089,7 @@ namespace BasicLibrary
                     if (Index != -1)
                     {
                         Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK QUANTITY:\n");
-                        Console.Write("\nHow many would you like to add: ");
+                        Console.Write("\n\t\t\t\t\t\tHow many would you like to add: ");
                         int Add = 0;
 
                         try 
@@ -2098,7 +2105,7 @@ namespace BasicLibrary
                             Console.WriteLine($"\n\nUPDATED DETAILS:  \nName: {Books[Index].BookName}  Author: {Books[Index].BookAuthor}  ID: {Books[Index].BookID}  x{Books[Index].BookQuantity}  Issues Borrowed: {Books[Index].Borrowed}\n ");
                             SaveBooksToFile();
                         }
-                        else { Console.WriteLine("Improper input please input a number greater than 0 :("); }
+                        else { Console.WriteLine("\t\t\t\t<!>Improper input please input a number greater than 0 :( <!>"); }
                     }
                     break;
 
@@ -2109,7 +2116,7 @@ namespace BasicLibrary
                 
 
                 default:
-                    Console.WriteLine("Improper input, please choose one of the given options :(");
+                    Console.WriteLine("\t\t\t\t<!>Improper input, please choose one of the given options :( <!>");
                     break;
             }
 
@@ -2131,7 +2138,7 @@ namespace BasicLibrary
             {
                 if (Books[DeleteIndex].Borrowed > 0)  //Book currently borrowed 
                 {
-                    Console.WriteLine("Sorry you can't delete this book as someone currently has it borrowed :( \n");
+                    Console.WriteLine("\n\t\t\t\t<!>Sorry you can't delete this book as someone currently has it borrowed :( <!>\n");
                     for (int i = 0; i < Borrowing.Count; i++)
                     {
                         if (Books[DeleteIndex].BookID == Borrowing[i].BookID)
@@ -2145,15 +2152,15 @@ namespace BasicLibrary
                 else
                 {
                     Console.WriteLine($"DELETING: Name: {Books[DeleteIndex].BookName}  Author: {Books[DeleteIndex].BookAuthor}  ID: {Books[DeleteIndex].BookID}  x{Books[DeleteIndex].BookQuantity}  Issues Borrowed: {Books[DeleteIndex].Borrowed} ");
-                    Console.WriteLine("To delete press X:");
+                    Console.WriteLine("\n\t\t\t\t\t\tTo delete press X:");
                     string Delete = Console.ReadLine().ToLower();
 
                     if (Delete != "x")
-                    { Console.WriteLine("The book was not deleted :)"); }
+                    { Console.WriteLine("\n\t\t\t\t\t\tThe book was not deleted :)"); }
                     else
                     {
                         Books.Remove((Books[DeleteIndex] = (Books[DeleteIndex].BookID, Books[DeleteIndex].BookName, Books[DeleteIndex].BookAuthor, Books[DeleteIndex].BookQuantity, Books[DeleteIndex].Borrowed, Books[DeleteIndex].Price, Books[DeleteIndex].Category, Books[DeleteIndex].BorrowPeriod)));
-                        Console.WriteLine("The book was deleted sucessfully :)");
+                        Console.WriteLine("\n\t\t\t\t\t\tThe book was deleted sucessfully :)");
                     }
                     SaveBooksToFile();
                 }
