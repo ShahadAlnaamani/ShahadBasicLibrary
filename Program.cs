@@ -74,11 +74,11 @@ namespace BasicLibrary
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - -W E L C O M E   T O   T H E   L I B R A R Y- - - - - - - - - - - - - - - - - - -\n\n");
             PrintCastle();
-            Console.WriteLine("\t\t\t\t\t\tPress enter to continue...");
+            Console.Write("\n\t\t\t\t\t     Press enter to continue...");
             Console.ReadKey();
 
             LeaderBoard();
-            Console.WriteLine("\t\t\t\t\t\tPress enter to continue...");
+            Console.Write("\t\t\t\t\t  Press enter to continue...");
             Console.ReadKey();
 
             bool Authentication = false;
@@ -86,13 +86,13 @@ namespace BasicLibrary
             {
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                Console.Write("\n\t\t\t\t\t\t  MAIN MENU:\n\n");
-                Console.WriteLine(" 1. Reader Login");
-                Console.WriteLine(" 2. Librarian Login");
-                Console.WriteLine(" 3. Register");
-                Console.WriteLine(" 4. Exit\n");
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   MAIN MENU:\n\n\n");
+                Console.WriteLine("\t\t\t\t\t\t  1.  Reader Login\n");
+                Console.WriteLine("\t\t\t\t\t\t  2.  Librarian Login\n");
+                Console.WriteLine("\t\t\t\t\t\t  3.  Register\n");
+                Console.WriteLine("\t\t\t\t\t\t  4.  Exit\n\n\n");
                 int Option = 0;
-                Console.Write("Enter: ");
+                Console.Write("\t\t\t\t\t\t   Enter: ");
                
 
                 try
@@ -105,7 +105,7 @@ namespace BasicLibrary
                     case 1:
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                        Console.Write("\n\t\t\t\t\t\t  READER LOGIN:\n\n");
+                        Console.Write("\n\n\n\n\t\t\t\t\t\t   READER LOGIN:\n\n");
                         Console.Write("Username: ");
                         string Usr = Console.ReadLine();
                         Console.Write("Password: ");
@@ -150,8 +150,8 @@ namespace BasicLibrary
                             }
                             else
                             {
-                                Console.WriteLine("Incorrect password please try again :(");
-                                Console.WriteLine("Press enter to try again.");
+                                Console.WriteLine("<!>Incorrect password please try again :( <!>");
+                                Console.WriteLine("<!>Press enter to try again<!>");
                                 Console.ReadKey();
                             }
                         }
@@ -160,7 +160,7 @@ namespace BasicLibrary
                     case 2:
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                        Console.Write("\n\t\t\t\t\t\t  LIBRARIAN LOGIN:\n\n");
+                        Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN LOGIN:\n\n");
                         Console.Write("Username: ");
                         string AdminUsr = Console.ReadLine();
                         Console.Write("Password: ");
@@ -204,8 +204,8 @@ namespace BasicLibrary
                             }
                             else
                             {
-                                Console.WriteLine("Incorrect password please try again :(");
-                                Console.WriteLine("Press enter to try again.");
+                                Console.WriteLine("<!>Incorrect password please try again :( <!>");
+                                Console.WriteLine("<!>Press enter to try again<!>");
                                 Console.ReadKey();
                             }
                         }
@@ -228,8 +228,8 @@ namespace BasicLibrary
                         break;
 
                     default:
-                        Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options.");
-                        Console.WriteLine("\nPress enter to continue"); Console.ReadKey();
+                        Console.WriteLine("\n<!>Invalid input :( <!> \n<!>Please try again, enter one of the given options<!>");
+                        Console.WriteLine("\n<!>Press enter to continue<!>"); Console.ReadKey();
                         break;
                 }
             } while (Authentication != true);
@@ -245,13 +245,13 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\t  REGISTER:\n\n");
-            Console.WriteLine("OPTIONS: ");
-            Console.WriteLine(" 1. Reader");
-            Console.WriteLine(" 2. Librarian");
-            Console.WriteLine(" 3. Exit\n");
+            Console.Write("\n\n\t\t\t\t\t\t      REGISTER:\n\n\n");
+            Console.WriteLine("\n\t\t\t\t\t\t  OPTIONS: \n");
+            Console.WriteLine("\t\t\t\t\t\t  1.  Reader\n");
+            Console.WriteLine("\t\t\t\t\t\t  2.  Librarian\n");
+            Console.WriteLine("\t\t\t\t\t\t  3.  Exit\n\n\n");
             int Identity = 0;
-            Console.Write("Enter: ");
+            Console.Write("\t\t\t\t\t\t  Enter: ");
 
             try 
             {
@@ -265,8 +265,8 @@ namespace BasicLibrary
                     //User registration
                     Console.Clear();
                     Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                    Console.Write("\n\t\t\t\t\t\t  READER REGISTRATION:\n\n");
-                    Console.WriteLine("Welcome new reader!");
+                    Console.Write("\n\t\t\t\t\t\tREADER REGISTRATION:\n\n\n");
+                    Console.WriteLine("\t\t\t\t\t\tWelcome new reader!\n\n");
                     string UserPassword1 = " "; //This has one space
                     string UserPassword2 = "  "; //This has two spaces so that it doesn't affect do while loop condition below
                     string Email1 = " ";
@@ -278,12 +278,13 @@ namespace BasicLibrary
                     Regex userRegex = new Regex(EmailPattern);
 
                     //Checks email validity
-                    Console.WriteLine("\nHint: Make sure your emails match");
+                    Console.WriteLine("\n\t\t\t\t\tHint: Make sure your emails match");
                     do
                     {
-                        Console.Write("Email: ");
+                        Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                        Console.Write("\t\t\t\t\t\tEmail: ");
                         Email1 = Console.ReadLine();
-                        Console.Write("Re-enter Email: ");
+                        Console.Write("\t\t\t\t\t\tRe-enter Email: ");
                         Email2 = Console.ReadLine();
 
 
@@ -296,17 +297,23 @@ namespace BasicLibrary
 
                         else
                         {
-                            Console.WriteLine("Sorry this email is not in the correct format :(");
+                            Console.WriteLine("\n\t\t\t\t<!>Sorry this email is not in the correct format :( <!>");
                         }
 
                         for (int i = 0; i < Users.Count; i++)
                         {
                             if (Users[i].UserEmail.Trim() == Email1.Trim())
                             {
-                                Console.WriteLine("This email has already been used to create an account :(");
+                                Console.WriteLine("\n\t\t\t\t<!>This email has already been used to create an account :( <!>");
                                 ExistingUsr = true;
                             }
                         }
+
+                        if (Email1 != Email2)
+                        {
+                            Console.WriteLine("\n\t\t\t\t\t<!>These emails do not match :( <!>");
+                        }
+
                         if (EmailTemp != false && Email1 == Email2 && ExistingUsr != true) //ensures that emails match and in correct format 
                         {
                             UsrContinue = true;
@@ -320,8 +327,9 @@ namespace BasicLibrary
                     string UserName;
                     do
                     {
+                        Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
                         RepeatedName = false;
-                        Console.Write("User Name: ");
+                        Console.Write("\t\t\t\t\t\t   User Name: ");
                         UserName = Console.ReadLine();
 
                         for (int i = 0; i < Users.Count; i++)
@@ -329,7 +337,7 @@ namespace BasicLibrary
                             if (Users[i].UserUserName.ToLower().Trim() == UserName.ToLower().Trim())
                             {
                                 RepeatedName = true;
-                                Console.WriteLine("This username is taken please try another one :(");
+                                Console.WriteLine("\n<!>This username is taken please try another one :( <!>");
                             }
                         }
                     } while (RepeatedName != false);
@@ -342,24 +350,25 @@ namespace BasicLibrary
                     string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}$";
                     Regex UserPassRegex = new Regex(PasswordPattern);
 
-
-                    Console.WriteLine("\nHint: Make sure your passwords match and follow criteria below");
-                    Console.WriteLine("At least 8 characters, includes upper and lower case characters, contains number and special character\n");
+                    Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                    Console.WriteLine("\n\t\tHint: Make sure your passwords match and follow criteria below");
+                    Console.WriteLine("\t\tAt least 8 characters, includes upper and lower case characters, contains number and special character\n");
                     do
                     {
-                        Console.Write("Password: ");
+                        Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                        Console.Write("\t\t\t\t\t\t   Password: ");
                         UserPassword1 = Console.ReadLine();
-                        Console.Write("Re-enter Password: ");
+                        Console.Write("\t\t\t\t\t\t   Re-enter Password: ");
                         UserPassword2 = Console.ReadLine();
                         PassValid = UserPassRegex.IsMatch(UserPassword1);
                         if (PassValid != true) 
                         {
-                            Console.WriteLine("This passowrd is not in the correct format :( \n");
+                            Console.WriteLine("\n\t\t\t\t\t<!>This passowrd is not in the correct format :( <!>\n");
                         }
 
                         if (UserPassword1 != UserPassword2)
                         {
-                            Console.WriteLine("The passwords do not match :(");
+                            Console.WriteLine("\n\t\t\t\t\t<!>The passwords do not match :( <!>");
                         }
 
                         if (UserPassword1 == UserPassword2 && PassValid == true) // checks pass format is valid 
@@ -386,21 +395,23 @@ namespace BasicLibrary
                     //Admin registration
                     Console.Clear();
                     Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                    Console.Write("\n\t\t\t\t\t\t  LIBRARIAN REGISTRATION:\n\n");
+                    Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN REGISTRATION:\n\n");
 
 
                     //AUTHENTICATE MASTER ADMIN 
+                    Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
                     PrintGrimReaper();
-                    Console.Write("Master Username: ");
+                    Console.Write("\t\t\t\t\t\t   Master Username: ");
                     string Usr = Console.ReadLine();
-                    Console.Write("Master Password: ");
+                    Console.Write("\t\t\t\t\t\t   Master Password: ");
                     string Pswd = Console.ReadLine();
 
                     bool Auth = CheckMaster(Usr, Pswd);
 
                     if (Auth != false)
                     {
-                        Console.WriteLine("Welcome new librarian!");
+                        Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                        Console.WriteLine("\t\t\t\t\t\t   Welcome new librarian!");
                         string AdminPassword1 = " "; //This has one space
                         string AdminPassword2 = "  "; //This has two spaces so that it doesn't affect do while loop condition below
                         string AdminEmail1 = " ";
@@ -415,13 +426,14 @@ namespace BasicLibrary
                         Regex regex = new Regex(AdminEmailPattern);
 
                         //Checks email validity
-                        Console.WriteLine("\nHint: Make sure your emails match");
+                        Console.WriteLine("\n\t\t\t\t\t\t   Hint: Make sure your emails match");
                         do
                         {
+                            Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
                             EmailFormat = false;
-                            Console.Write("Email: ");
+                            Console.Write("\t\t\t\t\t\t   Email: ");
                             AdminEmail1 = Console.ReadLine();
-                            Console.Write("Re-enter Email: ");
+                            Console.Write("\t\t\t\t\t\t   Re-enter Email: ");
                             AdminEmail2 = Console.ReadLine();
 
                             bool isValid = regex.IsMatch(AdminEmail1);
@@ -433,14 +445,14 @@ namespace BasicLibrary
 
                             else 
                             {
-                                Console.WriteLine("Sorry this email is not in the correct format :(");
+                                Console.WriteLine("\n<!>Sorry this email is not in the correct format :( <!>");
                             }
 
                             for (int i = 0; i < Admins.Count; i++)
                             {
                                 if (Admins[i].AdminEmail.Trim() == AdminEmail1.Trim())
                                 {
-                                    Console.WriteLine("This email has already been used to create an account :(");
+                                    Console.WriteLine("\n<!>This email has already been used to create an account :( <!>");
                                     Reused = true;
                                 }
                             }
@@ -458,8 +470,9 @@ namespace BasicLibrary
                         string AdminUserName;
                         do
                         {
+                            Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
                             RepeatedName = false;
-                            Console.Write("User Name: ");
+                            Console.Write("\t\t\t\t\t\t   User Name: ");
                             AdminUserName = Console.ReadLine();
 
                             for (int i = 0; i < Admins.Count; i++)
@@ -467,7 +480,7 @@ namespace BasicLibrary
                                 if (Admins[i].AdminUserName.ToLower().Trim() == AdminUserName.ToLower().Trim())
                                 {
                                     RepeatedName = true;
-                                    Console.WriteLine("This username is taken please try another one :(");
+                                    Console.WriteLine("\n<!>This username is taken please try another one :( <!>");
                                 }
                             }
                         } while (RepeatedName != false);
@@ -479,24 +492,25 @@ namespace BasicLibrary
                         Regex AdminPassRegex = new Regex(AdminPasswordPattern);
 
 
-                        Console.WriteLine("\nHint: Make sure your passwords match and follow criteria below");
-                        Console.WriteLine("At least 8 characters, includes upper and lower case characters, contains number and special character\n");
+                        Console.WriteLine("\n\t\t\t\t\t\t   Hint: Make sure your passwords match and follow criteria below");
+                        Console.WriteLine("\t\t\t\t\t\t   At least 8 characters, includes upper and lower case characters, contains number and special character\n");
                         do
                         {
-                            Console.Write("Password: ");
+                            Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                            Console.Write("\t\t\t\t\t\t   Password: ");
                             AdminPassword1 = Console.ReadLine();
-                            Console.Write("Re-enter Password: ");
+                            Console.Write("\t\t\t\t\t\t   Re-enter Password: ");
                             AdminPassword2 = Console.ReadLine();
                             PassValid = AdminPassRegex.IsMatch(AdminPassword1);
 
                             if (PassValid != true)
                             {
-                                Console.WriteLine("This passowrd is not in the correct format :( \n");
+                                Console.WriteLine("\t\t\t\t\t\t   <!>This passowrd is not in the correct format :( <!>\n");
                             }
 
                             if (AdminPassword1 != AdminPassword2)
                             {
-                                Console.WriteLine("The passwords do not match :(");
+                                Console.WriteLine("\t\t\t\t\t\t   <!>The passwords do not match :( <!>");
                             }
 
                             if (AdminPassword1 == AdminPassword2 && PassValid == true)
@@ -515,13 +529,13 @@ namespace BasicLibrary
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
                         PrintDino();
-                        Console.WriteLine("\nPress enter to continue!");
+                        Console.WriteLine("\n\t\t\t\t\t\t   Press enter to continue!");
                         Console.ReadKey();
                     }
                     else
                     { 
-                        Console.WriteLine("The inputted credentials are incorrect, please try again :(");
-                        Console.WriteLine("Press enter to try again. ");
+                        Console.WriteLine("\n\t\t\t\t\t\t<!>The inputted credentials are incorrect, please try again :( <!>");
+                        Console.WriteLine("\n\t\t\t\t\t\t<!>Press enter to try again<!> ");
                         Console.ReadKey();
                     }
                     break;
@@ -530,7 +544,7 @@ namespace BasicLibrary
                     break;
 
                 default:
-                    Console.WriteLine("Invalid input :( \nPlease try again, enter one of the given options."); 
+                    Console.WriteLine("\n\t\t\t\t\t\t<!>Invalid input :( <!>\n\t\t\t\t\t\t<!>Please try again, enter one of the given options<!>"); 
                    // Console.WriteLine("\nPress enter to try again. ");
                     Console.ReadKey();
                     break;
@@ -595,7 +609,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\t  AVAILABLE BOOKS:\n\n");
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   AVAILABLE BOOKS:\n\n");
             StringBuilder sb = new StringBuilder();
 
             int BookNumber = 0;
@@ -802,11 +816,11 @@ namespace BasicLibrary
 
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - -W E L C O M E   T O   T H E   L I B R A R Y- - - - - - - - - - - - - - - - - - -\n\n");
-                Console.WriteLine("\n\t\t\t\t\t L E A D E R   B O A R D:\n\n");
+                Console.WriteLine("\n\t\t\t\t\t     L E A D E R   B O A R D:\n\n");
                 PrintCrown();
-                Console.WriteLine($"\t\t\t\t\tHIGHEST SCORE -> {HighestScore} books read!");
-                Console.WriteLine($"\t\t\t\t\tSECOND PLACE -> {SecondScore} books read");
-                Console.WriteLine($"\t\t\t\t\tTHIRD PLACE -> {ThirdScore} books read");
+                Console.WriteLine($"\t\t\t\t\t  HIGHEST SCORE -> {HighestScore} books read!");
+                Console.WriteLine($"\t\t\t\t\t  SECOND PLACE -> {SecondScore} books read");
+                Console.WriteLine($"\t\t\t\t\t  THIRD PLACE -> {ThirdScore} books read\n");
             }
         }
 
@@ -890,7 +904,7 @@ namespace BasicLibrary
                     bool ReturnLoop = true;
                     do
                     {
-                        Console.WriteLine("\t\t\tREADER OPTIONS:");
+                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   READER OPTIONS:");
                         Console.WriteLine(" 1. Return A Book");
                         Console.WriteLine(" 2. Logout\n");
                         Console.Write("Enter: ");
@@ -935,7 +949,7 @@ namespace BasicLibrary
                     {
                         Console.Clear();
                         Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                        Console.Write("\n\t\t\t\t\t\t  READER OPTIONS:\n\n");
+                        Console.Write("\n\n\n\n\t\t\t\t\t\t   READER OPTIONS:\n\n");
                         Console.WriteLine(" 1. View All Books");
                         Console.WriteLine(" 2. Search by Book Name or Author");
                         Console.WriteLine(" 3. View Profile");
@@ -1039,7 +1053,7 @@ namespace BasicLibrary
             {
                 ViewAllBooks();
 
-                Console.Write("\n\t\tBORROWING A BOOK:\n\n");
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   BORROWING A BOOK:\n\n");
                 Console.Write("Enter ID: ");
                 int BorrowID = 0;
 
@@ -1220,7 +1234,7 @@ namespace BasicLibrary
             int ReturnBook = 0;
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\t  RETURN BOOK:\n\n"); 
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   RETURN BOOK:\n\n"); 
 
             Console.WriteLine("BORROWED BOOKS: ");
             for (int i = 0; i < Borrowing.Count; i++)
@@ -1537,7 +1551,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\t  SEARCH LIBRARY:\n\n"); 
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   SEARCH LIBRARY:\n\n"); 
             Console.Write("Book name or author: ");
             string name = (Console.ReadLine().Trim()).ToLower();
             string SearchPattern = Regex.Escape(name);
@@ -1693,7 +1707,7 @@ namespace BasicLibrary
             {
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                Console.Write("\n\t\t\t\t\t\t  LIBRARIAN OPTIONS:\n\n");
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   LIBRARIAN OPTIONS:\n\n");
                 Console.WriteLine(" 1. Add New Book");
                 Console.WriteLine(" 2. Display All Books");
                 Console.WriteLine(" 3. Search by Book Name or Author");
@@ -1769,7 +1783,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\tADDING NEW BOOK:\n\n");
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
             bool Repeated = false;
             string Name = " ";
 
@@ -1829,7 +1843,7 @@ namespace BasicLibrary
             //Functionality to allow user to choose category from specific options :)
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\tADDING NEW BOOK:\n\n");
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
             Console.WriteLine("Choose a Book Category: ");
             Console.WriteLine("1. Children");
             Console.WriteLine("2. Cooking");
@@ -1921,7 +1935,7 @@ namespace BasicLibrary
             {
                 Console.Clear();
                 Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-                Console.Write("\n\t\t\t\t\t\tADDING NEW BOOK:\n\n");
+                Console.Write("\n\n\n\n\t\t\t\t\t\t   ADDING NEW BOOK:\n\n");
                 Console.Write("Enter Book BorrowPeriod: ");
                 int BorrowPeriod = 10;
 
@@ -1951,7 +1965,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.Write("\n\t\t\t\t\t\t  SEARCH LIBRARY:\n\n");
+            Console.Write("\n\n\n\n\t\t\t\t\t\t   SEARCH LIBRARY:\n\n");
             Console.Write("Book name or author: ");
             string name = (Console.ReadLine().Trim()).ToLower();  
             bool flag=false;
@@ -1975,7 +1989,7 @@ namespace BasicLibrary
         //ALLOWS LIBRARIAN TO EDIT BOOK INFO
         static void EditBooks()
         {
-            Console.WriteLine("\n\t\t\t\t\t\t EDIT BOOKS:\n\n");
+            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOKS:\n\n");
             Console.WriteLine(" 1. Edit Book Title");
             Console.WriteLine(" 2. Edit Author Name");
             Console.WriteLine(" 3. Add More Copies of Available Books");
@@ -1998,7 +2012,7 @@ namespace BasicLibrary
                     int Location = GetInformation();
                     if (Location != -1)
                     {
-                        Console.WriteLine("\n\t\t\t\t\t\t EDIT BOOK TITLE:\n");
+                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK TITLE:\n");
                         Console.Write("\nNew book name: ");
                         string NewBookName;
                         bool Repeated;
@@ -2039,7 +2053,7 @@ namespace BasicLibrary
                     int Position = GetInformation();
                     if (Position != -1)
                     {
-                        Console.WriteLine("\n\t\t\t\t\t\t EDIT AUTHOR NAME:\n");
+                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT AUTHOR NAME:\n");
                         Console.Write("\nNew author name: ");
                         string NewAuthName = Console.ReadLine();
                         Books[Position] = ((Books[Position].BookID, Books[Position].BookName, BookAuthor: NewAuthName, Books[Position].BookQuantity, Books[Position].Borrowed, Books[Position].Price, Books[Position].Category, Books[Position].BorrowPeriod));
@@ -2054,7 +2068,7 @@ namespace BasicLibrary
                     int Index = GetInformation();
                     if (Index != -1)
                     {
-                        Console.WriteLine("\n\t\t\t\t\t\t EDIT BOOK QUANTITY:\n");
+                        Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   EDIT BOOK QUANTITY:\n");
                         Console.Write("\nHow many would you like to add: ");
                         int Add = 0;
 
@@ -2095,7 +2109,7 @@ namespace BasicLibrary
         {
             Console.Clear();
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
-            Console.WriteLine("\n\t\t\t\t\t\t DELETE A BOOK:\n");
+            Console.WriteLine("\n\n\n\n\t\t\t\t\t\t   DELETE A BOOK:\n");
             ViewAllBooks();
 
             int DeleteIndex = GetInformation(); 
@@ -2737,15 +2751,15 @@ namespace BasicLibrary
         {
             string multilineString = @"
 
-                                                   .       |         .    .
-                                            .  *         -*-          *
-                                                 \        |         /   .
-                                .    .            .      /^\     .              .    .
-                                   *    |\   /\    /\  / / \ \  /\    /\   /|    *
-                                 .   .  |  \ \/ /\ \ / /     \ \ / /\ \/ /  | .     .
-                                         \ | _ _\/_ _ \_\_ _ /_/_ _\/_ _ \_/
-                                           \  *  *  *   \ \/ /  *  *  *  /
-                                            ` ~ ~ ~ ~ ~  ~\/~ ~ ~ ~ ~ ~ '                                                           
+                                               .       |        .    .
+                                         .  *         -*-        *
+                                              \        |        /   .
+                                . .            .      /^\     .              .    .
+                                *    |\   /\    /\  / / \ \  /\    /\   /|    *
+                              .   .  |  \ \/ /\ \ / /     \ \ / /\ \/ /  | .     .
+                                      \ | _ _\/_ _ \_\_ _ /_/_ _\/_ _ \_/
+                                        \  *  *  *   \ \/ /  *  *  *  /
+                                         ` ~ ~ ~ ~ ~  ~\/~ ~ ~ ~ ~ ~ '                                                           
                    
         ";
             Console.WriteLine(multilineString);
