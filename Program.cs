@@ -1019,6 +1019,8 @@ namespace BasicLibrary
 
                             case 6:
                                  LeaderBoard();
+                                Console.Write("Press enter to continue...");
+                            Console.ReadKey();
                                  break;
 
                             case 7:
@@ -1353,7 +1355,7 @@ namespace BasicLibrary
             {
                 BookID.Add(Books[i].BookID);
             }
-
+            
             int CurrentIndex = SearchIDs.IndexOf(CurrentUser);
 
             //Getting user reading ranking across all readers 
@@ -1407,7 +1409,7 @@ namespace BasicLibrary
             Console.WriteLine("\n\n- - - - - - - - - - - - - - - - - - - - - - - -C I T Y   L I B R A R Y- - - - - - - - - - - - - - - - - - - - - - - - -\n\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             PrintOwl();
-            Console.WriteLine($"\n\t\t\t\t {Users[CurrentIndex].UserUserName}'s Home Page :) \n ");
+            Console.WriteLine($"\n\t\t\t\t\t\t {Users[CurrentIndex].UserUserName}'s Home Page :) \n ");
             Console.WriteLine($"MY DETAILS: \nUser ID: {Users[CurrentIndex].UserID} \nUser Name: {Users[CurrentIndex].UserUserName} \nEmail: {Users[CurrentIndex].UserEmail} \nUser Ranking: #{UserRank}, Books Read: {UserRead}\n");
             Console.WriteLine("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
             Console.WriteLine($"CURRENTLY BORROWED:"); 
@@ -1459,6 +1461,8 @@ namespace BasicLibrary
             Console.WriteLine("\t\t\t\t\t\tCome again soon!");
             Console.WriteLine("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  \n\n");
 
+            Console.Write("Press enter to continue");
+            Console.ReadKey();
         }
 
 
