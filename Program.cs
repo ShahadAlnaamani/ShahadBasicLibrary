@@ -445,16 +445,21 @@ namespace BasicLibrary
 
                             else 
                             {
-                                Console.WriteLine("\n<!>Sorry this email is not in the correct format :( <!>");
+                                Console.WriteLine("\n\t\t\t\t<!>Sorry this email is not in the correct format :( <!>");
                             }
 
                             for (int i = 0; i < Admins.Count; i++)
                             {
                                 if (Admins[i].AdminEmail.Trim() == AdminEmail1.Trim())
                                 {
-                                    Console.WriteLine("\n<!>This email has already been used to create an account :( <!>");
+                                    Console.WriteLine("\n\t\t\t\t<!>This email has already been used to create an account :( <!>");
                                     Reused = true;
                                 }
+                            }
+
+                            if (AdminEmail1 != AdminEmail2)
+                            {
+                                Console.WriteLine("\n\t\t\t\t\t\t<!>These emails do not match :( <!>");
                             }
 
                             if (EmailFormat != false && AdminEmail1 == AdminEmail2 && Reused != true) //ensures that emails match and in correct format 
@@ -480,7 +485,7 @@ namespace BasicLibrary
                                 if (Admins[i].AdminUserName.ToLower().Trim() == AdminUserName.ToLower().Trim())
                                 {
                                     RepeatedName = true;
-                                    Console.WriteLine("\n<!>This username is taken please try another one :( <!>");
+                                    Console.WriteLine("\n\t\t\t\t\t\t<!>This username is taken please try another one :( <!>");
                                 }
                             }
                         } while (RepeatedName != false);
@@ -492,11 +497,11 @@ namespace BasicLibrary
                         Regex AdminPassRegex = new Regex(AdminPasswordPattern);
 
 
-                        Console.WriteLine("\n\t\t\t\t\t\t   Hint: Make sure your passwords match and follow criteria below");
-                        Console.WriteLine("\t\t\t\t\t\t   At least 8 characters, includes upper and lower case characters, contains number and special character\n");
+                        Console.WriteLine("\n\t\tHint: Make sure your passwords match and follow criteria below");
+                        Console.WriteLine("\t\tAt least 8 characters, includes upper and lower case characters, contains number and special character\n");
                         do
                         {
-                            Console.WriteLine("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+                            Console.WriteLine("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
                             Console.Write("\t\t\t\t\t\t   Password: ");
                             AdminPassword1 = Console.ReadLine();
                             Console.Write("\t\t\t\t\t\t   Re-enter Password: ");
@@ -505,12 +510,12 @@ namespace BasicLibrary
 
                             if (PassValid != true)
                             {
-                                Console.WriteLine("\t\t\t\t\t\t   <!>This passowrd is not in the correct format :( <!>\n");
+                                Console.WriteLine("\n\t\t\t\t<!>This passowrd is not in the correct format :( <!>\n");
                             }
 
                             if (AdminPassword1 != AdminPassword2)
                             {
-                                Console.WriteLine("\t\t\t\t\t\t   <!>The passwords do not match :( <!>");
+                                Console.WriteLine("\n\t\t\t\t\t<!>The passwords do not match :( <!>");
                             }
 
                             if (AdminPassword1 == AdminPassword2 && PassValid == true)
@@ -534,8 +539,8 @@ namespace BasicLibrary
                     }
                     else
                     { 
-                        Console.WriteLine("\n\t\t\t\t\t\t<!>The inputted credentials are incorrect, please try again :( <!>");
-                        Console.WriteLine("\n\t\t\t\t\t\t<!>Press enter to try again<!> ");
+                        Console.WriteLine("\n\t\t\t<!>The inputted credentials are incorrect, please try again :( <!>");
+                        Console.WriteLine("\n\t\t\t<!>Press enter to try again<!> ");
                         Console.ReadKey();
                     }
                     break;
